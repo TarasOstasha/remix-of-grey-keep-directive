@@ -1,29 +1,44 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, Outlet, createFileRoute, useRouterState } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
-import { INTEL_ARTICLES } from "@/content/intelArticles";
+import { getIntelFromSanity } from "@/lib/sanity/intel";
 
 export const Route = createFileRoute("/intel")({
+  loader: async () => getIntelFromSanity(),
   component: IntelPage,
 });
 
+function formatPublicationDate(value: string | null) {
+  if (!value) return "Unpublished";
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return "Unpublished";
+  return parsed.toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
 function IntelPage() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const isIntelIndex = pathname === "/intel";
+  const intelArticles = Route.useLoaderData();
   const [query, setQuery] = useState("");
   const [activeTag, setActiveTag] = useState<string>("All");
 
   const tags = useMemo(
     () =>
       Array.from(
-        new Set(INTEL_ARTICLES.flatMap((article) => article.tags)),
+        new Set(intelArticles.flatMap((article) => article.tags)),
       ).sort(),
-    [],
+    [intelArticles],
   );
 
   const filteredArticles = useMemo(() => {
     const search = query.trim().toLowerCase();
-    return INTEL_ARTICLES.filter((article) => {
+    return intelArticles.filter((article) => {
       const matchesSearch =
         !search ||
         article.title.toLowerCase().includes(search) ||
@@ -34,7 +49,11 @@ function IntelPage() {
 
       return matchesSearch && matchesTag;
     });
-  }, [activeTag, query]);
+  }, [activeTag, intelArticles, query]);
+
+  if (!isIntelIndex) {
+    return <Outlet />;
+  }
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -109,8 +128,8 @@ function IntelPage() {
                     {article.summary}
                   </p>
                   <div className="mt-6 flex items-center gap-4 text-xs text-muted-foreground">
-                    <span>{article.publishedAt}</span>
-                    <span>{article.readTime}</span>
+                    <span>{formatPublicationDate(article.publishedAt)}</span>
+                    <span>{article.readingTimeMinutes} min read</span>
                   </div>
                 </Link>
               </Reveal>

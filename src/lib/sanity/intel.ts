@@ -1,0 +1,91 @@
+import { getSanityClient } from "./client";
+
+export type IntelCard = {
+  _id: string;
+  slug: string;
+  title: string;
+  summary: string;
+  tags: string[];
+  publishedAt: string | null;
+  readingTimeMinutes: number;
+  category: "Intel";
+};
+
+export type IntelDetail = IntelCard & {
+  bodyText?: string | null;
+};
+
+type IntelCardQueryRow = Omit<IntelCard, "readingTimeMinutes" | "category"> & {
+  bodyText?: string | null;
+};
+
+export async function getIntelFromSanity() {
+  const client = getSanityClient();
+  if (!client) return [] as IntelCard[];
+
+  const rows = await client.fetch<IntelCardQueryRow[]>(
+    `*[_type == "intelArticle"] | order(coalesce(publishedAt, _createdAt) desc) {
+      _id,
+      title,
+      "slug": slug.current,
+      summary,
+      tags,
+      publishedAt,
+      "bodyText": pt::text(body)
+    }`,
+  );
+
+  return (rows ?? [])
+    .filter((row) => row.slug)
+    .map((row) => {
+      const textSource = [row.summary, row.bodyText].filter(Boolean).join(" ");
+      const words = textSource.trim() ? textSource.trim().split(/\s+/).length : 0;
+      const readingTimeMinutes = Math.max(1, Math.ceil(words / 200));
+      return {
+        _id: row._id,
+        slug: row.slug,
+        title: row.title,
+        summary: row.summary,
+        tags: row.tags ?? [],
+        publishedAt: row.publishedAt ?? null,
+        readingTimeMinutes,
+        category: "Intel",
+      } satisfies IntelCard;
+    });
+}
+
+export async function getIntelBySlugFromSanity(slug: string) {
+  const client = getSanityClient();
+  if (!client) return null;
+
+  const row = await client.fetch<IntelCardQueryRow | null>(
+    `*[_type == "intelArticle" && slug.current == $slug][0] {
+      _id,
+      title,
+      "slug": slug.current,
+      summary,
+      tags,
+      publishedAt,
+      "bodyText": pt::text(body)
+    }`,
+    { slug },
+  );
+
+  if (!row?.slug) return null;
+
+  const textSource = [row.summary, row.bodyText].filter(Boolean).join(" ");
+  const words = textSource.trim() ? textSource.trim().split(/\s+/).length : 0;
+  const readingTimeMinutes = Math.max(1, Math.ceil(words / 200));
+
+  return {
+    _id: row._id,
+    slug: row.slug,
+    title: row.title,
+    summary: row.summary,
+    tags: row.tags ?? [],
+    publishedAt: row.publishedAt ?? null,
+    readingTimeMinutes,
+    category: "Intel",
+    bodyText: row.bodyText ?? null,
+  } satisfies IntelDetail;
+}

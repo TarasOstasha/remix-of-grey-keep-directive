@@ -1,34 +1,31 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
-import { getIntelArticleBySlug } from "@/content/intelArticles";
+import { getIntelBySlugFromSanity } from "@/lib/sanity/intel";
 
 export const Route = createFileRoute("/intel/$slug")({
+  loader: async ({ params }) => {
+    const article = await getIntelBySlugFromSanity(params.slug);
+    if (!article) throw notFound();
+    return article;
+  },
   component: IntelArticlePage,
 });
 
-function IntelArticlePage() {
-  const { slug } = Route.useParams();
-  const article = getIntelArticleBySlug(slug);
+function formatPublicationDate(value: string | null) {
+  if (!value) return "Unpublished";
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return "Unpublished";
+  return parsed.toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
 
-  if (!article) {
-    return (
-      <main className="min-h-screen bg-background text-foreground">
-        <Header />
-        <section className="pt-40 pb-24 md:pt-52 md:pb-32">
-          <div className="container-keep">
-            <p className="eyebrow mb-4">Intel</p>
-            <h1 className="display text-4xl md:text-6xl">Article not found.</h1>
-            <Link to="/intel" className="btn-pill btn-pill-primary mt-8 inline-flex">
-              Back to Intel Library
-            </Link>
-          </div>
-        </section>
-        <Footer />
-      </main>
-    );
-  }
+function IntelArticlePage() {
+  const article = Route.useLoaderData();
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -41,17 +38,17 @@ function IntelArticlePage() {
           </Reveal>
           <Reveal delay={100}>
             <div className="mt-6 flex items-center gap-4 text-sm text-muted-foreground">
-              <span>{article.publishedAt}</span>
-              <span>{article.readTime}</span>
+              <span>{formatPublicationDate(article.publishedAt)}</span>
+              <span>{article.readingTimeMinutes} min read</span>
             </div>
             <p className="mt-8 text-base md:text-lg text-muted-foreground leading-relaxed">
               {article.summary}
             </p>
-            <p className="mt-8 text-base text-muted-foreground leading-relaxed">
-              This is the article detail page for <strong>{article.title}</strong>. You can
-              replace this placeholder with Sanity-rendered content when your publishing flow
-              is connected.
-            </p>
+            {article.bodyText ? (
+              <p className="mt-8 text-base text-muted-foreground leading-relaxed whitespace-pre-line">
+                {article.bodyText}
+              </p>
+            ) : null}
             <Link to="/intel" className="btn-pill btn-pill-ghost mt-10 inline-flex">
               Back to Intel Library
             </Link>
