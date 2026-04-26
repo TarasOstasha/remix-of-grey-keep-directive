@@ -29,14 +29,14 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Gray Keep — Cyber Intelligence for an Uncertain World" },
+      { title: "Gray Keep - Cyber Intelligence for an Uncertain World" },
       {
         name: "description",
         content:
           "Gray Keep delivers cinematic cyber intelligence, advisory, and research for leaders navigating a contested digital era.",
       },
       { name: "author", content: "Gray Keep" },
-      { property: "og:title", content: "Gray Keep — Cyber Intelligence for an Uncertain World" },
+      { property: "og:title", content: "Gray Keep - Cyber Intelligence for an Uncertain World" },
       {
         property: "og:description",
         content:
@@ -44,7 +44,7 @@ export const Route = createRootRoute({
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Gray Keep — Cyber Intelligence for an Uncertain World" },
+      { name: "twitter:title", content: "Gray Keep - Cyber Intelligence for an Uncertain World" },
       { name: "description", content: "Gray Keep Directive offers a premium, dark cinematic website experience inspired by anthropic.com's clarity." },
       { property: "og:description", content: "Gray Keep Directive offers a premium, dark cinematic website experience inspired by anthropic.com's clarity." },
       { name: "twitter:description", content: "Gray Keep Directive offers a premium, dark cinematic website experience inspired by anthropic.com's clarity." },

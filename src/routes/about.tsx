@@ -1,0 +1,99 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { Header } from "@/components/site/Header";
+import { Footer } from "@/components/site/Footer";
+import { Reveal } from "@/components/site/Reveal";
+
+export const Route = createFileRoute("/about")({
+  component: AboutPage,
+});
+
+function AboutPage() {
+  return (
+    <main className="min-h-screen bg-background text-foreground">
+      <Header />
+      <section className="pt-40 pb-24 md:pt-52 md:pb-32 border-b border-border">
+        <div className="container-keep max-w-4xl">
+          <Reveal>
+            <p className="eyebrow mb-6">About Gray Keep</p>
+            <h1 className="display text-4xl md:text-6xl leading-[1.02] max-w-4xl">
+              Analysis you can act on. Stories you remember.
+            </h1>
+          </Reveal>
+
+          <div className="mt-12 space-y-14">
+            <Reveal delay={80}>
+              <div>
+                <h2 className="display text-3xl md:text-4xl mb-5">About</h2>
+                <p className="text-base md:text-xl text-muted-foreground leading-relaxed">
+                  Gray Keep exists at the intersection of cyber intelligence and narrative.
+                  In an uncertain world, leaders need two things: clear analysis they can act
+                  on, and stories they can remember. Our Intel Library delivers structured,
+                  cited reporting for decision-makers. Our essays make threats tangible so that
+                  when reality echoes fiction, you are already one step ahead.
+                </p>
+              </div>
+            </Reveal>
+
+            <Reveal delay={120}>
+              <div>
+                <h2 className="display text-3xl md:text-4xl mb-5">Why we do this</h2>
+                <p className="text-base md:text-xl text-muted-foreground leading-relaxed">
+                  The fog of modern threat landscapes is real: too much noise, too little
+                  signal. Too many dashboards, too few decisions. Gray Keep was built to cut
+                  through that with rigor, narrative, and a commitment to no comfort in place
+                  of reality.
+                </p>
+              </div>
+            </Reveal>
+
+            <Reveal delay={160}>
+              <div>
+                <h2 className="display text-3xl md:text-4xl mb-5">Who we serve</h2>
+                <p className="text-base md:text-xl text-muted-foreground leading-relaxed">
+                  We serve leadership teams and decision-makers who need to see clearly: CISOs,
+                  boards, founders, and operators who would rather read one sharp report than
+                  scroll through a feed. We do not do real-time monitoring or alerting. We do
+                  context, assessment, and clarity.
+                </p>
+              </div>
+            </Reveal>
+
+            <Reveal delay={200}>
+              <div>
+                <h2 className="display text-3xl md:text-4xl mb-5">Independence</h2>
+                <p className="text-base md:text-xl text-muted-foreground leading-relaxed">
+                  Gray Keep is independent. We do not take positions on behalf of clients in
+                  editorial work, we do not run ads, and we do not sell your data. Revenue
+                  comes from advisory engagements and readers who choose to support the work.
+                </p>
+              </div>
+            </Reveal>
+
+            <Reveal delay={240}>
+              <div className="pt-10 border-t border-border">
+                <article className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-6 md:gap-8 items-start">
+                  <div className="h-16 w-16 rounded-md border border-border bg-muted/20 flex items-center justify-center text-muted-foreground text-2xl">
+                    A
+                  </div>
+                  <div>
+                    <h3 className="display text-2xl md:text-3xl">Anna Balotsky</h3>
+                    <p className="text-sm md:text-base text-muted-foreground mt-1">
+                      Founder & Lead Analyst
+                    </p>
+                    <p className="mt-5 text-base md:text-lg text-muted-foreground leading-relaxed">
+                      Anna has spent over a decade in intelligence and cyber risk, leading
+                      analytical teams and advising senior executives under uncertainty. Gray
+                      Keep is the culmination of that work: a place where analysis meets
+                      narrative, and where clarity comes first.
+                    </p>
+                  </div>
+                </article>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+      <Footer />
+    </main>
+  );
+}

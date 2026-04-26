@@ -8,6 +8,7 @@ import watchtowerImg from "@/assets/split-watchtower.jpg";
 import keepImg from "@/assets/split-keep.jpg";
 import article1 from "@/assets/article-1.jpg";
 import article2 from "@/assets/article-2.jpg";
+import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -82,15 +83,13 @@ const HELP = [
     n: "03",
     verb: "Frame",
     line: "Geopolitical cyber.",
-    detail:
-      "Strategic context for decisions that sit between technology, policy, and reputation.",
+    detail: "Strategic context for decisions that sit between technology, policy, and reputation.",
   },
   {
     n: "04",
     verb: "Stand",
     line: "Beside the principal.",
-    detail:
-      "Quiet, retained advisory for founders, principals, and senior leaders under pressure.",
+    detail: "Quiet, retained advisory for founders, principals, and senior leaders under pressure.",
   },
 ];
 
@@ -125,16 +124,22 @@ function Index() {
                   Quiet intelligence for an uncertain world.
                 </p>
                 <p className="mt-5 text-base text-muted-foreground leading-relaxed max-w-sm">
-                  An intelligence journal and advisory practice for leaders who
-                  need to read the room before they act in it.
+                  An intelligence journal and advisory practice for leaders who need to read the
+                  room before they act in it.
                 </p>
                 <div className="mt-10 flex flex-wrap items-center gap-3">
-                  <a href="#intel-library" className="btn-pill btn-pill-primary">
+                  <Link to="/intel" className="btn-pill btn-pill-primary">
+                    Open the Intel Library
+                  </Link>
+                  <Link to="/stories" className="btn-pill btn-pill-ghost">
+                    Read the Stories
+                  </Link>
+                  {/* <a href="#intel-library" className="btn-pill btn-pill-primary">
                     Open the Intel Library
                   </a>
                   <a href="#from-the-keep" className="btn-pill btn-pill-ghost">
                     Read the stories
-                  </a>
+                  </a> */}
                 </div>
               </Reveal>
             </div>
@@ -165,10 +170,7 @@ function Index() {
       </section>
 
       {/* FEATURED INSIGHTS — sharpened, each tile has a distinct purpose */}
-      <section
-        id="insights"
-        className="py-24 md:py-32 border-t border-border"
-      >
+      <section id="insights" className="py-24 md:py-32 border-t border-border">
         <div className="container-keep">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
             <div className="lg:col-span-7">
@@ -184,8 +186,8 @@ function Index() {
             <div className="lg:col-span-4 lg:pt-4">
               <Reveal delay={140}>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  A short, deliberate selection — updated as the picture changes,
-                  not on a publishing schedule.
+                  A short, deliberate selection — updated as the picture changes, not on a
+                  publishing schedule.
                 </p>
               </Reveal>
             </div>
@@ -199,9 +201,7 @@ function Index() {
                     <p className="eyebrow eyebrow-gold">{item.n}</p>
                     <span className="tier-chip">{item.kicker}</span>
                   </div>
-                  <h3 className="display text-2xl md:text-3xl leading-tight mb-5">
-                    {item.title}
-                  </h3>
+                  <h3 className="display text-2xl md:text-3xl leading-tight mb-5">{item.title}</h3>
                   <p className="text-base text-muted-foreground leading-relaxed flex-1">
                     {item.body}
                   </p>
@@ -216,10 +216,7 @@ function Index() {
       </section>
 
       {/* INTEL LIBRARY — the intellectual spine, with a true tier hierarchy */}
-      <section
-        id="intel-library"
-        className="py-24 md:py-32 border-t border-border"
-      >
+      <section id="intel-library" className="py-24 md:py-32 border-t border-border">
         <div className="container-keep">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
             <div className="lg:col-span-7">
@@ -234,9 +231,8 @@ function Index() {
             <div className="lg:col-span-4 lg:pt-4">
               <Reveal delay={140}>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  Flagship reports, recurring dispatches, and our own methods —
-                  organised so analysts and executives can find what they need
-                  and trust how it was made.
+                  Flagship reports, recurring dispatches, and our own methods — organised so
+                  analysts and executives can find what they need and trust how it was made.
                 </p>
               </Reveal>
             </div>
@@ -247,9 +243,7 @@ function Index() {
             <div className="lg:col-span-7">
               <Reveal>
                 <article className="card-flat p-10 md:p-14 h-full flex flex-col">
-                  <span className="tier-chip tier-chip-flagship w-fit mb-10">
-                    {FLAGSHIP.tier}
-                  </span>
+                  <span className="tier-chip tier-chip-flagship w-fit mb-10">{FLAGSHIP.tier}</span>
                   <h3 className="display text-4xl md:text-6xl text-foreground leading-[1.02] mb-6">
                     {FLAGSHIP.title}
                   </h3>
@@ -300,9 +294,7 @@ function Index() {
                   key={d.title}
                   className="py-7 grid grid-cols-12 gap-4 md:gap-8 items-baseline group"
                 >
-                  <span className="eyebrow eyebrow-gold col-span-2 md:col-span-1">
-                    {d.n}
-                  </span>
+                  <span className="eyebrow eyebrow-gold col-span-2 md:col-span-1">{d.n}</span>
                   <span className="col-span-10 md:col-span-2">
                     <span className="tier-chip">{d.tier}</span>
                   </span>
@@ -351,12 +343,8 @@ function Index() {
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-10">
                   <p className="eyebrow eyebrow-gold mb-4">{card.eyebrow}</p>
-                  <h3 className="display text-4xl md:text-6xl leading-[0.95] mb-4">
-                    {card.title}
-                  </h3>
-                  <p className="text-lg text-muted-foreground mb-8 max-w-md">
-                    {card.sub}
-                  </p>
+                  <h3 className="display text-4xl md:text-6xl leading-[0.95] mb-4">{card.title}</h3>
+                  <p className="text-lg text-muted-foreground mb-8 max-w-md">{card.sub}</p>
                   <a href="#" className="btn-pill btn-pill-ghost">
                     {card.cta}
                   </a>
@@ -368,10 +356,7 @@ function Index() {
       </section>
 
       {/* HOW WE HELP — specific promises, not generic verbs */}
-      <section
-        id="how-we-help"
-        className="py-24 md:py-32 border-t border-border"
-      >
+      <section id="how-we-help" className="py-24 md:py-32 border-t border-border">
         <div className="container-keep">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
             <div className="lg:col-span-7">
@@ -387,9 +372,8 @@ function Index() {
             <div className="lg:col-span-4 lg:pt-4">
               <Reveal delay={140}>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  Engagements are deliberately small in number. The work is
-                  done quietly, in writing and in person, and is rarely
-                  attributable.
+                  Engagements are deliberately small in number. The work is done quietly, in writing
+                  and in person, and is rarely attributable.
                 </p>
               </Reveal>
             </div>
@@ -400,9 +384,7 @@ function Index() {
               <Reveal key={h.verb} delay={i * 90}>
                 <div className="card-flat p-10 h-full min-h-[300px] rounded-none border-0 flex flex-col">
                   <p className="eyebrow eyebrow-gold mb-10">{h.n}</p>
-                  <h3 className="display text-3xl md:text-4xl text-gold mb-2">
-                    {h.verb}
-                  </h3>
+                  <h3 className="display text-3xl md:text-4xl text-gold mb-2">{h.verb}</h3>
                   <p className="display text-xl md:text-2xl text-foreground leading-snug mb-6">
                     {h.line}
                   </p>
@@ -417,10 +399,7 @@ function Index() {
       </section>
 
       {/* SPEAKING — prestigious framing, not a service list */}
-      <section
-        id="speaking"
-        className="py-24 md:py-32 border-t border-border"
-      >
+      <section id="speaking" className="py-24 md:py-32 border-t border-border">
         <div className="container-keep">
           <Reveal>
             <p className="eyebrow mb-12">Speaking</p>
@@ -440,16 +419,16 @@ function Index() {
             <div className="lg:col-span-5 space-y-8">
               <Reveal delay={140}>
                 <p className="text-lg md:text-xl text-foreground leading-relaxed">
-                  Keynotes, closed briefings, and moderated conversations for
-                  audiences that already know the basics — and need someone
-                  willing to say what the field is actually thinking.
+                  Keynotes, closed briefings, and moderated conversations for audiences that already
+                  know the basics — and need someone willing to say what the field is actually
+                  thinking.
                 </p>
               </Reveal>
               <Reveal delay={200}>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  Source-language research across English, French, Spanish,
-                  Russian and Mandarin. Comfortable with technical audiences,
-                  policy audiences, and rooms that contain both.
+                  Source-language research across English, French, Spanish, Russian and Mandarin.
+                  Comfortable with technical audiences, policy audiences, and rooms that contain
+                  both.
                 </p>
               </Reveal>
             </div>
@@ -503,10 +482,7 @@ function Index() {
       </section>
 
       {/* FROM THE KEEP — editorially curated, cleaner excerpts */}
-      <section
-        id="from-the-keep"
-        className="py-24 md:py-32 border-t border-border"
-      >
+      <section id="from-the-keep" className="py-24 md:py-32 border-t border-border">
         <div className="container-keep">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
             <div className="lg:col-span-7">
@@ -520,8 +496,7 @@ function Index() {
             <div className="lg:col-span-4 lg:pt-4">
               <Reveal delay={140}>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  Notes, narrative, and method — published when there is
-                  something worth saying.
+                  Notes, narrative, and method — published when there is something worth saying.
                 </p>
               </Reveal>
             </div>

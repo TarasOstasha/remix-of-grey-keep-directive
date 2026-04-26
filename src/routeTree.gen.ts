@@ -9,12 +9,52 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StudioRouteImport } from './routes/studio'
+import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as LabsRouteImport } from './routes/labs'
+import { Route as IntelRouteImport } from './routes/intel'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AdvisoryRouteImport } from './routes/advisory'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as StudioSplatRouteImport } from './routes/studio.$'
+import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
+import { Route as IntelSlugRouteImport } from './routes/intel.$slug'
+import { Route as StoriesSeriesSeriesSlugRouteImport } from './routes/stories.series.$seriesSlug'
 
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoriesRoute = StoriesRouteImport.update({
+  id: '/stories',
+  path: '/stories',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LabsRoute = LabsRouteImport.update({
   id: '/labs',
   path: '/labs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntelRoute = IntelRouteImport.update({
+  id: '/intel',
+  path: '/intel',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdvisoryRoute = AdvisoryRouteImport.update({
+  id: '/advisory',
+  path: '/advisory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -22,40 +62,175 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StudioSplatRoute = StudioSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => StudioRoute,
+} as any)
+const StoriesSlugRoute = StoriesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => StoriesRoute,
+} as any)
+const IntelSlugRoute = IntelSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => IntelRoute,
+} as any)
+const StoriesSeriesSeriesSlugRoute = StoriesSeriesSeriesSlugRouteImport.update({
+  id: '/series/$seriesSlug',
+  path: '/series/$seriesSlug',
+  getParentRoute: () => StoriesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/advisory': typeof AdvisoryRoute
+  '/contact': typeof ContactRoute
+  '/intel': typeof IntelRouteWithChildren
   '/labs': typeof LabsRoute
+  '/stories': typeof StoriesRouteWithChildren
+  '/studio': typeof StudioRouteWithChildren
+  '/intel/$slug': typeof IntelSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
+  '/studio/$': typeof StudioSplatRoute
+  '/stories/series/$seriesSlug': typeof StoriesSeriesSeriesSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/advisory': typeof AdvisoryRoute
+  '/contact': typeof ContactRoute
+  '/intel': typeof IntelRouteWithChildren
   '/labs': typeof LabsRoute
+  '/stories': typeof StoriesRouteWithChildren
+  '/studio': typeof StudioRouteWithChildren
+  '/intel/$slug': typeof IntelSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
+  '/studio/$': typeof StudioSplatRoute
+  '/stories/series/$seriesSlug': typeof StoriesSeriesSeriesSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/advisory': typeof AdvisoryRoute
+  '/contact': typeof ContactRoute
+  '/intel': typeof IntelRouteWithChildren
   '/labs': typeof LabsRoute
+  '/stories': typeof StoriesRouteWithChildren
+  '/studio': typeof StudioRouteWithChildren
+  '/intel/$slug': typeof IntelSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
+  '/studio/$': typeof StudioSplatRoute
+  '/stories/series/$seriesSlug': typeof StoriesSeriesSeriesSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/labs'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/advisory'
+    | '/contact'
+    | '/intel'
+    | '/labs'
+    | '/stories'
+    | '/studio'
+    | '/intel/$slug'
+    | '/stories/$slug'
+    | '/studio/$'
+    | '/stories/series/$seriesSlug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/labs'
-  id: '__root__' | '/' | '/labs'
+  to:
+    | '/'
+    | '/about'
+    | '/advisory'
+    | '/contact'
+    | '/intel'
+    | '/labs'
+    | '/stories'
+    | '/studio'
+    | '/intel/$slug'
+    | '/stories/$slug'
+    | '/studio/$'
+    | '/stories/series/$seriesSlug'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/advisory'
+    | '/contact'
+    | '/intel'
+    | '/labs'
+    | '/stories'
+    | '/studio'
+    | '/intel/$slug'
+    | '/stories/$slug'
+    | '/studio/$'
+    | '/stories/series/$seriesSlug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AdvisoryRoute: typeof AdvisoryRoute
+  ContactRoute: typeof ContactRoute
+  IntelRoute: typeof IntelRouteWithChildren
   LabsRoute: typeof LabsRoute
+  StoriesRoute: typeof StoriesRouteWithChildren
+  StudioRoute: typeof StudioRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stories': {
+      id: '/stories'
+      path: '/stories'
+      fullPath: '/stories'
+      preLoaderRoute: typeof StoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/labs': {
       id: '/labs'
       path: '/labs'
       fullPath: '/labs'
       preLoaderRoute: typeof LabsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/intel': {
+      id: '/intel'
+      path: '/intel'
+      fullPath: '/intel'
+      preLoaderRoute: typeof IntelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/advisory': {
+      id: '/advisory'
+      path: '/advisory'
+      fullPath: '/advisory'
+      preLoaderRoute: typeof AdvisoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -65,12 +240,80 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/studio/$': {
+      id: '/studio/$'
+      path: '/$'
+      fullPath: '/studio/$'
+      preLoaderRoute: typeof StudioSplatRouteImport
+      parentRoute: typeof StudioRoute
+    }
+    '/stories/$slug': {
+      id: '/stories/$slug'
+      path: '/$slug'
+      fullPath: '/stories/$slug'
+      preLoaderRoute: typeof StoriesSlugRouteImport
+      parentRoute: typeof StoriesRoute
+    }
+    '/intel/$slug': {
+      id: '/intel/$slug'
+      path: '/$slug'
+      fullPath: '/intel/$slug'
+      preLoaderRoute: typeof IntelSlugRouteImport
+      parentRoute: typeof IntelRoute
+    }
+    '/stories/series/$seriesSlug': {
+      id: '/stories/series/$seriesSlug'
+      path: '/series/$seriesSlug'
+      fullPath: '/stories/series/$seriesSlug'
+      preLoaderRoute: typeof StoriesSeriesSeriesSlugRouteImport
+      parentRoute: typeof StoriesRoute
+    }
   }
 }
 
+interface IntelRouteChildren {
+  IntelSlugRoute: typeof IntelSlugRoute
+}
+
+const IntelRouteChildren: IntelRouteChildren = {
+  IntelSlugRoute: IntelSlugRoute,
+}
+
+const IntelRouteWithChildren = IntelRoute._addFileChildren(IntelRouteChildren)
+
+interface StoriesRouteChildren {
+  StoriesSlugRoute: typeof StoriesSlugRoute
+  StoriesSeriesSeriesSlugRoute: typeof StoriesSeriesSeriesSlugRoute
+}
+
+const StoriesRouteChildren: StoriesRouteChildren = {
+  StoriesSlugRoute: StoriesSlugRoute,
+  StoriesSeriesSeriesSlugRoute: StoriesSeriesSeriesSlugRoute,
+}
+
+const StoriesRouteWithChildren =
+  StoriesRoute._addFileChildren(StoriesRouteChildren)
+
+interface StudioRouteChildren {
+  StudioSplatRoute: typeof StudioSplatRoute
+}
+
+const StudioRouteChildren: StudioRouteChildren = {
+  StudioSplatRoute: StudioSplatRoute,
+}
+
+const StudioRouteWithChildren =
+  StudioRoute._addFileChildren(StudioRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AdvisoryRoute: AdvisoryRoute,
+  ContactRoute: ContactRoute,
+  IntelRoute: IntelRouteWithChildren,
   LabsRoute: LabsRoute,
+  StoriesRoute: StoriesRouteWithChildren,
+  StudioRoute: StudioRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -2,17 +2,18 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
+import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/labs")({
   head: () => ({
     meta: [
-      { title: "Gray Keep Labs — Building the next layer of cyber intelligence" },
+      { title: "Gray Keep Labs - Building the next layer of cyber intelligence" },
       {
         name: "description",
         content:
-          "Gray Keep Labs is our research and development space for future cyber intelligence capabilities — AI-aware defense, predictive risk, and executive decision support.",
+          "Gray Keep Labs is our research and development space for future cyber intelligence capabilities - AI-aware defense, predictive risk, and executive decision support.",
       },
-      { property: "og:title", content: "Gray Keep Labs — Building the next layer of cyber intelligence" },
+      { property: "og:title", content: "Gray Keep Labs - Building the next layer of cyber intelligence" },
       {
         property: "og:description",
         content:
@@ -34,7 +35,7 @@ function LabsPage() {
     <main className="min-h-screen bg-background text-foreground">
       <Header />
 
-      {/* Hero — restrained, classified-research-wing tone */}
+      {/* Hero - restrained, classified-research-wing tone */}
       <section className="relative pt-40 pb-24 md:pt-56 md:pb-32 overflow-hidden">
         <div className="constellation" aria-hidden="true" />
         <div className="container-keep relative">
@@ -77,7 +78,7 @@ function LabsPage() {
                 Gray Keep Labs is our research and development space for future cyber
                 intelligence capabilities. We are exploring the next generation of AI-aware
                 defense, predictive risk assessment, adversarial modeling, and executive
-                decision support — for a world where digital systems act faster than
+                decision support - for a world where digital systems act faster than
                 traditional security models can govern.
               </p>
             </Reveal>
@@ -103,7 +104,7 @@ function LabsPage() {
             {[
               {
                 k: "AI-aware defense",
-                b: "Security postures designed for environments where adversaries — and defenders — operate at model speed.",
+                b: "Security postures designed for environments where adversaries - and defenders - operate at model speed.",
               },
               {
                 k: "Predictive risk",
@@ -136,7 +137,7 @@ function LabsPage() {
         <div className="rule-gold" />
       </div>
 
-      {/* Coming Soon — restrained note */}
+      {/* Coming Soon - restrained note */}
       <section className="py-24 md:py-32">
         <div className="container-keep">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
@@ -172,9 +173,10 @@ function LabsPage() {
                 <a href="#enter" className="btn-pill btn-pill-gold">
                   Request Early Access
                 </a>
-                <a href="#enter" className="btn-pill btn-pill-ghost">
+                <Link to="/contact" className="btn-pill btn-pill-ghost">Contact Gray Keep</Link>
+                {/* <a href="#enter" className="btn-pill btn-pill-ghost">
                   Contact Gray Keep
-                </a>
+                </a> */}
               </div>
             </div>
           </div>

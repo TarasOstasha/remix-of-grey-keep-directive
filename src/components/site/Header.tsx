@@ -2,12 +2,12 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
 const NAV = [
-  { label: "Intel Library", href: "/#intel-library" },
-  { label: "Stories", href: "/#from-the-keep" },
-  { label: "Advisory", href: "/#speaking" },
-  { label: "Labs", href: "/labs" },
-  { label: "About", href: "/#how-we-help" },
-  { label: "Contact", href: "/#enter" },
+  { label: "Intel Library", to: "/intel" },
+  { label: "Stories", to: "/stories" },
+  { label: "Advisory", to: "/advisory" },
+  { label: "Labs", to: "/labs" },
+  { label: "About", to: "/about" },
+  { label: "Contact", to: "/contact" },
 ];
 
 export function Header() {
@@ -39,20 +39,20 @@ export function Header() {
 
         <nav className="hidden md:flex items-center gap-9">
           {NAV.map((item) => (
-            <a
+            <Link
               key={item.label}
-              href={item.href}
+              to={item.to}
               className="text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
         <div className="hidden md:block">
-          <a href="#enter" className="btn-pill btn-pill-primary">
+          <Link to="/contact" className="btn-pill btn-pill-primary">
             Enter the Keep
-          </a>
+          </Link>
         </div>
 
         <button
@@ -71,22 +71,22 @@ export function Header() {
         <div className="md:hidden border-t border-border bg-background/95 backdrop-blur">
           <div className="container-keep py-6 flex flex-col gap-4">
             {NAV.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
+                to={item.to}
                 onClick={() => setOpen(false)}
                 className="text-sm text-muted-foreground hover:text-foreground"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
-            <a
-              href="#enter"
+            <Link
+              to="/contact"
               onClick={() => setOpen(false)}
               className="btn-pill btn-pill-primary mt-2 w-fit"
             >
               Enter the Keep
-            </a>
+            </Link>
           </div>
         </div>
       )}

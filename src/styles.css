@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Gray Keep — Anthropic-clean structure on a cinematic dark canvas.
+ * Gray Keep - Anthropic-clean structure on a cinematic dark canvas.
  * Generous whitespace, flat surfaces, pill buttons, refined typography.
  */
 
@@ -191,7 +191,7 @@
     pointer-events: none;
   }
 
-  /* Pill buttons — Anthropic styling */
+  /* Pill buttons - Anthropic styling */
   .btn-pill {
     display: inline-flex;
     align-items: center;
@@ -253,7 +253,7 @@
     transform: none;
   }
 
-  /* Subtle constellation — used sparingly, once in the hero band.
+  /* Subtle constellation - used sparingly, once in the hero band.
      Faint dots and connecting lines suggesting pattern recognition,
      never decorative noise. */
   .constellation {
@@ -294,7 +294,7 @@
     transform-origin: left center;
   }
 
-  /* Section divider rule — gold hairline used between major bands */
+  /* Section divider rule - gold hairline used between major bands */
   .rule-gold {
     height: 1px;
     background: linear-gradient(to right,
