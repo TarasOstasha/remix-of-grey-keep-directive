@@ -21,6 +21,12 @@ function formatPublicationDate(value: string | null) {
   });
 }
 
+function truncateSummary(text: string | null, maxLength = 220) {
+  if (!text) return "";
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength).trimEnd()}...`;
+}
+
 function IntelPage() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const isIntelIndex = pathname === "/intel";
@@ -42,7 +48,7 @@ function IntelPage() {
       const matchesSearch =
         !search ||
         article.title.toLowerCase().includes(search) ||
-        article.summary.toLowerCase().includes(search) ||
+        (article.summary ?? "").toLowerCase().includes(search) ||
         article.tags.some((tag) => tag.toLowerCase().includes(search));
 
       const matchesTag = activeTag === "All" || article.tags.includes(activeTag);
@@ -59,7 +65,7 @@ function IntelPage() {
     <main className="min-h-screen bg-background text-foreground">
       <Header />
       <section className="pt-40 pb-16 md:pt-52 md:pb-20 border-b border-border">
-        <div className="container-keep">
+        <div className="container-keep px-4 md:px-6">
           <Reveal>
             <p className="eyebrow mb-6">Intel Library</p>
             <h1 className="display text-4xl md:text-6xl leading-[1.02] max-w-4xl">
@@ -77,7 +83,7 @@ function IntelPage() {
       </section>
 
       <section className="py-14 md:py-20">
-        <div className="container-keep">
+        <div className="container-keep px-4 md:px-6">
           <div className="max-w-3xl">
             <label className="eyebrow mb-2 block" htmlFor="intel-search">
               Search
@@ -114,22 +120,26 @@ function IntelPage() {
             </div>
           </div>
 
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="mt-10 divide-y divide-border border-y border-border">
             {filteredArticles.map((article) => (
               <Reveal key={article.slug}>
                 <Link
                   to="/intel/$slug"
                   params={{ slug: article.slug }}
-                  className="card-flat p-6 block h-full transition-colors hover:border-gold/40"
+                  className="block px-2 md:px-4 py-6 md:py-8 transition-colors hover:bg-surface/30"
                 >
-                  <p className="eyebrow eyebrow-gold">{article.category}</p>
-                  <h2 className="display text-2xl leading-tight mt-3">{article.title}</h2>
-                  <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-                    {article.summary}
-                  </p>
-                  <div className="mt-6 flex items-center gap-4 text-xs text-muted-foreground">
-                    <span>{formatPublicationDate(article.publishedAt)}</span>
-                    <span>{article.readingTimeMinutes} min read</span>
+                  <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 md:gap-6 items-start">
+                    <div>
+                      <p className="eyebrow eyebrow-gold">{article.category}</p>
+                      <h2 className="display text-3xl leading-tight mt-2">{article.title}</h2>
+                      <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                        {truncateSummary(article.summary)}
+                      </p>
+                    </div>
+                    <div className="text-xs text-muted-foreground md:text-right whitespace-nowrap">
+                      <p>{formatPublicationDate(article.publishedAt)}</p>
+                      <p className="mt-1">{article.readingTimeMinutes} min read</p>
+                    </div>
                   </div>
                 </Link>
               </Reveal>

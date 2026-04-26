@@ -4,11 +4,13 @@ export type IntelCard = {
   _id: string;
   slug: string;
   title: string;
-  summary: string;
+  summary: string | null;
   tags: string[];
   publishedAt: string | null;
   readingTimeMinutes: number;
   category: "Intel";
+  mainImageUrl: string | null;
+  mainImageAlt: string | null;
 };
 
 export type IntelDetail = IntelCard & {
@@ -31,6 +33,8 @@ export async function getIntelFromSanity() {
       summary,
       tags,
       publishedAt,
+      "mainImageUrl": mainImage.asset->url,
+      "mainImageAlt": mainImage.alt,
       "bodyText": pt::text(body)
     }`,
   );
@@ -50,6 +54,8 @@ export async function getIntelFromSanity() {
         publishedAt: row.publishedAt ?? null,
         readingTimeMinutes,
         category: "Intel",
+        mainImageUrl: row.mainImageUrl ?? null,
+        mainImageAlt: row.mainImageAlt ?? null,
       } satisfies IntelCard;
     });
 }
@@ -66,6 +72,8 @@ export async function getIntelBySlugFromSanity(slug: string) {
       summary,
       tags,
       publishedAt,
+      "mainImageUrl": mainImage.asset->url,
+      "mainImageAlt": mainImage.alt,
       "bodyText": pt::text(body)
     }`,
     { slug },
@@ -86,6 +94,8 @@ export async function getIntelBySlugFromSanity(slug: string) {
     publishedAt: row.publishedAt ?? null,
     readingTimeMinutes,
     category: "Intel",
+    mainImageUrl: row.mainImageUrl ?? null,
+    mainImageAlt: row.mainImageAlt ?? null,
     bodyText: row.bodyText ?? null,
   } satisfies IntelDetail;
 }

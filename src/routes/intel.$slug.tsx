@@ -41,6 +41,14 @@ function IntelArticlePage() {
               <span>{formatPublicationDate(article.publishedAt)}</span>
               <span>{article.readingTimeMinutes} min read</span>
             </div>
+            {article.mainImageUrl ? (
+              <img
+                src={article.mainImageUrl}
+                alt={article.mainImageAlt ?? article.title}
+                className="mt-8 w-full h-auto rounded-lg border border-border"
+                loading="lazy"
+              />
+            ) : null}
             <p className="mt-8 text-base md:text-lg text-muted-foreground leading-relaxed">
               {article.summary}
             </p>
