@@ -11,6 +11,11 @@ export type StoryCard = {
   seriesSlug: string | null;
   mainImageUrl: string | null;
   mainImageAlt: string | null;
+  readingTimeMinutes: number;
+};
+
+type StoryCardQueryRow = Omit<StoryCard, "readingTimeMinutes"> & {
+  bodyText?: string | null;
 };
 
 export type PortableTextSpan = {
@@ -63,7 +68,7 @@ export async function getStoriesFromSanity() {
   }
 
   const [stories, series] = await Promise.all([
-    client.fetch<StoryCard[]>(
+    client.fetch<StoryCardQueryRow[]>(
       `*[_type == "storyPost"] | order(coalesce(publishedAt, _createdAt) desc) {
         _id,
         title,
@@ -74,7 +79,8 @@ export async function getStoriesFromSanity() {
         "seriesTitle": series->title,
         "seriesSlug": series->slug.current,
         "mainImageUrl": mainImage.asset->url,
-        "mainImageAlt": mainImage.alt
+        "mainImageAlt": mainImage.alt,
+        "bodyText": pt::text(body)
       }`,
     ),
     client.fetch<StorySeriesCard[]>(
@@ -89,8 +95,21 @@ export async function getStoriesFromSanity() {
     ),
   ]);
 
+  const mappedStories = (stories ?? [])
+    .filter((story) => story.slug)
+    .map((story) => {
+      const textSource = [story.summary, story.bodyText].filter(Boolean).join(" ");
+      const words = textSource.trim() ? textSource.trim().split(/\s+/).length : 0;
+      const readingTimeMinutes = Math.max(1, Math.ceil(words / 200));
+      const { bodyText: _, ...storyWithoutBodyText } = story;
+      return {
+        ...storyWithoutBodyText,
+        readingTimeMinutes,
+      } satisfies StoryCard;
+    });
+
   return {
-    stories: (stories ?? []).filter((story) => story.slug),
+    stories: mappedStories,
     series: (series ?? []).filter((entry) => entry.slug),
   };
 }

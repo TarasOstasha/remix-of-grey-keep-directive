@@ -10,6 +10,17 @@ export const Route = createFileRoute("/stories")({
   component: StoriesPage,
 });
 
+function formatPublicationDate(value: string | null) {
+  if (!value) return "";
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return "";
+  return parsed.toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
 function StoriesPage() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const isStoriesIndex = pathname === "/stories";
@@ -27,6 +38,24 @@ function StoriesPage() {
         .filter(Boolean)
         .sort((a, b) => a.localeCompare(b)),
     [stories],
+  );
+
+  const seriesWithStats = useMemo(
+    () =>
+      series.map((entry) => {
+        const episodes = stories.filter((story) => story.seriesSlug === entry.slug);
+        const episodeCount = episodes.length;
+        const totalReadingMinutes = episodes.reduce(
+          (sum, story) => sum + story.readingTimeMinutes,
+          0,
+        );
+        return {
+          ...entry,
+          episodeCount,
+          totalReadingMinutes,
+        };
+      }),
+    [series, stories],
   );
 
   const filteredStories = useMemo(() => {
@@ -99,9 +128,9 @@ function StoriesPage() {
               <p className="mt-3 text-base text-muted-foreground">
                 Each series is meant to be read in order. Continuity matters when the threat does.
               </p>
-              {series.length > 0 ? (
+              {seriesWithStats.length > 0 ? (
                 <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                  {series.map((entry) => (
+                  {seriesWithStats.map((entry) => (
                     <Link
                       key={entry._id}
                       to="/stories/series/$seriesSlug"
@@ -114,6 +143,10 @@ function StoriesPage() {
                           {entry.premise}
                         </p>
                       ) : null}
+                      <p className="mt-3 text-xs text-muted-foreground">
+                        {entry.episodeCount} {entry.episodeCount === 1 ? "episode" : "episodes"} ·{" "}
+                        {entry.totalReadingMinutes} min total
+                      </p>
                     </Link>
                   ))}
                 </div>
@@ -224,6 +257,10 @@ function StoriesPage() {
                               {story.summary}
                             </p>
                           ) : null}
+                          <p className="mt-4 text-xs text-muted-foreground">
+                            {formatPublicationDate(story.publishedAt) || "Unpublished"} ·{" "}
+                            {story.readingTimeMinutes} min read
+                          </p>
                         </div>
                       </article>
                     </Reveal>
