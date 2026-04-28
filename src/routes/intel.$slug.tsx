@@ -2,6 +2,7 @@ import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
+import { Container } from "@/components/site/Container";
 import { getIntelBySlugFromSanity } from "@/lib/sanity/intel";
 
 export const Route = createFileRoute("/intel/$slug")({
@@ -31,7 +32,7 @@ function IntelArticlePage() {
     <main className="min-h-screen bg-background text-foreground">
       <Header />
       <section className="pt-40 pb-24 md:pt-52 md:pb-32 border-b border-border">
-        <div className="container-keep max-w-3xl">
+        <Container size="narrow">
           <Reveal>
             <p className="eyebrow eyebrow-gold mb-6">{article.category}</p>
             <h1 className="display text-4xl md:text-6xl leading-[1.02]">{article.title}</h1>
@@ -61,7 +62,7 @@ function IntelArticlePage() {
               Back to Intel Library
             </Link>
           </Reveal>
-        </div>
+        </Container>
       </section>
       <Footer />
     </main>

@@ -4,7 +4,7 @@ export function Footer() {
       {/* Big closing statement, Anthropic-style */}
       <div className="container-keep py-24 md:py-32">
         <p className="display text-5xl md:text-8xl lg:text-9xl text-foreground leading-[0.95]">
-          The Keep stands.
+          The Keep Stands
         </p>
       </div>
 
@@ -14,7 +14,7 @@ export function Footer() {
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-gold shadow-[0_0_10px_var(--gold)]" />
             <span className="display text-base tracking-tight">Gray Keep</span>
             <span className="text-sm text-muted-foreground hidden md:inline">
-              The Keep stands
+              The Keep Stands
             </span>
           </div>
 

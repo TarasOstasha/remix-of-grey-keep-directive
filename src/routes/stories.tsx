@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
+import { Container } from "@/components/site/Container";
 import { getStoriesFromSanity } from "@/lib/sanity/stories";
 
 export const Route = createFileRoute("/stories")({
@@ -94,7 +95,7 @@ function StoriesPage() {
     <main className="min-h-screen bg-background text-foreground">
       <Header />
       <section className="pt-40 pb-24 md:pt-52 md:pb-32 border-b border-border">
-        <div className="container-keep max-w-6xl">
+        <Container>
           <Reveal>
             <p className="eyebrow mb-4">If you remember it, you can defend against it</p>
             <h1 className="display text-4xl md:text-6xl leading-[1.02] max-w-4xl">Stories</h1>
@@ -312,7 +313,7 @@ function StoriesPage() {
               ) : null}
             </div>
           </Reveal>
-        </div>
+        </Container>
       </section>
       <Footer />
     </main>

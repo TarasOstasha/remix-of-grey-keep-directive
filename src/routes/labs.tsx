@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
+import { Container } from "@/components/site/Container";
 import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/labs")({
@@ -38,7 +39,7 @@ function LabsPage() {
       {/* Hero - restrained, classified-research-wing tone */}
       <section className="relative pt-40 pb-24 md:pt-56 md:pb-32 overflow-hidden">
         <div className="constellation" aria-hidden="true" />
-        <div className="container-keep relative">
+        <Container size="wide" className="relative">
           <Reveal>
             <div className="flex items-center gap-3 mb-10">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-gold shadow-[0_0_10px_var(--gold)]" />
@@ -59,16 +60,16 @@ function LabsPage() {
               </p>
             </Reveal>
           </div>
-        </div>
+        </Container>
       </section>
 
-      <div className="container-keep">
+      <Container size="wide">
         <div className="rule-gold" />
-      </div>
+      </Container>
 
       {/* Core positioning */}
       <section className="py-24 md:py-32">
-        <div className="container-keep">
+        <Container size="wide">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
             <Reveal className="lg:col-span-4">
               <p className="eyebrow">Positioning</p>
@@ -83,16 +84,16 @@ function LabsPage() {
               </p>
             </Reveal>
           </div>
-        </div>
+        </Container>
       </section>
 
-      <div className="container-keep">
+      <Container size="wide">
         <div className="rule-gold" />
-      </div>
+      </Container>
 
       {/* Research Direction */}
       <section className="py-24 md:py-32">
-        <div className="container-keep">
+        <Container size="wide">
           <Reveal>
             <p className="eyebrow mb-6">01 · Research Direction</p>
             <h2 className="display text-3xl md:text-5xl lg:text-6xl text-foreground max-w-3xl">
@@ -130,16 +131,16 @@ function LabsPage() {
               </div>
             ))}
           </div>
-        </div>
+        </Container>
       </section>
 
-      <div className="container-keep">
+      <Container size="wide">
         <div className="rule-gold" />
-      </div>
+      </Container>
 
       {/* Coming Soon - restrained note */}
       <section className="py-24 md:py-32">
-        <div className="container-keep">
+        <Container size="wide">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
             <Reveal className="lg:col-span-4">
               <p className="eyebrow">02 · Coming Soon</p>
@@ -154,12 +155,12 @@ function LabsPage() {
               </p>
             </Reveal>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* Early Access CTA */}
       <section className="pb-32 md:pb-40">
-        <div className="container-keep">
+        <Container size="wide">
           <div className="card-flat rounded-2xl p-10 md:p-16 relative overflow-hidden">
             <div className="constellation opacity-40" aria-hidden="true" />
             <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
@@ -180,7 +181,7 @@ function LabsPage() {
               </div>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
 
       <Footer />

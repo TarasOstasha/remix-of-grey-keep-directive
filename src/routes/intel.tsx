@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
+import { Container } from "@/components/site/Container";
 import { getIntelFromSanity } from "@/lib/sanity/intel";
 
 export const Route = createFileRoute("/intel")({
@@ -65,7 +66,7 @@ function IntelPage() {
     <main className="min-h-screen bg-background text-foreground">
       <Header />
       <section className="pt-40 pb-16 md:pt-52 md:pb-20 border-b border-border">
-        <div className="container-keep px-4 md:px-6">
+        <Container>
           <Reveal>
             <p className="eyebrow mb-6">Intel Library</p>
             <h1 className="display text-4xl md:text-6xl leading-[1.02] max-w-4xl">
@@ -79,11 +80,11 @@ function IntelPage() {
               tradecraft.
             </p>
           </Reveal>
-        </div>
+        </Container>
       </section>
 
       <section className="py-14 md:py-20">
-        <div className="container-keep px-4 md:px-6">
+        <Container>
           <div className="max-w-3xl">
             <label className="eyebrow mb-2 block" htmlFor="intel-search">
               Search
@@ -126,7 +127,7 @@ function IntelPage() {
                 <Link
                   to="/intel/$slug"
                   params={{ slug: article.slug }}
-                  className="block px-2 md:px-4 py-6 md:py-8 transition-colors hover:bg-surface/30"
+                  className="block px-2 py-6 md:py-8 transition-colors hover:bg-surface/30"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 md:gap-6 items-start">
                     <div>
@@ -145,7 +146,7 @@ function IntelPage() {
               </Reveal>
             ))}
           </div>
-        </div>
+        </Container>
       </section>
       <Footer />
     </main>

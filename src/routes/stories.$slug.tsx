@@ -2,6 +2,7 @@ import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
+import { Container } from "@/components/site/Container";
 import {
   getSanityStoriesBySeries,
   getSanityStoryBySlug,
@@ -37,7 +38,7 @@ function StoryDetailPage() {
     <main className="min-h-screen bg-background text-foreground">
       <Header />
       <section className="pt-40 pb-24 md:pt-52 md:pb-32 border-b border-border">
-        <div className="container-keep max-w-4xl">
+        <Container className="max-w-4xl">
           <Reveal>
             <p className="eyebrow mb-4">
               {story.series?.title ?? story.seriesTitle ?? "Standalone"}
@@ -117,7 +118,7 @@ function StoryDetailPage() {
               Back to Stories
             </Link>
           </Reveal>
-        </div>
+        </Container>
       </section>
       <Footer />
     </main>

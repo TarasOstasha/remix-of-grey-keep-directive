@@ -2,6 +2,7 @@ import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
+import { Container } from "@/components/site/Container";
 import { getSanityStoriesBySeries } from "@/lib/sanity/stories";
 
 export const Route = createFileRoute("/stories/series/$seriesSlug")({
@@ -23,7 +24,7 @@ function StoriesSeriesPage() {
     <main className="min-h-screen bg-background text-foreground">
       <Header />
       <section className="pt-40 pb-24 md:pt-52 md:pb-32 border-b border-border">
-        <div className="container-keep max-w-4xl">
+        <Container className="max-w-4xl">
           <Reveal>
             <Link
               to="/stories"
@@ -61,7 +62,7 @@ function StoriesSeriesPage() {
               ))}
             </ol>
           </Reveal>
-        </div>
+        </Container>
       </section>
       <Footer />
     </main>

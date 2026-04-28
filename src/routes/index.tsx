@@ -19,23 +19,23 @@ const INSIGHTS = [
     n: "01",
     kicker: "Signal",
     title: "What the noise is hiding.",
-    body: "A weekly read on the few movements that actually shift the board — and the many that only look like they do.",
+    body: "A weekly read on the few movements that actually shift the board - and the many that only look like they do.",
   },
   {
     n: "02",
     kicker: "Threat Landscape",
     title: "The actors, in their own words.",
-    body: "Primary-source assessments of state, criminal, and proxy operators — translated, contextualised, and stripped of vendor framing.",
+    body: "Primary-source assessments of state, criminal, and proxy operators - translated, contextualised, and stripped of vendor framing.",
   },
   {
     n: "03",
     kicker: "AI in the Shadows",
     title: "Where machine speed meets tradecraft.",
-    body: "How adversaries are quietly rebuilding their workflows around models — and what that does to detection, attribution, and trust.",
+    body: "How adversaries are quietly rebuilding their workflows around models - and what that does to detection, attribution, and trust.",
   },
 ];
 
-// Intel Library — distinct tiers, not a flat blog list
+// Intel Library - distinct tiers, not a flat blog list
 const FLAGSHIP = {
   tier: "Flagship Report",
   title: "The Quiet Front",
@@ -98,7 +98,7 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground">
       <Header />
 
-      {/* HERO — singular, spacious, with one restrained constellation layer */}
+      {/* HERO - singular, spacious, with one restrained constellation layer */}
       <section className="relative pt-40 pb-24 md:pt-52 md:pb-32 overflow-hidden">
         {/* The one place we use the constellation motif */}
         <div className="constellation" aria-hidden />
@@ -121,11 +121,11 @@ function Index() {
             <div className="lg:col-span-4 lg:pb-6">
               <Reveal delay={220}>
                 <p className="text-lg md:text-xl text-foreground leading-snug max-w-sm">
-                  Quiet intelligence for an uncertain world.
+                  Predictive Cyber Intelligence for an AI-Shaped Threat Landscape
                 </p>
                 <p className="mt-5 text-base text-muted-foreground leading-relaxed max-w-sm">
-                  An intelligence journal and advisory practice for leaders who need to read the
-                  room before they act in it.
+                  Gray Keep delivers strategic intelligence and advisory context for leaders making
+                  decisions in fast-changing cyber and geopolitical environments.
                 </p>
                 <div className="mt-10 flex flex-wrap items-center gap-3">
                   <Link to="/intel" className="btn-pill btn-pill-primary">
@@ -169,7 +169,7 @@ function Index() {
         </div>
       </section>
 
-      {/* FEATURED INSIGHTS — sharpened, each tile has a distinct purpose */}
+      {/* FEATURED INSIGHTS - sharpened, each tile has a distinct purpose */}
       <section id="insights" className="py-24 md:py-32 border-t border-border">
         <div className="container-keep">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
@@ -186,7 +186,7 @@ function Index() {
             <div className="lg:col-span-4 lg:pt-4">
               <Reveal delay={140}>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  A short, deliberate selection — updated as the picture changes, not on a
+                  A short, deliberate selection - updated as the picture changes, not on a
                   publishing schedule.
                 </p>
               </Reveal>
@@ -215,7 +215,7 @@ function Index() {
         </div>
       </section>
 
-      {/* INTEL LIBRARY — the intellectual spine, with a true tier hierarchy */}
+      {/* INTEL LIBRARY - the intellectual spine, with a true tier hierarchy */}
       <section id="intel-library" className="py-24 md:py-32 border-t border-border">
         <div className="container-keep">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
@@ -231,14 +231,14 @@ function Index() {
             <div className="lg:col-span-4 lg:pt-4">
               <Reveal delay={140}>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  Flagship reports, recurring dispatches, and our own methods — organised so
+                  Flagship reports, recurring dispatches, and our own methods - organised so
                   analysts and executives can find what they need and trust how it was made.
                 </p>
               </Reveal>
             </div>
           </div>
 
-          {/* Flagship — the hero piece of the library, given its own scale */}
+          {/* Flagship - the hero piece of the library, given its own scale */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-stretch mb-16">
             <div className="lg:col-span-7">
               <Reveal>
@@ -279,7 +279,7 @@ function Index() {
             </div>
           </div>
 
-          {/* Dispatches & methods — clearly subordinate to the flagship */}
+          {/* Dispatches & methods - clearly subordinate to the flagship */}
           <Reveal delay={120}>
             <div className="rule-gold mb-10" />
             <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
@@ -311,7 +311,7 @@ function Index() {
         </div>
       </section>
 
-      {/* SPLIT CARDS — Intel & Stories, each with its own visual identity */}
+      {/* SPLIT CARDS - Intel & Stories, each with its own visual identity */}
       <section className="py-24 md:py-32 border-t border-border">
         <div className="container-keep grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
@@ -355,7 +355,7 @@ function Index() {
         </div>
       </section>
 
-      {/* HOW WE HELP — specific promises, not generic verbs */}
+      {/* HOW WE HELP - specific promises, not generic verbs */}
       <section id="how-we-help" className="py-24 md:py-32 border-t border-border">
         <div className="container-keep">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
@@ -398,7 +398,7 @@ function Index() {
         </div>
       </section>
 
-      {/* SPEAKING — prestigious framing, not a service list */}
+      {/* SPEAKING - prestigious framing, not a service list */}
       <section id="speaking" className="py-24 md:py-32 border-t border-border">
         <div className="container-keep">
           <Reveal>
@@ -420,7 +420,7 @@ function Index() {
               <Reveal delay={140}>
                 <p className="text-lg md:text-xl text-foreground leading-relaxed">
                   Keynotes, closed briefings, and moderated conversations for audiences that already
-                  know the basics — and need someone willing to say what the field is actually
+                  know the basics - and need someone willing to say what the field is actually
                   thinking.
                 </p>
               </Reveal>
@@ -481,7 +481,7 @@ function Index() {
         </div>
       </section>
 
-      {/* FROM THE KEEP — editorially curated, cleaner excerpts */}
+      {/* FROM THE KEEP - editorially curated, cleaner excerpts */}
       <section id="from-the-keep" className="py-24 md:py-32 border-t border-border">
         <div className="container-keep">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
@@ -496,7 +496,7 @@ function Index() {
             <div className="lg:col-span-4 lg:pt-4">
               <Reveal delay={140}>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  Notes, narrative, and method — published when there is something worth saying.
+                  Notes, narrative, and method - published when there is something worth saying.
                 </p>
               </Reveal>
             </div>
@@ -508,7 +508,7 @@ function Index() {
                 img: article1,
                 kicker: "Acheron · Episode I",
                 title: "The alert came at 03:17.",
-                body: "By the time Mara reached the screen, the timeline was already wrong — and someone, somewhere, was counting on her not to notice.",
+                body: "By the time Mara reached the screen, the timeline was already wrong - and someone, somewhere, was counting on her not to notice.",
                 cta: "Read the story",
               },
               {

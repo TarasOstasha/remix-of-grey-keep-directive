@@ -2,6 +2,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
+import { Container } from "@/components/site/Container";
 
 export const Route = createFileRoute("/advisory")({
   component: AdvisoryPage,
@@ -27,7 +28,7 @@ function AdvisoryPage() {
     <main className="min-h-screen bg-background text-foreground">
       <Header />
       <section className="pt-40 pb-24 md:pt-52 md:pb-32 border-b border-border">
-        <div className="container-keep max-w-5xl">
+        <Container>
           <Reveal>
             <h1 className="display text-4xl md:text-6xl leading-[1.02] max-w-4xl">
               Clarity that moves decisions
@@ -81,7 +82,7 @@ function AdvisoryPage() {
               </p>
             </div>
           </Reveal>
-        </div>
+        </Container>
       </section>
       <Footer />
     </main>
