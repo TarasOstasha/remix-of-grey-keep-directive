@@ -2,6 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { getIntelFromSanity } from "@/lib/sanity/intel";
 import heroImg from "@/assets/hero-mountains.jpg";
 import intelImg from "@/assets/intel-network.jpg";
 import watchtowerImg from "@/assets/split-watchtower.jpg";
@@ -11,6 +19,10 @@ import article2 from "@/assets/article-2.jpg";
 import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
+  loader: async () => {
+    const intelArticles = await getIntelFromSanity();
+    return { intelArticles };
+  },
   component: Index,
 });
 
@@ -93,7 +105,15 @@ const HELP = [
   },
 ];
 
+function truncateWithEllipsis(text: string, maxLength: number) {
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength)}...`;
+}
+
 function Index() {
+  const { intelArticles } = Route.useLoaderData();
+  const featuredIntelArticles = intelArticles.slice(0, 12);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
@@ -193,25 +213,77 @@ function Index() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border rounded-md overflow-hidden">
-            {INSIGHTS.map((item, i) => (
-              <Reveal key={item.title} delay={i * 100}>
-                <article className="card-flat p-10 h-full flex flex-col min-h-[300px] rounded-none border-0">
-                  <div className="flex items-baseline justify-between mb-10">
-                    <p className="eyebrow eyebrow-gold">{item.n}</p>
-                    <span className="tier-chip">{item.kicker}</span>
+          {featuredIntelArticles.length > 0 ? (
+            <Reveal delay={60}>
+              <div className="relative px-12 md:px-14">
+                <Carousel
+                  opts={{
+                    align: "start",
+                    containScroll: "trimSnaps",
+                    loop: true,
+                  }}
+                  className="rounded-md"
+                >
+                  <div className="bg-border rounded-md overflow-hidden">
+                    <CarouselContent className="-ml-px">
+                      {featuredIntelArticles.map((article, i) => (
+                        <CarouselItem key={article._id} className="pl-px basis-full md:basis-1/3">
+                          <article className="card-flat p-10 h-full flex flex-col min-h-[300px] rounded-none border-0">
+                            <div className="flex items-baseline justify-between mb-10">
+                              <p className="eyebrow eyebrow-gold">
+                                {String(i + 1).padStart(2, "0")}
+                              </p>
+                              <span className="tier-chip">{article.tags?.[0] || "Intel"}</span>
+                            </div>
+                            <h3 className="display text-2xl md:text-3xl leading-tight mb-5">
+                              {article.title}
+                            </h3>
+                            <p className="text-base text-muted-foreground leading-relaxed flex-1">
+                              {truncateWithEllipsis(
+                                article.summary || "No summary available yet.",
+                                115,
+                              )}
+                            </p>
+                            <Link
+                              to="/intel/$slug"
+                              params={{ slug: article.slug }}
+                              className="link-arrow mt-10 w-fit"
+                            >
+                              Read <span aria-hidden>→</span>
+                            </Link>
+                          </article>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
                   </div>
-                  <h3 className="display text-2xl md:text-3xl leading-tight mb-5">{item.title}</h3>
-                  <p className="text-base text-muted-foreground leading-relaxed flex-1">
-                    {item.body}
-                  </p>
-                  <a href="#" className="link-arrow mt-10 w-fit">
-                    Read <span aria-hidden>→</span>
-                  </a>
-                </article>
-              </Reveal>
-            ))}
-          </div>
+                  <CarouselPrevious className="-left-10 md:-left-14 border-border bg-card text-foreground hover:bg-muted" />
+                  <CarouselNext className="-right-10 md:-right-14 border-border bg-card text-foreground hover:bg-muted" />
+                </Carousel>
+              </div>
+            </Reveal>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border rounded-md overflow-hidden">
+              {INSIGHTS.map((item, i) => (
+                <Reveal key={item.title} delay={i * 100}>
+                  <article className="card-flat p-10 h-full flex flex-col min-h-[300px] rounded-none border-0">
+                    <div className="flex items-baseline justify-between mb-10">
+                      <p className="eyebrow eyebrow-gold">{item.n}</p>
+                      <span className="tier-chip">{item.kicker}</span>
+                    </div>
+                    <h3 className="display text-2xl md:text-3xl leading-tight mb-5">
+                      {item.title}
+                    </h3>
+                    <p className="text-base text-muted-foreground leading-relaxed flex-1">
+                      {item.body}
+                    </p>
+                    <a href="#" className="link-arrow mt-10 w-fit">
+                      Read <span aria-hidden>→</span>
+                    </a>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -346,7 +418,7 @@ function Index() {
                   <h3 className="display text-4xl md:text-6xl leading-[0.95] mb-4">{card.title}</h3>
                   <p className="text-lg text-muted-foreground mb-8 max-w-md">{card.sub}</p>
                   <a href="#" className="btn-pill btn-pill-ghost">
-                    {card.cta}
+                    {card.cta} dsadas
                   </a>
                 </div>
               </article>

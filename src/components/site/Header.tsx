@@ -1,5 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+ import logoMark from "@/assets/gray_keep_transparent.png";
+// import logoMark from "@/assets/gray_keep_transparent106.webp";
+
 
 const NAV = [
   { label: "Intel Library", to: "/intel" },
@@ -24,17 +27,18 @@ export function Header() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
-        scrolled
-          ? "bg-background/85 backdrop-blur-md border-b border-border"
-          : "bg-transparent"
+        scrolled ? "bg-background/85 backdrop-blur-md border-b border-border" : "bg-transparent"
       }`}
     >
-      <div className="container-keep flex h-20 items-center justify-between">
-        <Link to="/" className="flex items-center gap-3 group">
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-gold shadow-[0_0_10px_var(--gold)]" />
-          <span className="display text-base tracking-tight text-foreground">
-            GRAY KEEP
-          </span>
+      <div className="container-keep flex h-28 items-center justify-between md:h-32">
+        <Link to="/" className="flex items-center gap-2 md:gap-3 group">
+          <span className="inline-block h-2 w-2 shrink-0 rounded-full bg-gold shadow-[0_0_12px_var(--gold)]" />
+
+          <img
+            src={logoMark}
+            alt="Gray Keep"
+            className="h-24 w-auto object-contain object-left sm:h-28 md:h-32 lg:h-36 scale-[1.6] origin-left"
+          />
         </Link>
 
         <nav className="hidden md:flex items-center gap-9">
