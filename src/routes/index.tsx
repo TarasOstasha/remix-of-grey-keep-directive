@@ -393,13 +393,17 @@ function Index() {
               title: "AI in the Shadows",
               sub: "How model-assisted intrusion is quietly reshaping the contest.",
               cta: "Read the assessment",
+              linkTo: "/intel/$slug" as const,
+              linkParams: { slug: "ai-in-the-shadows" },
             },
             {
               img: keepImg,
               eyebrow: "A Series · Stories",
               title: "Acheron",
-              sub: "A four-part cyber-espionage saga, written from the inside of the room.",
+              sub: "A cyber-espionage saga, written from the inside of the room.",
               cta: "Enter the series",
+              linkTo: "/stories/series/$seriesSlug" as const,
+              linkParams: { seriesSlug: "acheron" },
             },
           ].map((card, i) => (
             <Reveal key={card.title} delay={i * 140}>
@@ -417,9 +421,13 @@ function Index() {
                   <p className="eyebrow eyebrow-gold mb-4">{card.eyebrow}</p>
                   <h3 className="display text-4xl md:text-6xl leading-[0.95] mb-4">{card.title}</h3>
                   <p className="text-lg text-muted-foreground mb-8 max-w-md">{card.sub}</p>
-                  <a href="#" className="btn-pill btn-pill-ghost">
-                    {card.cta} dsadas
-                  </a>
+                  <Link
+                    to={card.linkTo}
+                    params={card.linkParams}
+                    className="btn-pill btn-pill-ghost"
+                  >
+                    {card.cta}
+                  </Link>
                 </div>
               </article>
             </Reveal>
