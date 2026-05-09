@@ -9,7 +9,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { getIntelFromSanity } from "@/lib/sanity/intel";
+import { getIntelFromSanity, type IntelCard } from "@/lib/sanity/intel";
+import { getStoriesFromSanity, type StoryCard } from "@/lib/sanity/stories";
 import heroImg from "@/assets/hero-mountains.jpg";
 import intelImg from "@/assets/intel-network.jpg";
 import watchtowerImg from "@/assets/split-watchtower.jpg";
@@ -20,8 +21,11 @@ import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   loader: async () => {
-    const intelArticles = await getIntelFromSanity();
-    return { intelArticles };
+    const [intelArticles, storiesResult] = await Promise.all([
+      getIntelFromSanity(),
+      getStoriesFromSanity(),
+    ]);
+    return { intelArticles, stories: storiesResult.stories };
   },
   component: Index,
 });
@@ -110,9 +114,106 @@ function truncateWithEllipsis(text: string, maxLength: number) {
   return `${text.slice(0, maxLength)}...`;
 }
 
+const ROMAN_NUMERALS = [
+  "",
+  "I",
+  "II",
+  "III",
+  "IV",
+  "V",
+  "VI",
+  "VII",
+  "VIII",
+  "IX",
+  "X",
+  "XI",
+  "XII",
+];
+
+function toRoman(n: number | null) {
+  if (n == null || !Number.isFinite(n) || n < 1) return null;
+  return ROMAN_NUMERALS[n] ?? String(n);
+}
+
+type Dispatch = {
+  key: string;
+  fallbackImg: string;
+  imageUrl: string | null;
+  imageAlt: string;
+  kicker: string;
+  title: string;
+  body: string;
+  cta: string;
+  to: "/stories/$slug" | "/intel/$slug";
+  params: { slug: string };
+};
+
+function pickFeaturedStory(stories: StoryCard[]): StoryCard | null {
+  if (stories.length === 0) return null;
+  const explicit = stories.find((story) => story.featuredOnHome);
+  if (explicit) return explicit;
+  const acheronEpisodes = stories
+    .filter((story) => story.seriesSlug === "acheron")
+    .sort((a, b) => (a.episodeNumber ?? Infinity) - (b.episodeNumber ?? Infinity));
+  return acheronEpisodes[0] ?? stories[0];
+}
+
+function pickFeaturedIntel(articles: IntelCard[]): IntelCard | null {
+  if (articles.length === 0) return null;
+  const explicit = articles.find((article) => article.featuredOnHome);
+  if (explicit) return explicit;
+  const methodArticles = articles.filter((article) =>
+    (article.tags ?? []).some((tag) => tag.toLowerCase() === "method"),
+  );
+  return methodArticles[0] ?? articles[0];
+}
+
+function buildDispatches(stories: StoryCard[], intel: IntelCard[]): Dispatch[] {
+  const dispatches: Dispatch[] = [];
+
+  const story = pickFeaturedStory(stories);
+  if (story) {
+    const episodeRoman = toRoman(story.episodeNumber);
+    const seriesLabel = story.seriesTitle ?? story.tags?.[0] ?? "Story";
+    const kicker = episodeRoman ? `${seriesLabel} · Episode ${episodeRoman}` : seriesLabel;
+    dispatches.push({
+      key: story._id,
+      fallbackImg: article1,
+      imageUrl: story.mainImageUrl,
+      imageAlt: story.mainImageAlt ?? story.title,
+      kicker,
+      title: story.title,
+      body: truncateWithEllipsis(story.summary ?? "", 220),
+      cta: "Read the story",
+      to: "/stories/$slug",
+      params: { slug: story.slug },
+    });
+  }
+
+  const intelArticle = pickFeaturedIntel(intel);
+  if (intelArticle) {
+    const kicker = intelArticle.tags?.[0] ?? "Intel";
+    dispatches.push({
+      key: intelArticle._id,
+      fallbackImg: article2,
+      imageUrl: intelArticle.mainImageUrl,
+      imageAlt: intelArticle.mainImageAlt ?? intelArticle.title,
+      kicker,
+      title: intelArticle.title,
+      body: truncateWithEllipsis(intelArticle.summary ?? "", 220),
+      cta: "Read the note",
+      to: "/intel/$slug",
+      params: { slug: intelArticle.slug },
+    });
+  }
+
+  return dispatches;
+}
+
 function Index() {
-  const { intelArticles } = Route.useLoaderData();
+  const { intelArticles, stories } = Route.useLoaderData();
   const featuredIntelArticles = intelArticles.slice(0, 12);
+  const dispatches = buildDispatches(stories, intelArticles);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -559,73 +660,62 @@ function Index() {
         </div>
       </section>
 
-      {/* FROM THE KEEP - editorially curated, cleaner excerpts */}
-      <section id="from-the-keep" className="py-24 md:py-32 border-t border-border">
-        <div className="container-keep">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
-            <div className="lg:col-span-7">
-              <Reveal>
-                <p className="eyebrow mb-6">From The Keep</p>
-                <h2 className="display text-4xl md:text-6xl text-foreground leading-[1.02]">
-                  Recent dispatches.
-                </h2>
-              </Reveal>
-            </div>
-            <div className="lg:col-span-4 lg:pt-4">
-              <Reveal delay={140}>
-                <p className="text-base text-muted-foreground leading-relaxed">
-                  Notes, narrative, and method - published when there is something worth saying.
-                </p>
-              </Reveal>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-14">
-            {[
-              {
-                img: article1,
-                kicker: "Acheron · Episode I",
-                title: "The alert came at 03:17.",
-                body: "By the time Mara reached the screen, the timeline was already wrong - and someone, somewhere, was counting on her not to notice.",
-                cta: "Read the story",
-              },
-              {
-                img: article2,
-                kicker: "Method",
-                title: "How we read the room.",
-                body: "Our methodology in plain language: what we collect, how we weigh it, and why we are explicit about what we do not yet know.",
-                cta: "Read the note",
-              },
-            ].map((a, i) => (
-              <Reveal key={a.title} delay={i * 140}>
-                <article className="group">
-                  <div className="relative aspect-[16/10] overflow-hidden rounded-md border border-border mb-8">
-                    <img
-                      src={a.img}
-                      alt={a.title}
-                      width={1280}
-                      height={900}
-                      loading="lazy"
-                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
-                  </div>
-                  <p className="eyebrow eyebrow-gold mb-4">{a.kicker}</p>
-                  <h3 className="display text-3xl md:text-4xl leading-tight mb-4 group-hover:text-gold transition-colors">
-                    {a.title}
-                  </h3>
-                  <p className="text-base text-muted-foreground leading-relaxed max-w-prose mb-6">
-                    {a.body}
+      {/* FROM THE KEEP - editorially curated, cleaner excerpts (Sanity-driven) */}
+      {dispatches.length > 0 && (
+        <section id="from-the-keep" className="py-24 md:py-32 border-t border-border">
+          <div className="container-keep">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
+              <div className="lg:col-span-7">
+                <Reveal>
+                  <p className="eyebrow mb-6">From The Keep</p>
+                  <h2 className="display text-4xl md:text-6xl text-foreground leading-[1.02]">
+                    Recent dispatches.
+                  </h2>
+                </Reveal>
+              </div>
+              <div className="lg:col-span-4 lg:pt-4">
+                <Reveal delay={140}>
+                  <p className="text-base text-muted-foreground leading-relaxed">
+                    Notes, narrative, and method - published when there is something worth saying.
                   </p>
-                  <a href="#" className="link-arrow w-fit">
-                    {a.cta} <span aria-hidden>→</span>
-                  </a>
-                </article>
-              </Reveal>
-            ))}
+                </Reveal>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-14">
+              {dispatches.map((dispatch, i) => (
+                <Reveal key={dispatch.key} delay={i * 140}>
+                  <article className="group">
+                    <div className="relative aspect-[16/10] overflow-hidden rounded-md border border-border mb-8">
+                      <img
+                        src={dispatch.imageUrl ?? dispatch.fallbackImg}
+                        alt={dispatch.imageAlt}
+                        width={1280}
+                        height={900}
+                        loading="lazy"
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
+                    </div>
+                    <p className="eyebrow eyebrow-gold mb-4">{dispatch.kicker}</p>
+                    <h3 className="display text-3xl md:text-4xl leading-tight mb-4 group-hover:text-gold transition-colors">
+                      {dispatch.title}
+                    </h3>
+                    {dispatch.body ? (
+                      <p className="text-base text-muted-foreground leading-relaxed max-w-prose mb-6">
+                        {dispatch.body}
+                      </p>
+                    ) : null}
+                    <Link to={dispatch.to} params={dispatch.params} className="link-arrow w-fit">
+                      {dispatch.cta} <span aria-hidden>→</span>
+                    </Link>
+                  </article>
+                </Reveal>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <Footer />
     </div>

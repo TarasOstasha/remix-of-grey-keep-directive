@@ -68,6 +68,14 @@ export const storyPost = defineType({
       type: "number",
     }),
     defineField({
+      name: "featuredOnHome",
+      title: "Feature on home page",
+      type: "boolean",
+      description:
+        "When on, this story is used in the 'From The Keep' dispatch on the home page. Only one story should be featured at a time.",
+      initialValue: false,
+    }),
+    defineField({
       name: "seoTitle",
       title: "SEO title",
       type: "string",

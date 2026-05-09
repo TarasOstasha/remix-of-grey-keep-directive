@@ -9,6 +9,8 @@ export type StoryCard = {
   tags: string[];
   seriesTitle: string | null;
   seriesSlug: string | null;
+  episodeNumber: number | null;
+  featuredOnHome: boolean;
   mainImageUrl: string | null;
   mainImageAlt: string | null;
   readingTimeMinutes: number;
@@ -76,6 +78,8 @@ export async function getStoriesFromSanity() {
         summary,
         publishedAt,
         tags,
+        episodeNumber,
+        "featuredOnHome": coalesce(featuredOnHome, false),
         "seriesTitle": series->title,
         "seriesSlug": series->slug.current,
         "mainImageUrl": mainImage.asset->url,
@@ -104,6 +108,8 @@ export async function getStoriesFromSanity() {
       const { bodyText: _, ...storyWithoutBodyText } = story;
       return {
         ...storyWithoutBodyText,
+        episodeNumber: storyWithoutBodyText.episodeNumber ?? null,
+        featuredOnHome: storyWithoutBodyText.featuredOnHome ?? false,
         readingTimeMinutes,
       } satisfies StoryCard;
     });

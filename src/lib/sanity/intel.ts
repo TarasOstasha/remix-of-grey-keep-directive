@@ -9,6 +9,7 @@ export type IntelCard = {
   publishedAt: string | null;
   readingTimeMinutes: number;
   category: "Intel";
+  featuredOnHome: boolean;
   mainImageUrl: string | null;
   mainImageAlt: string | null;
 };
@@ -33,6 +34,7 @@ export async function getIntelFromSanity() {
       summary,
       tags,
       publishedAt,
+      "featuredOnHome": coalesce(featuredOnHome, false),
       "mainImageUrl": mainImage.asset->url,
       "mainImageAlt": mainImage.alt,
       "bodyText": pt::text(body)
@@ -54,6 +56,7 @@ export async function getIntelFromSanity() {
         publishedAt: row.publishedAt ?? null,
         readingTimeMinutes,
         category: "Intel",
+        featuredOnHome: row.featuredOnHome ?? false,
         mainImageUrl: row.mainImageUrl ?? null,
         mainImageAlt: row.mainImageAlt ?? null,
       } satisfies IntelCard;
@@ -72,6 +75,7 @@ export async function getIntelBySlugFromSanity(slug: string) {
       summary,
       tags,
       publishedAt,
+      "featuredOnHome": coalesce(featuredOnHome, false),
       "mainImageUrl": mainImage.asset->url,
       "mainImageAlt": mainImage.alt,
       "bodyText": pt::text(body)
@@ -94,6 +98,7 @@ export async function getIntelBySlugFromSanity(slug: string) {
     publishedAt: row.publishedAt ?? null,
     readingTimeMinutes,
     category: "Intel",
+    featuredOnHome: row.featuredOnHome ?? false,
     mainImageUrl: row.mainImageUrl ?? null,
     mainImageAlt: row.mainImageAlt ?? null,
     bodyText: row.bodyText ?? null,

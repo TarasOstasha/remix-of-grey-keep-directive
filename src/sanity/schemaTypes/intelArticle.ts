@@ -57,6 +57,14 @@ export const intelArticle = defineType({
       options: { layout: "tags" },
     }),
     defineField({
+      name: "featuredOnHome",
+      title: "Feature on home page",
+      type: "boolean",
+      description:
+        "When on, this article is used in the 'From The Keep' dispatch on the home page. Only one article should be featured at a time.",
+      initialValue: false,
+    }),
+    defineField({
       name: "seoTitle",
       title: "SEO title",
       type: "string",
