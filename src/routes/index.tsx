@@ -499,16 +499,14 @@ function Index() {
             <div className="lg:col-span-5 space-y-8">
               <Reveal delay={140}>
                 <p className="text-lg md:text-xl text-foreground leading-relaxed">
-                  Keynotes, closed briefings, and moderated conversations for audiences that already
-                  know the basics - and need someone willing to say what the field is actually
-                  thinking.
+                  Keynotes and briefings for leadership audiences - cyber risk, intel tradecraft,
+                  and decision-making under uncertainty, delivered with clarity and no theater.
                 </p>
               </Reveal>
               <Reveal delay={200}>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  Source-language research across English, French, Spanish, Russian and Mandarin.
-                  Comfortable with technical audiences, policy audiences, and rooms that contain
-                  both.
+                  Ability to conduct research and to navigate complex threat landscapes in multiple
+                  languages, getting and analyzing the best data from the source itself, directly.
                 </p>
               </Reveal>
             </div>
@@ -550,12 +548,12 @@ function Index() {
 
           <Reveal delay={340}>
             <div id="enter" className="flex flex-wrap items-center gap-3">
-              <a href="#" className="btn-pill btn-pill-primary">
+              <Link to="/contact" className="btn-pill btn-pill-primary">
                 Request availability
-              </a>
-              <a href="#" className="btn-pill btn-pill-ghost">
+              </Link>
+              <Link to="/advisory" className="btn-pill btn-pill-ghost">
                 Advisory enquiries
-              </a>
+              </Link>
             </div>
           </Reveal>
         </div>

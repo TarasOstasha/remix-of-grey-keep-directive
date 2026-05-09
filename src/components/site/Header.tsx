@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
- import logoMark from "@/assets/gray_keep_transparent.png";
+import logoMark from "@/assets/logo200.png";
 // import logoMark from "@/assets/gray_keep_transparent106.webp";
 
 
@@ -37,7 +37,7 @@ export function Header() {
           <img
             src={logoMark}
             alt="Gray Keep"
-            className="h-24 w-auto object-contain object-left sm:h-28 md:h-32 lg:h-36 scale-[1.6] origin-left"
+            className="h-24 w-auto object-contain object-left sm:h-28 md:h-32 lg:h-36 origin-left"
           />
         </Link>
 
