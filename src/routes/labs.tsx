@@ -171,13 +171,8 @@ function LabsPage() {
                 </h3>
               </div>
               <div className="lg:col-span-4 flex flex-wrap gap-3 lg:justify-end">
-                <a href="#enter" className="btn-pill btn-pill-gold">
-                  Request Early Access
-                </a>
+                <Link to="/contact" className="btn-pill btn-pill-gold">Request Early Access</Link>
                 <Link to="/contact" className="btn-pill btn-pill-ghost">Contact Gray Keep</Link>
-                {/* <a href="#enter" className="btn-pill btn-pill-ghost">
-                  Contact Gray Keep
-                </a> */}
               </div>
             </div>
           </div>
