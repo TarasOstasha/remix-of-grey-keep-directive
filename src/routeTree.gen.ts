@@ -19,6 +19,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StudioSplatRouteImport } from './routes/studio.$'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
+import { Route as ReportsSlugRouteImport } from './routes/reports.$slug'
 import { Route as IntelSlugRouteImport } from './routes/intel.$slug'
 import { Route as StoriesSeriesSeriesSlugRouteImport } from './routes/stories.series.$seriesSlug'
 
@@ -72,6 +73,11 @@ const StoriesSlugRoute = StoriesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => StoriesRoute,
 } as any)
+const ReportsSlugRoute = ReportsSlugRouteImport.update({
+  id: '/reports/$slug',
+  path: '/reports/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IntelSlugRoute = IntelSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/stories': typeof StoriesRouteWithChildren
   '/studio': typeof StudioRouteWithChildren
   '/intel/$slug': typeof IntelSlugRoute
+  '/reports/$slug': typeof ReportsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/studio/$': typeof StudioSplatRoute
   '/stories/series/$seriesSlug': typeof StoriesSeriesSeriesSlugRoute
@@ -107,6 +114,7 @@ export interface FileRoutesByTo {
   '/stories': typeof StoriesRouteWithChildren
   '/studio': typeof StudioRouteWithChildren
   '/intel/$slug': typeof IntelSlugRoute
+  '/reports/$slug': typeof ReportsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/studio/$': typeof StudioSplatRoute
   '/stories/series/$seriesSlug': typeof StoriesSeriesSeriesSlugRoute
@@ -122,6 +130,7 @@ export interface FileRoutesById {
   '/stories': typeof StoriesRouteWithChildren
   '/studio': typeof StudioRouteWithChildren
   '/intel/$slug': typeof IntelSlugRoute
+  '/reports/$slug': typeof ReportsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/studio/$': typeof StudioSplatRoute
   '/stories/series/$seriesSlug': typeof StoriesSeriesSeriesSlugRoute
@@ -138,6 +147,7 @@ export interface FileRouteTypes {
     | '/stories'
     | '/studio'
     | '/intel/$slug'
+    | '/reports/$slug'
     | '/stories/$slug'
     | '/studio/$'
     | '/stories/series/$seriesSlug'
@@ -152,6 +162,7 @@ export interface FileRouteTypes {
     | '/stories'
     | '/studio'
     | '/intel/$slug'
+    | '/reports/$slug'
     | '/stories/$slug'
     | '/studio/$'
     | '/stories/series/$seriesSlug'
@@ -166,6 +177,7 @@ export interface FileRouteTypes {
     | '/stories'
     | '/studio'
     | '/intel/$slug'
+    | '/reports/$slug'
     | '/stories/$slug'
     | '/studio/$'
     | '/stories/series/$seriesSlug'
@@ -180,6 +192,7 @@ export interface RootRouteChildren {
   LabsRoute: typeof LabsRoute
   StoriesRoute: typeof StoriesRouteWithChildren
   StudioRoute: typeof StudioRouteWithChildren
+  ReportsSlugRoute: typeof ReportsSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -254,6 +267,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoriesSlugRouteImport
       parentRoute: typeof StoriesRoute
     }
+    '/reports/$slug': {
+      id: '/reports/$slug'
+      path: '/reports/$slug'
+      fullPath: '/reports/$slug'
+      preLoaderRoute: typeof ReportsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/intel/$slug': {
       id: '/intel/$slug'
       path: '/$slug'
@@ -314,6 +334,7 @@ const rootRouteChildren: RootRouteChildren = {
   LabsRoute: LabsRoute,
   StoriesRoute: StoriesRouteWithChildren,
   StudioRoute: StudioRouteWithChildren,
+  ReportsSlugRoute: ReportsSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

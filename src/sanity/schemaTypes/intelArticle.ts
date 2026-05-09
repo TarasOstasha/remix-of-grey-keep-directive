@@ -65,6 +65,34 @@ export const intelArticle = defineType({
       initialValue: false,
     }),
     defineField({
+      name: "featuredAsFlagship",
+      title: "Feature as flagship (Intel Library)",
+      type: "boolean",
+      description:
+        "When on, this article fills the large flagship card on the home page under Intel Library. Only one article should be featured at a time.",
+      initialValue: false,
+    }),
+    defineField({
+      name: "flagshipTier",
+      title: "Flagship tier label",
+      type: "string",
+      description: 'Shown on the flagship card, e.g. "Flagship Report". Leave empty to use the default.',
+    }),
+    defineField({
+      name: "flagshipPageCount",
+      title: "Flagship page count",
+      type: "number",
+      description: "Optional. Shown in the meta line on the home page flagship card.",
+      validation: (Rule) => Rule.min(1).integer(),
+    }),
+    defineField({
+      name: "flagshipReleaseLabel",
+      title: "Flagship release label",
+      type: "string",
+      description:
+        'Optional. E.g. "Released this quarter". If empty, the article publish date is used in the meta line.',
+    }),
+    defineField({
       name: "seoTitle",
       title: "SEO title",
       type: "string",
@@ -86,17 +114,23 @@ export const intelArticle = defineType({
       title: "title",
       media: "mainImage",
       date: "publishedAt",
+      flagship: "featuredAsFlagship",
     },
-    prepare({ title, media, date }) {
+    prepare({ title, media, date, flagship }) {
+      const parts: string[] = [];
+      if (flagship) parts.push("Flagship");
+      if (date) {
+        parts.push(
+          new Date(date).toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          }),
+        );
+      }
       return {
         title: title || "Untitled",
-        subtitle: date
-          ? new Date(date).toLocaleDateString(undefined, {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })
-          : undefined,
+        subtitle: parts.length ? parts.join(" · ") : undefined,
         media,
       };
     },

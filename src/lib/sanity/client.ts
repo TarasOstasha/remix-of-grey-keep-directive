@@ -30,6 +30,10 @@ export function getSanityClient() {
     readEnv("SANITY_API_VERSION") ??
     "2026-04-25";
   const token = readEnv("SANITY_API_TOKEN") ?? readEnv("VITE_SANITY_API_TOKEN");
+  const useCdnEnv = readEnv("VITE_SANITY_USE_CDN") ?? readEnv("SANITY_USE_CDN");
+  // Default to no CDN so editorial changes (e.g. "Feature on home page") show up immediately.
+  // Set VITE_SANITY_USE_CDN=true in production to opt back into the cached CDN.
+  const useCdn = useCdnEnv === "true";
 
   if (!projectId || !dataset) {
     return null;
@@ -39,7 +43,8 @@ export function getSanityClient() {
     projectId,
     dataset,
     apiVersion,
-    useCdn: true,
+    useCdn,
     token,
+    perspective: "published",
   });
 }

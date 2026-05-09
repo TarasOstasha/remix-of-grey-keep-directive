@@ -11,6 +11,10 @@ import {
 } from "@/components/ui/carousel";
 import { getIntelFromSanity, type IntelCard } from "@/lib/sanity/intel";
 import { getStoriesFromSanity, type StoryCard } from "@/lib/sanity/stories";
+import {
+  getFlagshipReportFromSanity,
+  resolveHomeFlagshipFromFeaturedReport,
+} from "@/lib/sanity/flagship";
 import heroImg from "@/assets/hero-mountains.jpg";
 import intelImg from "@/assets/intel-network.jpg";
 import watchtowerImg from "@/assets/split-watchtower.jpg";
@@ -21,12 +25,17 @@ import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   loader: async () => {
-    const [intelArticles, storiesResult] = await Promise.all([
+    const [intelArticles, storiesResult, flagshipReport] = await Promise.all([
       getIntelFromSanity(),
       getStoriesFromSanity(),
+      getFlagshipReportFromSanity(),
     ]);
-    return { intelArticles, stories: storiesResult.stories };
+    const homeFlagship = resolveHomeFlagshipFromFeaturedReport(flagshipReport);
+    return { intelArticles, stories: storiesResult.stories, homeFlagship };
   },
+  // Re-run on every navigation so editorial changes in Sanity show up without a hard refresh.
+  staleTime: 0,
+  shouldReload: true,
   component: Index,
 });
 
@@ -50,14 +59,6 @@ const INSIGHTS = [
     body: "How adversaries are quietly rebuilding their workflows around models - and what that does to detection, attribution, and trust.",
   },
 ];
-
-// Intel Library - distinct tiers, not a flat blog list
-const FLAGSHIP = {
-  tier: "Flagship Report",
-  title: "The Quiet Front",
-  sub: "An assessment of state-aligned cyber operations across Europe, 2024–2026.",
-  meta: "112 pages · Released this quarter",
-};
 
 const DISPATCHES = [
   {
@@ -211,7 +212,7 @@ function buildDispatches(stories: StoryCard[], intel: IntelCard[]): Dispatch[] {
 }
 
 function Index() {
-  const { intelArticles, stories } = Route.useLoaderData();
+  const { intelArticles, stories, homeFlagship } = Route.useLoaderData();
   const featuredIntelArticles = intelArticles.slice(0, 12);
   const dispatches = buildDispatches(stories, intelArticles);
 
@@ -394,7 +395,7 @@ function Index() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
             <div className="lg:col-span-7">
               <Reveal>
-                <p className="eyebrow mb-6">Intel Library</p>
+                <p className="eyebrow mb-6">{homeFlagship ? "Flagship Report" : "Intel Library"}</p>
                 <h2 className="display text-4xl md:text-6xl text-foreground leading-[1.02]">
                   Not a blog.
                   <br />A working library.
@@ -411,55 +412,66 @@ function Index() {
             </div>
           </div>
 
-          {/* Flagship - the hero piece of the library, given its own scale */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-stretch mb-16">
-            <div className="lg:col-span-7">
-              <Reveal>
-                <article className="card-flat p-10 md:p-14 h-full flex flex-col">
-                  <span className="tier-chip tier-chip-flagship w-fit mb-10">{FLAGSHIP.tier}</span>
-                  <h3 className="display text-4xl md:text-6xl text-foreground leading-[1.02] mb-6">
-                    {FLAGSHIP.title}
-                  </h3>
-                  <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mb-10">
-                    {FLAGSHIP.sub}
-                  </p>
-                  <div className="mt-auto flex flex-wrap items-center gap-6">
-                    <a href="#" className="btn-pill btn-pill-primary">
-                      Read the report
-                    </a>
-                    <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                      {FLAGSHIP.meta}
-                    </p>
+          {homeFlagship ? (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-stretch mb-16">
+              <div className="lg:col-span-7">
+                <Reveal>
+                  <article className="card-flat p-10 md:p-14 h-full flex flex-col">
+                    <span className="tier-chip tier-chip-flagship w-fit mb-10">
+                      {homeFlagship.tier}
+                    </span>
+                    <h3 className="display text-4xl md:text-6xl text-foreground leading-[1.02] mb-6">
+                      {homeFlagship.title}
+                    </h3>
+                    {homeFlagship.summary ? (
+                      <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl mb-10">
+                        {homeFlagship.summary}
+                      </p>
+                    ) : null}
+                    <div className="mt-auto flex flex-wrap items-center gap-6">
+                      <Link
+                        to="/reports/$slug"
+                        params={{ slug: homeFlagship.reportSlug }}
+                        className="btn-pill btn-pill-primary"
+                      >
+                        Read the report
+                      </Link>
+                      {homeFlagship.meta ? (
+                        <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
+                          {homeFlagship.meta}
+                        </p>
+                      ) : null}
+                    </div>
+                  </article>
+                </Reveal>
+              </div>
+
+              <div className="lg:col-span-5">
+                <Reveal delay={160}>
+                  <div className="relative aspect-[4/5] lg:h-full overflow-hidden rounded-md border border-border">
+                    <img
+                      src={homeFlagship.imageUrl ?? intelImg}
+                      alt={homeFlagship.imageAlt}
+                      width={1280}
+                      height={1600}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent" />
                   </div>
-                </article>
-              </Reveal>
+                </Reveal>
+              </div>
             </div>
+          ) : null}
 
-            <div className="lg:col-span-5">
-              <Reveal delay={160}>
-                <div className="relative aspect-[4/5] lg:h-full overflow-hidden rounded-md border border-border">
-                  <img
-                    src={intelImg}
-                    alt="A faint, structured network of points and lines against deep grey"
-                    width={1280}
-                    height={1600}
-                    loading="lazy"
-                    className="h-full w-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent" />
-                </div>
-              </Reveal>
-            </div>
-          </div>
-
-          {/* Dispatches & methods - clearly subordinate to the flagship */}
+          {/* Dispatches & methods */}
           <Reveal delay={120}>
             <div className="rule-gold mb-10" />
             <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
               <p className="eyebrow">Dispatches & Methods</p>
-              <a href="#" className="link-arrow w-fit">
+              <Link to="/intel" className="link-arrow w-fit">
                 Browse the library <span aria-hidden>→</span>
-              </a>
+              </Link>
             </div>
             <ul className="divide-y divide-border border-y border-border">
               {DISPATCHES.map((d) => (
