@@ -11,6 +11,34 @@ export const Route = createFileRoute("/reports/$slug")({
     if (!report) throw notFound();
     return report;
   },
+  head: ({ loaderData }) => {
+    if (!loaderData) return {};
+    const title = loaderData.seoTitle?.trim() ? loaderData.seoTitle : loaderData.title;
+    const description = loaderData.seoDescription?.trim()
+      ? loaderData.seoDescription
+      : loaderData.summary?.trim()
+        ? loaderData.summary
+        : undefined;
+    const meta: Array<{ title?: string; name?: string; property?: string; content?: string }> = [
+      { title },
+      { property: "og:title", content: title },
+      { name: "twitter:title", content: title },
+    ];
+    if (description) {
+      meta.push(
+        { name: "description", content: description },
+        { property: "og:description", content: description },
+        { name: "twitter:description", content: description },
+      );
+    }
+    if (loaderData.mainImageUrl) {
+      meta.push(
+        { property: "og:image", content: loaderData.mainImageUrl },
+        { name: "twitter:image", content: loaderData.mainImageUrl },
+      );
+    }
+    return { meta };
+  },
   component: FlagshipReportPage,
 });
 

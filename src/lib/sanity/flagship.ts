@@ -1,8 +1,5 @@
 import { getSanityClient } from "./client";
 
-/** Default slug for the Intel Library flagship when no article has "Feature as flagship" set. */
-export const FLAGSHIP_INTEL_SLUG_FALLBACK = "the-quiet-front";
-
 export type FlagshipReport = {
   _id: string;
   title: string;
@@ -16,31 +13,11 @@ export type FlagshipReport = {
   featuredOnHome: boolean;
   mainImageUrl: string | null;
   mainImageAlt: string | null;
+  seoTitle: string | null;
+  seoDescription: string | null;
 };
 
 type FlagshipReportRow = Omit<FlagshipReport, "tier"> & { tier: string | null };
-
-export type FlagshipIntelArticle = {
-  _id: string;
-  title: string;
-  slug: string;
-  tier: string | null;
-  summary: string | null;
-  pageCount: number | null;
-  releaseLabel: string | null;
-  publishedAt: string | null;
-  mainImageUrl: string | null;
-  mainImageAlt: string | null;
-};
-
-type FlagshipIntelArticleRow = Omit<
-  FlagshipIntelArticle,
-  "tier" | "pageCount" | "releaseLabel"
-> & {
-  flagshipTier: string | null;
-  flagshipPageCount: number | null;
-  flagshipReleaseLabel: string | null;
-};
 
 export type HomeFlagshipSlot = {
   tier: string;
@@ -56,54 +33,6 @@ export type HomeFlagshipSlot = {
 export type FlagshipReportDetail = FlagshipReport & {
   bodyText: string | null;
 };
-
-export async function getFlagshipIntelArticleFromSanity(): Promise<FlagshipIntelArticle | null> {
-  const client = getSanityClient();
-  if (!client) return null;
-
-  const projection = `{
-    _id,
-    title,
-    "slug": slug.current,
-    summary,
-    "flagshipTier": flagshipTier,
-    "flagshipPageCount": flagshipPageCount,
-    "flagshipReleaseLabel": flagshipReleaseLabel,
-    publishedAt,
-    "mainImageUrl": mainImage.asset->url,
-    "mainImageAlt": mainImage.alt
-  }`;
-
-  const featured = await client.fetch<FlagshipIntelArticleRow | null>(
-    `*[_type == "intelArticle" && coalesce(featuredAsFlagship, false) == true]
-      | order(coalesce(publishedAt, _createdAt) desc)[0] ${projection}`,
-  );
-
-  const normalize = (row: FlagshipIntelArticleRow | null): FlagshipIntelArticle | null => {
-    if (!row?.slug) return null;
-    return {
-      _id: row._id,
-      title: row.title,
-      slug: row.slug,
-      tier: row.flagshipTier,
-      summary: row.summary ?? null,
-      pageCount: row.flagshipPageCount ?? null,
-      releaseLabel: row.flagshipReleaseLabel ?? null,
-      publishedAt: row.publishedAt ?? null,
-      mainImageUrl: row.mainImageUrl ?? null,
-      mainImageAlt: row.mainImageAlt ?? null,
-    };
-  };
-
-  const fromFeatured = normalize(featured);
-  if (fromFeatured) return fromFeatured;
-
-  const bySlug = await client.fetch<FlagshipIntelArticleRow | null>(
-    `*[_type == "intelArticle" && slug.current == $slug][0] ${projection}`,
-    { slug: FLAGSHIP_INTEL_SLUG_FALLBACK },
-  );
-  return normalize(bySlug);
-}
 
 export function resolveHomeFlagshipFromFeaturedReport(
   report: FlagshipReport | null,
@@ -141,7 +70,9 @@ export async function getFlagshipReportFromSanity(): Promise<FlagshipReport | nu
       ctaUrl,
       "featuredOnHome": coalesce(featuredOnHome, false),
       "mainImageUrl": mainImage.asset->url,
-      "mainImageAlt": mainImage.alt
+      "mainImageAlt": mainImage.alt,
+      seoTitle,
+      seoDescription
     }`,
   );
 
@@ -160,6 +91,8 @@ export async function getFlagshipReportFromSanity(): Promise<FlagshipReport | nu
     featuredOnHome: row.featuredOnHome ?? false,
     mainImageUrl: row.mainImageUrl ?? null,
     mainImageAlt: row.mainImageAlt ?? null,
+    seoTitle: row.seoTitle ?? null,
+    seoDescription: row.seoDescription ?? null,
   };
 }
 
@@ -206,6 +139,8 @@ export async function getFlagshipReportBySlugFromSanity(
       "featuredOnHome": coalesce(featuredOnHome, false),
       "mainImageUrl": mainImage.asset->url,
       "mainImageAlt": mainImage.alt,
+      seoTitle,
+      seoDescription,
       "bodyText": pt::text(body)
     }`,
     { slug },
@@ -226,6 +161,8 @@ export async function getFlagshipReportBySlugFromSanity(
     featuredOnHome: row.featuredOnHome ?? false,
     mainImageUrl: row.mainImageUrl ?? null,
     mainImageAlt: row.mainImageAlt ?? null,
+    seoTitle: row.seoTitle ?? null,
+    seoDescription: row.seoDescription ?? null,
     bodyText: row.bodyText ?? null,
   };
 }

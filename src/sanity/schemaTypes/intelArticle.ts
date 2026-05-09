@@ -58,39 +58,11 @@ export const intelArticle = defineType({
     }),
     defineField({
       name: "featuredOnHome",
-      title: "Feature on home page",
+      title: "Feature on home page (From The Keep)",
       type: "boolean",
       description:
-        "When on, this article is used in the 'From The Keep' dispatch on the home page. Only one article should be featured at a time.",
+        "When on, this article becomes the Intel card in the 'From The Keep' section on the home page. Only one Intel article should be featured at a time — if multiple are on, the most recently published wins.",
       initialValue: false,
-    }),
-    defineField({
-      name: "featuredAsFlagship",
-      title: "Feature as flagship (Intel Library)",
-      type: "boolean",
-      description:
-        "When on, this article fills the large flagship card on the home page under Intel Library. Only one article should be featured at a time.",
-      initialValue: false,
-    }),
-    defineField({
-      name: "flagshipTier",
-      title: "Flagship tier label",
-      type: "string",
-      description: 'Shown on the flagship card, e.g. "Flagship Report". Leave empty to use the default.',
-    }),
-    defineField({
-      name: "flagshipPageCount",
-      title: "Flagship page count",
-      type: "number",
-      description: "Optional. Shown in the meta line on the home page flagship card.",
-      validation: (Rule) => Rule.min(1).integer(),
-    }),
-    defineField({
-      name: "flagshipReleaseLabel",
-      title: "Flagship release label",
-      type: "string",
-      description:
-        'Optional. E.g. "Released this quarter". If empty, the article publish date is used in the meta line.',
     }),
     defineField({
       name: "seoTitle",
@@ -114,11 +86,11 @@ export const intelArticle = defineType({
       title: "title",
       media: "mainImage",
       date: "publishedAt",
-      flagship: "featuredAsFlagship",
+      featuredOnHome: "featuredOnHome",
     },
-    prepare({ title, media, date, flagship }) {
+    prepare({ title, media, date, featuredOnHome }) {
       const parts: string[] = [];
-      if (flagship) parts.push("Flagship");
+      if (featuredOnHome) parts.push("On home");
       if (date) {
         parts.push(
           new Date(date).toLocaleDateString(undefined, {

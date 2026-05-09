@@ -90,6 +90,23 @@ export const flagshipReport = defineType({
         "When on, this report appears in the large flagship card under Intel Library on the home page. When off, it is hidden from that slot (the page still works at its URL). Only one report should be featured at a time.",
       initialValue: false,
     }),
+    defineField({
+      name: "seoTitle",
+      title: "Meta title (SEO)",
+      type: "string",
+      description: "Optional. Used for the browser tab and search results. Falls back to the report title when empty.",
+      validation: (Rule) => Rule.max(70).warning("Keep under ~70 characters for search results."),
+    }),
+    defineField({
+      name: "seoDescription",
+      title: "Meta description (SEO)",
+      type: "text",
+      rows: 3,
+      description:
+        "Optional. Used for the page meta description and social previews. Falls back to the summary when empty.",
+      validation: (Rule) =>
+        Rule.max(160).warning("Keep under ~160 characters for search snippets."),
+    }),
   ],
   preview: {
     select: {

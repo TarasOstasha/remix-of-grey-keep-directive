@@ -10,7 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { getIntelFromSanity, type IntelCard } from "@/lib/sanity/intel";
-import { getStoriesFromSanity, type StoryCard } from "@/lib/sanity/stories";
+import { getStoriesFromSanity, type StoryCard, type StorySeriesCard } from "@/lib/sanity/stories";
 import {
   getFlagshipReportFromSanity,
   resolveHomeFlagshipFromFeaturedReport,
@@ -31,7 +31,12 @@ export const Route = createFileRoute("/")({
       getFlagshipReportFromSanity(),
     ]);
     const homeFlagship = resolveHomeFlagshipFromFeaturedReport(flagshipReport);
-    return { intelArticles, stories: storiesResult.stories, homeFlagship };
+    return {
+      intelArticles,
+      stories: storiesResult.stories,
+      series: storiesResult.series,
+      homeFlagship,
+    };
   },
   // Re-run on every navigation so editorial changes in Sanity show up without a hard refresh.
   staleTime: 0,
@@ -169,6 +174,58 @@ function pickFeaturedIntel(articles: IntelCard[]): IntelCard | null {
   return methodArticles[0] ?? articles[0];
 }
 
+type SplitCard = {
+  key: string;
+  fallbackImg: string;
+  imageUrl: string | null;
+  imageAlt: string;
+  eyebrow: string;
+  title: string;
+  sub: string;
+  cta: string;
+} & (
+  | { to: "/intel/$slug"; params: { slug: string } }
+  | { to: "/stories/series/$seriesSlug"; params: { seriesSlug: string } }
+);
+
+function buildSplitCards(intel: IntelCard[], series: StorySeriesCard[]): SplitCard[] {
+  const cards: SplitCard[] = [];
+
+  const featuredIntel = pickFeaturedIntel(intel);
+  if (featuredIntel) {
+    cards.push({
+      key: featuredIntel._id,
+      fallbackImg: watchtowerImg,
+      imageUrl: featuredIntel.mainImageUrl,
+      imageAlt: featuredIntel.mainImageAlt ?? featuredIntel.title,
+      eyebrow: featuredIntel.tags?.[0] ?? "Intel",
+      title: featuredIntel.title,
+      sub: truncateWithEllipsis(featuredIntel.summary ?? "", 140),
+      cta: "Read the assessment",
+      to: "/intel/$slug",
+      params: { slug: featuredIntel.slug },
+    });
+  }
+
+  const featuredSeries = series.find((entry) => entry.featuredOnHome);
+  if (featuredSeries) {
+    cards.push({
+      key: featuredSeries._id,
+      fallbackImg: keepImg,
+      imageUrl: featuredSeries.mainImageUrl,
+      imageAlt: featuredSeries.mainImageAlt ?? featuredSeries.title,
+      eyebrow: "A Series · Stories",
+      title: featuredSeries.title,
+      sub: truncateWithEllipsis(featuredSeries.premise ?? "", 140),
+      cta: "Enter the series",
+      to: "/stories/series/$seriesSlug",
+      params: { seriesSlug: featuredSeries.slug },
+    });
+  }
+
+  return cards;
+}
+
 function buildDispatches(stories: StoryCard[], intel: IntelCard[]): Dispatch[] {
   const dispatches: Dispatch[] = [];
 
@@ -212,9 +269,10 @@ function buildDispatches(stories: StoryCard[], intel: IntelCard[]): Dispatch[] {
 }
 
 function Index() {
-  const { intelArticles, stories, homeFlagship } = Route.useLoaderData();
+  const { intelArticles, stories, series, homeFlagship } = Route.useLoaderData();
   const featuredIntelArticles = intelArticles.slice(0, 12);
   const dispatches = buildDispatches(stories, intelArticles);
+  const splitCards = buildSplitCards(intelArticles, series);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -496,57 +554,56 @@ function Index() {
         </div>
       </section>
 
-      {/* SPLIT CARDS - Intel & Stories, each with its own visual identity */}
-      <section className="py-24 md:py-32 border-t border-border">
-        <div className="container-keep grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[
-            {
-              img: watchtowerImg,
-              eyebrow: "Intel",
-              title: "AI in the Shadows",
-              sub: "How model-assisted intrusion is quietly reshaping the contest.",
-              cta: "Read the assessment",
-              linkTo: "/intel/$slug" as const,
-              linkParams: { slug: "ai-in-the-shadows" },
-            },
-            {
-              img: keepImg,
-              eyebrow: "A Series · Stories",
-              title: "Acheron",
-              sub: "A cyber-espionage saga, written from the inside of the room.",
-              cta: "Enter the series",
-              linkTo: "/stories/series/$seriesSlug" as const,
-              linkParams: { seriesSlug: "acheron" },
-            },
-          ].map((card, i) => (
-            <Reveal key={card.title} delay={i * 140}>
-              <article className="group relative aspect-[4/5] overflow-hidden rounded-md border border-border">
-                <img
-                  src={card.img}
-                  alt={card.title}
-                  width={1280}
-                  height={1600}
-                  loading="lazy"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-10">
-                  <p className="eyebrow eyebrow-gold mb-4">{card.eyebrow}</p>
-                  <h3 className="display text-4xl md:text-6xl leading-[0.95] mb-4">{card.title}</h3>
-                  <p className="text-lg text-muted-foreground mb-8 max-w-md">{card.sub}</p>
-                  <Link
-                    to={card.linkTo}
-                    params={card.linkParams}
-                    className="btn-pill btn-pill-ghost"
-                  >
-                    {card.cta}
-                  </Link>
-                </div>
-              </article>
-            </Reveal>
-          ))}
-        </div>
-      </section>
+      {/* SPLIT CARDS - one Intel, one Story series — both Sanity-driven via "Feature on home page" toggles */}
+      {splitCards.length > 0 ? (
+        <section className="py-24 md:py-32 border-t border-border">
+          <div
+            className={`container-keep grid grid-cols-1 gap-6 ${splitCards.length === 2 ? "md:grid-cols-2" : ""}`}
+          >
+            {splitCards.map((card, i) => (
+              <Reveal key={card.key} delay={i * 140}>
+                <article className="group relative aspect-[4/5] overflow-hidden rounded-md border border-border">
+                  <img
+                    src={card.imageUrl ?? card.fallbackImg}
+                    alt={card.imageAlt}
+                    width={1280}
+                    height={1600}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-10">
+                    <p className="eyebrow eyebrow-gold mb-4">{card.eyebrow}</p>
+                    <h3 className="display text-4xl md:text-6xl leading-[0.95] mb-4">
+                      {card.title}
+                    </h3>
+                    {card.sub ? (
+                      <p className="text-lg text-muted-foreground mb-8 max-w-md">{card.sub}</p>
+                    ) : null}
+                    {card.to === "/intel/$slug" ? (
+                      <Link
+                        to="/intel/$slug"
+                        params={card.params}
+                        className="btn-pill btn-pill-ghost"
+                      >
+                        {card.cta}
+                      </Link>
+                    ) : (
+                      <Link
+                        to="/stories/series/$seriesSlug"
+                        params={card.params}
+                        className="btn-pill btn-pill-ghost"
+                      >
+                        {card.cta}
+                      </Link>
+                    )}
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       {/* HOW WE HELP - specific promises, not generic verbs */}
       <section id="how-we-help" className="py-24 md:py-32 border-t border-border">

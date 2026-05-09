@@ -46,6 +46,7 @@ export type StorySeriesCard = {
   title: string;
   slug: string;
   premise: string | null;
+  featuredOnHome: boolean;
   mainImageUrl: string | null;
   mainImageAlt: string | null;
 };
@@ -93,6 +94,7 @@ export async function getStoriesFromSanity() {
         title,
         "slug": slug.current,
         premise,
+        "featuredOnHome": coalesce(featuredOnHome, false),
         "mainImageUrl": mainImage.asset->url,
         "mainImageAlt": mainImage.alt
       }`,
@@ -116,7 +118,9 @@ export async function getStoriesFromSanity() {
 
   return {
     stories: mappedStories,
-    series: (series ?? []).filter((entry) => entry.slug),
+    series: (series ?? [])
+      .filter((entry) => entry.slug)
+      .map((entry) => ({ ...entry, featuredOnHome: entry.featuredOnHome ?? false })),
   };
 }
 

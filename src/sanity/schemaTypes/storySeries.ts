@@ -38,15 +38,25 @@ export const storySeries = defineType({
       type: "text",
       rows: 5,
     }),
+    defineField({
+      name: "featuredOnHome",
+      title: "Feature on home page",
+      type: "boolean",
+      description:
+        "When on, this series fills the right-hand 'Story series' card on the home page. Only one series should be featured at a time — if multiple are on, the first by title wins.",
+      initialValue: false,
+    }),
   ],
   preview: {
     select: {
       title: "title",
       media: "mainImage",
+      featuredOnHome: "featuredOnHome",
     },
-    prepare({ title, media }) {
+    prepare({ title, media, featuredOnHome }) {
       return {
         title: title || "Untitled",
+        subtitle: featuredOnHome ? "On home" : undefined,
         media,
       };
     },
