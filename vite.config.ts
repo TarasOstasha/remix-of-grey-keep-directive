@@ -7,7 +7,8 @@
 //
 // For Vercel: `cloudflare: false` disables the Workers bundle; Nitro's `vercel` preset emits
 // the output Vercel expects (see https://vercel.com/docs/frameworks/full-stack/tanstack-start).
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+// Use ESM entry: package `main` is CJS and `require("vite")` fails against Vite 7 (ESM-only).
+import { defineConfig } from "@lovable.dev/vite-tanstack-config/dist/index.js";
 import { nitro } from "nitro/vite";
 
 export default defineConfig({
