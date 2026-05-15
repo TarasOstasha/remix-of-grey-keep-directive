@@ -37,13 +37,15 @@ function AdvisoryPage() {
           <Reveal delay={120}>
             <p className="mt-8 text-base md:text-xl text-muted-foreground leading-relaxed max-w-4xl">
               Strategic advisory from Gray Keep is built for leadership teams who need to see
-              clearly in the fog. We do not sell ongoing retainer relationships or dashboards.
-              We deliver discrete engagements: situation briefs, source validation, scenario
-              framing, and red-team style stress-testing.
+              clearly in the fog. Gray Keep Advisory is not a managed monitoring service. Our
+              advisory work is built around discrete, high-trust engagements: situation briefs,
+              source validation, scenario framing, executive threat context, and decision support
+              for leaders operating under uncertainty. We deliver discrete engagements: situation
+              briefs, source validation, scenario framing, and red-team style stress-testing.
             </p>
             <p className="mt-6 text-base md:text-xl text-muted-foreground leading-relaxed max-w-4xl">
-              Every engagement is scoped in advance. Deliverables are written. We cite what we
-              use and distinguish between fact and inference. No advocacy, just clarity.
+              Every engagement is scoped in advance. Deliverables are written. We cite what we use
+              and distinguish between fact and inference. No advocacy, just clarity.
             </p>
           </Reveal>
 
@@ -70,7 +72,10 @@ function AdvisoryPage() {
             <div className="mt-14 pt-10 border-t border-border">
               <p className="text-xl text-muted-foreground">
                 For inquiries, reach out at{" "}
-                <a className="text-foreground underline underline-offset-4" href="mailto:advisory@graykeep.com">
+                <a
+                  className="text-foreground underline underline-offset-4"
+                  href="mailto:advisory@graykeep.com"
+                >
                   advisory@graykeep.com
                 </a>
               </p>

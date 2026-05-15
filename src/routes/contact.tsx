@@ -19,8 +19,8 @@ function ContactPage() {
           </Reveal>
           <Reveal delay={120}>
             <p className="mt-8 text-base md:text-xl text-muted-foreground leading-relaxed max-w-3xl">
-              Reach out for advisory inquiries, press, or general correspondence. We read
-              everything and respond to what merits a reply.
+              Reach out for advisory inquiries, speaking requests, press, partnerships, or general
+              correspondence. We review every message and respond where there is a clear fit.
             </p>
           </Reveal>
 

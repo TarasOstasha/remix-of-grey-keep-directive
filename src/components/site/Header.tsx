@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import logoMark from "@/assets/logo200.png";
@@ -13,6 +13,11 @@ const NAV = [
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
 ];
+
+function isNavActive(pathname: string, to: string) {
+  if (pathname === to) return true;
+  return to !== "/" && pathname.startsWith(`${to}/`);
+}
 
 const MENU_DURATION_MS = 400;
 
@@ -29,6 +34,7 @@ function usePrefersReducedMotion() {
 }
 
 export function Header() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileMounted, setMobileMounted] = useState(false);
@@ -115,15 +121,24 @@ export function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-9">
-          {NAV.map((item) => (
-            <Link
-              key={item.label}
-              to={item.to}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {item.label}
-            </Link>
-          ))}
+          {NAV.map((item) => {
+            const active = isNavActive(pathname, item.to);
+            return (
+              <Link
+                key={item.label}
+                to={item.to}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "text-sm transition-colors",
+                  active
+                    ? "text-foreground font-medium"
+                    : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="hidden md:block">
@@ -202,45 +217,51 @@ export function Header() {
               </div>
 
               <nav className="flex min-h-0 flex-1 flex-col items-start gap-8 overflow-y-auto text-left">
-                {NAV.map((item, index) => (
-                  <Fragment key={item.label}>
-                    <Link
-                      to={item.to}
-                      onClick={closeMobileMenu}
-                      className={cn(
-                        "text-left text-xl font-light tracking-[0.02em] text-foreground/75 transition-[opacity,transform] motion-reduce:duration-150 sm:text-2xl",
-                        "hover:text-foreground",
-                        linkReveal ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0",
-                      )}
-                      style={{
-                        transitionDuration: reduceMotion ? "150ms" : "260ms",
-                        transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
-                        transitionDelay:
-                          reduceMotion || !linkReveal ? "0ms" : `${90 + index * 42}ms`,
-                      }}
-                    >
-                      {item.label}
-                    </Link>
-                    {item.to === "/contact" && (
+                {NAV.map((item, index) => {
+                  const active = isNavActive(pathname, item.to);
+                  return (
+                    <Fragment key={item.label}>
                       <Link
-                        to="/contact"
+                        to={item.to}
                         onClick={closeMobileMenu}
+                        aria-current={active ? "page" : undefined}
                         className={cn(
-                          "btn-pill btn-pill-primary w-fit shrink-0 self-start transition-[opacity,transform] motion-reduce:duration-150",
+                          "text-left text-xl tracking-[0.02em] transition-[opacity,transform] motion-reduce:duration-150 sm:text-2xl",
+                          active
+                            ? "font-medium text-foreground"
+                            : "font-light text-foreground/75 hover:text-foreground",
                           linkReveal ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0",
                         )}
                         style={{
                           transitionDuration: reduceMotion ? "150ms" : "260ms",
                           transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
                           transitionDelay:
-                            reduceMotion || !linkReveal ? "0ms" : `${90 + (index + 1) * 42}ms`,
+                            reduceMotion || !linkReveal ? "0ms" : `${90 + index * 42}ms`,
                         }}
                       >
-                        Enter the Keep
+                        {item.label}
                       </Link>
-                    )}
-                  </Fragment>
-                ))}
+                      {item.to === "/contact" && (
+                        <Link
+                          to="/contact"
+                          onClick={closeMobileMenu}
+                          className={cn(
+                            "btn-pill btn-pill-primary w-fit shrink-0 self-start transition-[opacity,transform] motion-reduce:duration-150",
+                            linkReveal ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0",
+                          )}
+                          style={{
+                            transitionDuration: reduceMotion ? "150ms" : "260ms",
+                            transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+                            transitionDelay:
+                              reduceMotion || !linkReveal ? "0ms" : `${90 + (index + 1) * 42}ms`,
+                          }}
+                        >
+                          Enter the Keep
+                        </Link>
+                      )}
+                    </Fragment>
+                  );
+                })}
               </nav>
             </div>
           </div>

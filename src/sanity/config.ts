@@ -1,9 +1,21 @@
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 
+import { elevateDestructiveActionsToDocumentMenu } from "./documentActions";
 import { schemaTypes } from "./schemaTypes";
 
-function readEnv(name: "VITE_SANITY_PROJECT_ID" | "SANITY_PROJECT_ID" | "NEXT_PUBLIC_SANITY_PROJECT_ID" | "VITE_SANITY_DATASET" | "SANITY_DATASET" | "NEXT_PUBLIC_SANITY_DATASET" | "VITE_SANITY_API_VERSION" | "SANITY_API_VERSION" | "NEXT_PUBLIC_SANITY_API_VERSION") {
+function readEnv(
+  name:
+    | "VITE_SANITY_PROJECT_ID"
+    | "SANITY_PROJECT_ID"
+    | "NEXT_PUBLIC_SANITY_PROJECT_ID"
+    | "VITE_SANITY_DATASET"
+    | "SANITY_DATASET"
+    | "NEXT_PUBLIC_SANITY_DATASET"
+    | "VITE_SANITY_API_VERSION"
+    | "SANITY_API_VERSION"
+    | "NEXT_PUBLIC_SANITY_API_VERSION",
+) {
   const value = import.meta.env[name];
   return typeof value === "string" && value.length > 0 ? value : undefined;
 }
@@ -38,6 +50,9 @@ export const studioConfig = defineConfig({
   dataset: dataset ?? "",
   apiVersion,
   plugins: [structureTool()],
+  document: {
+    actions: (previous) => elevateDestructiveActionsToDocumentMenu(previous),
+  },
   schema: {
     types: schemaTypes,
   },

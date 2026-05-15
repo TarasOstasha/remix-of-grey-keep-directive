@@ -55,7 +55,7 @@ const INSIGHTS = [
     n: "02",
     kicker: "Threat Landscape",
     title: "The actors, in their own words.",
-    body: "Primary-source assessments of state, criminal, and proxy operators - translated, contextualised, and stripped of vendor framing.",
+    body: "Primary-source assessments of state, criminal, and proxy operators - translated, contextualized, and stripped of vendor framing.",
   },
   {
     n: "03",
@@ -76,7 +76,7 @@ const DISPATCHES = [
     n: "02",
     tier: "Dispatch",
     title: "Critical Infrastructure",
-    body: "Where the exposure is real, where it is theatre, and what changed this month.",
+    body: "Where the exposure is real, where it is theater, and what changed this month.",
   },
   {
     n: "03",
@@ -91,27 +91,25 @@ const HELP = [
     n: "01",
     verb: "Brief",
     line: "Boards and executives.",
-    detail:
-      "Closed-room briefings on cyber, geopolitics, and the questions your team is not yet asking.",
+    detail: "Focused intelligence briefs written for decision-makers.",
   },
   {
     n: "02",
     verb: "Translate",
     line: "Narrative risk.",
-    detail:
-      "Turning ambiguous threat reporting into language a CEO, a regulator, or a journalist can act on.",
+    detail: "Complex threat activity translated into clear executive context.",
   },
   {
     n: "03",
     verb: "Frame",
     line: "Geopolitical cyber.",
-    detail: "Strategic context for decisions that sit between technology, policy, and reputation.",
+    detail: "Scenario framing for leaders operating under uncertainty.",
   },
   {
     n: "04",
     verb: "Stand",
     line: "Beside the principal.",
-    detail: "Quiet, retained advisory for founders, principals, and senior leaders under pressure.",
+    detail: "Clear judgment without noise, panic, or false certainty.",
   },
 ];
 
@@ -301,11 +299,12 @@ function Index() {
             <div className="lg:col-span-4 lg:pb-6">
               <Reveal delay={220}>
                 <p className="text-lg md:text-xl text-foreground leading-snug max-w-sm">
-                  Predictive Cyber Intelligence for an AI-Shaped Threat Landscape
+                  Predictive Cyber Intelligence for an Uncertain World
                 </p>
                 <p className="mt-5 text-base text-muted-foreground leading-relaxed max-w-sm">
-                  Gray Keep delivers strategic intelligence and advisory context for leaders making
-                  decisions in fast-changing cyber and geopolitical environments.
+                  Gray Keep delivers strategic intelligence, narrative analysis, and advisory
+                  context for leaders making decisions in fast-changing cyber and geopolitical
+                  environments.
                 </p>
                 <div className="mt-10 flex flex-wrap items-center gap-3">
                   <Link to="/intel" className="btn-pill btn-pill-primary">
@@ -357,9 +356,7 @@ function Index() {
               <Reveal>
                 <p className="eyebrow mb-6">Featured</p>
                 <h2 className="display text-4xl md:text-6xl text-foreground leading-[1.02]">
-                  Three currents
-                  <br />
-                  worth tracking.
+                  Currents worth tracking
                 </h2>
               </Reveal>
             </div>
@@ -463,7 +460,7 @@ function Index() {
             <div className="lg:col-span-4 lg:pt-4">
               <Reveal delay={140}>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  Flagship reports, recurring dispatches, and our own methods - organised so
+                  Flagship reports, recurring dispatches, and our own methods - organized so
                   analysts and executives can find what they need and trust how it was made.
                 </p>
               </Reveal>
@@ -691,7 +688,7 @@ function Index() {
                 },
                 {
                   format: "Boardroom",
-                  desc: "Executive and board briefings, delivered in plain language with no slide theatre.",
+                  desc: "Executive and board briefings, delivered in plain language with no slide theater.",
                 },
                 {
                   format: "Private",
@@ -722,7 +719,7 @@ function Index() {
                 Request availability
               </Link>
               <Link to="/advisory" className="btn-pill btn-pill-ghost">
-                Advisory enquiries
+                Advisory inquiries
               </Link>
             </div>
           </Reveal>

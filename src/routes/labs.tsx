@@ -14,7 +14,10 @@ export const Route = createFileRoute("/labs")({
         content:
           "Gray Keep Labs is our research and development space for future cyber intelligence capabilities - AI-aware defense, predictive risk, and executive decision support.",
       },
-      { property: "og:title", content: "Gray Keep Labs - Building the next layer of cyber intelligence" },
+      {
+        property: "og:title",
+        content: "Gray Keep Labs - Building the next layer of cyber intelligence",
+      },
       {
         property: "og:description",
         content:
@@ -76,11 +79,11 @@ function LabsPage() {
             </Reveal>
             <Reveal className="lg:col-span-8">
               <p className="font-serif text-2xl md:text-3xl lg:text-4xl text-foreground leading-snug tracking-tight">
-                Gray Keep Labs is our research and development space for future cyber
-                intelligence capabilities. We are exploring the next generation of AI-aware
-                defense, predictive risk assessment, adversarial modeling, and executive
-                decision support - for a world where digital systems act faster than
-                traditional security models can govern.
+                Gray Keep Labs is the company’s research and product development arm. It exists to
+                explore emerging risk, build internal prototypes, test analytical methods, and
+                prepare future software capabilities that extend Gray Keep’s intelligence work into
+                more operational forms. Public details will remain limited until the product layer
+                is ready for release.
               </p>
             </Reveal>
           </div>
@@ -147,8 +150,8 @@ function LabsPage() {
             </Reveal>
             <Reveal className="lg:col-span-8">
               <p className="font-serif text-2xl md:text-3xl text-foreground leading-snug tracking-tight">
-                Select Gray Keep Labs initiatives will be shared with trusted partners and
-                early collaborators first.
+                Select Gray Keep Labs initiatives will be shared with trusted partners and early
+                collaborators first.
               </p>
               <p className="mt-6 text-base text-muted-foreground leading-relaxed max-w-xl">
                 More will be revealed selectively, when the work is ready to stand on its own.
@@ -171,8 +174,12 @@ function LabsPage() {
                 </h3>
               </div>
               <div className="lg:col-span-4 flex flex-wrap gap-3 lg:justify-end">
-                <Link to="/contact" className="btn-pill btn-pill-gold">Request Early Access</Link>
-                <Link to="/contact" className="btn-pill btn-pill-ghost">Contact Gray Keep</Link>
+                <Link to="/contact" className="btn-pill btn-pill-gold">
+                  Request Early Access
+                </Link>
+                <Link to="/contact" className="btn-pill btn-pill-ghost">
+                  Contact Gray Keep
+                </Link>
               </div>
             </div>
           </div>

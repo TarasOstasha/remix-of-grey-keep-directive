@@ -70,7 +70,7 @@ function IntelPage() {
           <Reveal>
             <p className="eyebrow mb-6">Intel Library</p>
             <h1 className="display text-4xl md:text-6xl leading-[1.02] max-w-4xl">
-              Reporting that separates signal from theatre.
+              Reporting that separates signal from theater.
             </h1>
           </Reveal>
           <Reveal delay={120}>
