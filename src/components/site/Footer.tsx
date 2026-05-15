@@ -1,3 +1,6 @@
+import { Link } from "@tanstack/react-router";
+import logoMark from "@/assets/logo200.png";
+
 export function Footer() {
   return (
     <footer className="border-t border-border mt-24">
@@ -9,22 +12,28 @@ export function Footer() {
       </div>
 
       <div className="border-t border-border">
-        <div className="container-keep py-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="container-keep py-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-gold shadow-[0_0_10px_var(--gold)]" />
-            <span className="display text-base tracking-tight">Gray Keep</span>
-            <span className="text-sm text-muted-foreground hidden md:inline">
+            <Link to="/" className="flex items-center gap-3 group shrink-0">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-gold shadow-[0_0_10px_var(--gold)]" />
+              <img
+                src={logoMark}
+                alt="Gray Keep"
+                className="h-12 w-auto object-contain object-left md:h-14"
+              />
+            </Link>
+            {/* <span className="text-sm text-muted-foreground hidden md:inline">
               The Keep Stands
-            </span>
+            </span> */}
           </div>
 
           <div className="flex items-center gap-8 text-sm text-muted-foreground">
             <a href="#" className="hover:text-foreground transition-colors">
               Privacy
             </a>
-            <a href="#" className="hover:text-foreground transition-colors">
+            <Link to="/contact" className="hover:text-foreground transition-colors">
               Contact
-            </a>
+            </Link>
             <span className="hidden md:inline">
               © 2026 Gray Keep. All rights reserved.
             </span>
