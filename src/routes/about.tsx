@@ -40,8 +40,8 @@ function AboutPage() {
                 <h2 className="display text-3xl md:text-4xl mb-5">Why we do this</h2>
                 <p className="text-base md:text-xl text-muted-foreground leading-relaxed">
                   The fog of modern threat landscapes is real: too much noise, too little signal.
-                  Too many dashboards, too few decisions. Gray Keep was built to cut through that
-                  with rigor, narrative, and a commitment to no comfort in place of reality.
+                  Gray Keep exists to cut through that with disciplined analysis, narrative clarity,
+                  and structured judgment.
                 </p>
               </div>
             </Reveal>
@@ -52,8 +52,9 @@ function AboutPage() {
                 <p className="text-base md:text-xl text-muted-foreground leading-relaxed">
                   We serve leadership teams and decision-makers who need to see clearly: CISOs,
                   boards, founders, and operators who would rather read one sharp report than scroll
-                  through a feed. We do not do real-time monitoring or alerting. We do context,
-                  assessment, and clarity.
+                  through a feed. We serve leadership teams and decision-makers operating in
+                  fast-changing cyber and geopolitical environments. Gray Keep focuses on context,
+                  assessment, and strategic clarity.
                 </p>
               </div>
             </Reveal>

@@ -8,7 +8,7 @@ import { Link } from "@tanstack/react-router";
 export const Route = createFileRoute("/labs")({
   head: () => ({
     meta: [
-      { title: "Gray Keep Labs - Building the next layer of cyber intelligence" },
+      { title: "Gray Keep Labs - Researching the next layer of cyber intelligence" },
       {
         name: "description",
         content:
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/labs")({
       },
       {
         property: "og:title",
-        content: "Gray Keep Labs - Building the next layer of cyber intelligence",
+        content: "Gray Keep Labs - Researching the next layer of cyber intelligence",
       },
       {
         property: "og:description",
@@ -53,7 +53,7 @@ function LabsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-end">
             <Reveal className="lg:col-span-8">
               <h1 className="display text-5xl md:text-7xl lg:text-8xl text-foreground">
-                Building the next layer of <span className="text-gold">cyber intelligence.</span>
+                Researching the next layer of <span className="text-gold">cyber intelligence.</span>
               </h1>
             </Reveal>
             <Reveal className="lg:col-span-4">
@@ -107,20 +107,20 @@ function LabsPage() {
           <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-px bg-border">
             {[
               {
-                k: "AI-aware defense",
-                b: "Security postures designed for environments where adversaries - and defenders - operate at model speed.",
+                k: "Research methods",
+                b: "Exploring analytical approaches for fast-changing threat environments.",
               },
               {
-                k: "Predictive risk",
-                b: "Moving from incident response to forward assessment: surfacing the exposure before it becomes the event.",
+                k: "Scenario analysis",
+                b: "Testing structured ways of understanding uncertainty and escalation.",
               },
               {
-                k: "Adversarial modeling",
-                b: "Studying how state, criminal, and emerging actors adapt their tradecraft as the underlying systems change.",
+                k: "Narrative systems",
+                b: "Studying how information, perception, and behavior interact across digital environments.",
               },
               {
-                k: "Executive decision support",
-                b: "Tools and frames built for the people who must decide quickly, with incomplete information, and own the outcome.",
+                k: "Operational research",
+                b: "Building internal frameworks that support future intelligence capabilities.",
               },
             ].map((row) => (
               <div

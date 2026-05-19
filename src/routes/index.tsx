@@ -81,7 +81,7 @@ const DISPATCHES = [
   {
     n: "03",
     tier: "Method",
-    title: "AI-Powered Attacks",
+    title: "AI-Enabled Tradecraft",
     body: "How we assess model-assisted intrusions without inflating the threat or dismissing it.",
   },
 ];
@@ -108,7 +108,7 @@ const HELP = [
   {
     n: "04",
     verb: "Stand",
-    line: "Beside the principal.",
+    line: "Stand Clarity under pressure.",
     detail: "Clear judgment without noise, panic, or false certainty.",
   },
 ];
@@ -672,8 +672,9 @@ function Index() {
               </Reveal>
               <Reveal delay={200}>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  Ability to conduct research and to navigate complex threat landscapes in multiple
-                  languages, getting and analyzing the best data from the source itself, directly.
+                  {/* Ability to conduct research and to navigate complex threat landscapes in multiple
+                  languages, getting and analyzing the best data from the source itself, directly. */}
+                  Research informed by multilingual sources, regional context, and structured analytical methods.
                 </p>
               </Reveal>
             </div>
