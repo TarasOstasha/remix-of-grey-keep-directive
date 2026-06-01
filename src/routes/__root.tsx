@@ -33,21 +33,23 @@ export const Route = createRootRoute({
       {
         name: "description",
         content:
-          "Gray Keep delivers cinematic cyber intelligence, advisory, and research for leaders navigating a contested digital era.",
+          "Gray Keep delivers strategic cyber intelligence, advisory, and narrative analysis for leaders navigating uncertainty.",
       },
       { name: "author", content: "Gray Keep" },
       { property: "og:title", content: "Gray Keep - Cyber Intelligence for an Uncertain World" },
       {
         property: "og:description",
         content:
-          "Quiet intelligence for an uncertain world. Research, advisory, and stories from the edge of the network.",
+          "Strategic intelligence for an uncertain world. Reporting, stories, and advisory built for clear judgment.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Gray Keep - Cyber Intelligence for an Uncertain World" },
-      { name: "description", content: "Gray Keep Directive offers a premium, dark cinematic website experience inspired by anthropic.com's clarity." },
-      { property: "og:description", content: "Gray Keep Directive offers a premium, dark cinematic website experience inspired by anthropic.com's clarity." },
-      { name: "twitter:description", content: "Gray Keep Directive offers a premium, dark cinematic website experience inspired by anthropic.com's clarity." },
+      {
+        name: "twitter:description",
+        content:
+          "Strategic intelligence for an uncertain world. Reporting, stories, and advisory built for clear judgment.",
+      },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/J0hntSB55dN8cbdJ3xUcfA2iXEo1/social-images/social-1776735364298-replicate-prediction-knv05a1bk1rmr0cxnnha53snqm.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/J0hntSB55dN8cbdJ3xUcfA2iXEo1/social-images/social-1776735364298-replicate-prediction-knv05a1bk1rmr0cxnnha53snqm.webp" },
     ],

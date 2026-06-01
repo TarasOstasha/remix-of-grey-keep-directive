@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
@@ -11,16 +11,16 @@ export const Route = createFileRoute("/advisory")({
 function AdvisoryPage() {
   const offerings = [
     {
-      title: "Situation briefs",
-      body: "Structured briefings on specific questions or regions. Clear, cited, and delivered in writing so your team can act on what they read.",
+      title: "Situation Briefs",
+      body: "Structured briefings on a specific question, region, actor set, incident pattern, or risk horizon. Clear, cited, written for decision-makers, and delivered in a form your team can use.",
     },
     {
-      title: "Source & methodology review",
-      body: "We review internal or external reports for source quality, reasoning, and gaps. You get a concise assessment and recommendations.",
+      title: "Source and Methodology Review",
+      body: "Independent review of internal or external reporting for source quality, reasoning, assumptions, gaps, and confidence language. You receive a concise assessment and recommendations for strengthening the work.",
     },
     {
-      title: "Scenario development & stress-testing",
-      body: "Scenario development and red-team style stress-testing. We help you see around the corner before the threat arrives.",
+      title: "Scenario Development and Stress-Testing",
+      body: "Scenario framing and red-team style stress-testing for leaders who need to think ahead of the immediate event. The goal is not prediction theater. The goal is better preparation under uncertainty.",
     },
   ];
 
@@ -36,16 +36,23 @@ function AdvisoryPage() {
           </Reveal>
           <Reveal delay={120}>
             <p className="mt-8 text-base md:text-xl text-muted-foreground leading-relaxed max-w-4xl">
-              Strategic advisory from Gray Keep is built for leadership teams who need to see
-              clearly in the fog. Gray Keep Advisory is not a managed monitoring service. Our
-              advisory work is built around discrete, high-trust engagements: situation briefs,
-              source validation, scenario framing, executive threat context, and decision support
-              for leaders operating under uncertainty. We deliver discrete engagements: situation
-              briefs, source validation, scenario framing, and red-team style stress-testing.
+              Gray Keep Advisory is built for leadership teams that need clear judgment in the fog:
+              boards, executives, founders, security leaders, investors, and operators facing cyber
+              and geopolitical uncertainty.
             </p>
             <p className="mt-6 text-base md:text-xl text-muted-foreground leading-relaxed max-w-4xl">
-              Every engagement is scoped in advance. Deliverables are written. We cite what we use
-              and distinguish between fact and inference. No advocacy, just clarity.
+              This is not managed monitoring, incident response, or outsourced threat feeds.
+              Advisory work is discrete, high-trust, and scoped around a specific decision,
+              question, or risk horizon.
+            </p>
+            <p className="mt-6 text-base md:text-xl text-muted-foreground leading-relaxed max-w-4xl">
+              Typical engagements include situation briefs, source and methodology review, scenario
+              framing, executive threat context, and red-team style stress-testing.
+            </p>
+            <p className="mt-6 text-base md:text-lg text-foreground leading-relaxed max-w-4xl">
+              Every engagement is scoped in advance. Deliverables are written. We cite what we use,
+              distinguish fact from inference, and state what remains uncertain. No advocacy. No
+              noise. Just clarity.
             </p>
           </Reveal>
 
@@ -69,21 +76,22 @@ function AdvisoryPage() {
           </Reveal>
 
           <Reveal delay={220}>
-            <div className="mt-14 pt-10 border-t border-border">
-              <p className="text-xl text-muted-foreground">
-                For inquiries, reach out at{" "}
+            <div className="mt-14 pt-10 border-t border-border max-w-4xl">
+              <p className="text-base md:text-xl text-muted-foreground leading-relaxed">
+                For advisory inquiries, send a short note describing the question, decision, or risk
+                horizon you are facing.
+              </p>
+              <p className="mt-6 text-base md:text-xl text-muted-foreground leading-relaxed">
+                We respond where there is a clear fit and where the work can be scoped with
+                integrity.
+              </p>
+              <p className="mt-8 text-xl text-muted-foreground">
                 <a
                   className="text-foreground underline underline-offset-4"
                   href="mailto:advisory@graykeep.com"
                 >
                   advisory@graykeep.com
                 </a>
-              </p>
-              <p className="mt-3 text-sm text-muted-foreground">
-                Or use our{" "}
-                <Link to="/contact" className="text-foreground hover:underline">
-                  contact form →
-                </Link>
               </p>
             </div>
           </Reveal>

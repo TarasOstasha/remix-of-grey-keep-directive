@@ -28,6 +28,13 @@ function truncateSummary(text: string | null, maxLength = 220) {
   return `${text.slice(0, maxLength).trimEnd()}...`;
 }
 
+function resolveIntelLabel(tags: string[]) {
+  const normalized = tags.map((tag) => tag.toLowerCase());
+  if (normalized.some((tag) => tag.includes("method"))) return "Method Note";
+  if (normalized.some((tag) => tag.includes("report") || tag.includes("flagship"))) return "Report";
+  return "Dispatch";
+}
+
 function IntelPage() {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
   const isIntelIndex = pathname === "/intel";
@@ -70,14 +77,14 @@ function IntelPage() {
           <Reveal>
             <p className="eyebrow mb-6">Intel Library</p>
             <h1 className="display text-4xl md:text-6xl leading-[1.02] max-w-4xl">
-              Reporting that separates signal from theater.
+              Reporting that separates signal from noise.
             </h1>
           </Reveal>
           <Reveal delay={120}>
             <p className="mt-8 text-base md:text-lg text-muted-foreground leading-relaxed max-w-3xl">
-              The Intel Library holds Gray Keep flagship reports, dispatches, and methods
-              notes focused on state-aligned operations, infrastructure risk, and AI-enabled
-              tradecraft.
+              The Intel Library holds Gray Keep flagship reports, dispatches, and method notes
+              focused on state-aligned operations, infrastructure risk, AI-enabled tradecraft, and
+              the trust pathways that connect cyber events to institutional consequence.
             </p>
           </Reveal>
         </Container>
@@ -122,29 +129,36 @@ function IntelPage() {
           </div>
 
           <div className="mt-10 divide-y divide-border border-y border-border">
-            {filteredArticles.map((article) => (
-              <Reveal key={article.slug}>
-                <Link
-                  to="/intel/$slug"
-                  params={{ slug: article.slug }}
-                  className="block px-2 py-6 md:py-8 transition-colors hover:bg-surface/30"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 md:gap-6 items-start">
-                    <div>
-                      <p className="eyebrow eyebrow-gold">{article.category}</p>
-                      <h2 className="display text-3xl leading-tight mt-2">{article.title}</h2>
-                      <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                        {truncateSummary(article.summary)}
-                      </p>
+            {filteredArticles.length === 0 ? (
+              <p className="px-2 py-8 text-base text-muted-foreground leading-relaxed">
+                No matching pieces yet. Try another term, clear the filters, or return to the full
+                library.
+              </p>
+            ) : (
+              filteredArticles.map((article) => (
+                <Reveal key={article.slug}>
+                  <Link
+                    to="/intel/$slug"
+                    params={{ slug: article.slug }}
+                    className="block px-2 py-6 md:py-8 transition-colors hover:bg-surface/30"
+                  >
+                    <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 md:gap-6 items-start">
+                      <div>
+                        <p className="eyebrow eyebrow-gold">{resolveIntelLabel(article.tags)}</p>
+                        <h2 className="display text-3xl leading-tight mt-2">{article.title}</h2>
+                        <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                          {truncateSummary(article.summary)}
+                        </p>
+                      </div>
+                      <div className="text-xs text-muted-foreground md:text-right whitespace-nowrap">
+                        <p>{formatPublicationDate(article.publishedAt)}</p>
+                        <p className="mt-1">{article.readingTimeMinutes} min read</p>
+                      </div>
                     </div>
-                    <div className="text-xs text-muted-foreground md:text-right whitespace-nowrap">
-                      <p>{formatPublicationDate(article.publishedAt)}</p>
-                      <p className="mt-1">{article.readingTimeMinutes} min read</p>
-                    </div>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
+                  </Link>
+                </Reveal>
+              ))
+            )}
           </div>
         </Container>
       </section>

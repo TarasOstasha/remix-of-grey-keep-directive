@@ -3,12 +3,28 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
 import { Container } from "@/components/site/Container";
+import { useState, type FormEvent } from "react";
 
 export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
 function ContactPage() {
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setStatus("idle");
+    try {
+      // Keep submission handling local until a backend endpoint is wired.
+      await Promise.resolve();
+      setStatus("success");
+      event.currentTarget.reset();
+    } catch {
+      setStatus("error");
+    }
+  };
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <Header />
@@ -18,16 +34,25 @@ function ContactPage() {
             <h1 className="display text-4xl md:text-6xl leading-[1.02]">Contact</h1>
           </Reveal>
           <Reveal delay={120}>
-            <p className="mt-8 text-base md:text-xl text-muted-foreground leading-relaxed max-w-3xl">
-              Reach out for advisory inquiries, speaking requests, press, partnerships, or general
-              correspondence. We review every message and respond where there is a clear fit.
-            </p>
+            <div className="mt-8 space-y-6 max-w-3xl">
+              <p className="text-base md:text-xl text-muted-foreground leading-relaxed">
+                Reach out for advisory inquiries, speaking requests, press, partnerships, research
+                conversations, or serious correspondence.
+              </p>
+              <p className="text-base md:text-xl text-muted-foreground leading-relaxed">
+                A useful note includes who you are, what question or request you are bringing, and
+                whether there is a decision timeline attached.
+              </p>
+              <p className="text-base md:text-xl text-muted-foreground leading-relaxed">
+                Every message is reviewed. Gray Keep responds where there is a clear fit.
+              </p>
+            </div>
           </Reveal>
 
           <Reveal delay={180}>
             <form
               className="mt-12 rounded-xl border border-border bg-card/50 p-8 md:p-10"
-              onSubmit={(event) => event.preventDefault()}
+              onSubmit={handleSubmit}
             >
               <div className="space-y-8">
                 <div>
@@ -39,6 +64,7 @@ function ContactPage() {
                     name="name"
                     type="text"
                     placeholder="Your name"
+                    required
                     className="w-full rounded-md border border-border bg-background px-4 py-3 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-gold"
                   />
                 </div>
@@ -52,6 +78,7 @@ function ContactPage() {
                     name="email"
                     type="email"
                     placeholder="you@company.com"
+                    required
                     className="w-full rounded-md border border-border bg-background px-4 py-3 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-gold"
                   />
                 </div>
@@ -68,6 +95,7 @@ function ContactPage() {
                     name="message"
                     rows={6}
                     placeholder="How can we help?"
+                    required
                     className="w-full rounded-md border border-border bg-background px-4 py-3 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-gold resize-y"
                   />
                 </div>
@@ -77,8 +105,26 @@ function ContactPage() {
                 type="submit"
                 className="mt-8 inline-flex items-center justify-center rounded-md bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors hover:bg-foreground/85"
               >
-                Send
+                Send inquiry
               </button>
+              {status === "success" ? (
+                <p className="mt-6 text-sm md:text-base text-muted-foreground leading-relaxed">
+                  Thank you. Your message has been received. Gray Keep will respond where there is
+                  a clear fit.
+                </p>
+              ) : null}
+              {status === "error" ? (
+                <p className="mt-6 text-sm md:text-base text-muted-foreground leading-relaxed">
+                  Something went wrong. Please try again or email{" "}
+                  <a
+                    href="mailto:advisory@graykeep.com"
+                    className="text-foreground underline underline-offset-4"
+                  >
+                    advisory@graykeep.com
+                  </a>{" "}
+                  directly.
+                </p>
+              ) : null}
             </form>
           </Reveal>
         </Container>

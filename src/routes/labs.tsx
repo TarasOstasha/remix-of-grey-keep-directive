@@ -8,26 +8,26 @@ import { Link } from "@tanstack/react-router";
 export const Route = createFileRoute("/labs")({
   head: () => ({
     meta: [
-      { title: "Gray Keep Labs - Researching the next layer of cyber intelligence" },
+      { title: "Gray Keep Labs · Restricted Preview" },
       {
         name: "description",
         content:
-          "Gray Keep Labs is our research and development space for future cyber intelligence capabilities - AI-aware defense, predictive risk, and executive decision support.",
+          "The restricted research and product development arm of Gray Keep. Quietly built. Selectively shared.",
       },
       {
         property: "og:title",
-        content: "Gray Keep Labs - Researching the next layer of cyber intelligence",
+        content: "Gray Keep Labs · Restricted Preview",
       },
       {
         property: "og:description",
         content:
-          "A research and development space for future Gray Keep cyber intelligence capabilities. Quietly built. Selectively shared.",
+          "Restricted research on emerging cyber risk, analytical methods, and future intelligence capabilities.",
       },
       { name: "twitter:title", content: "Gray Keep Labs" },
       {
         name: "twitter:description",
         content:
-          "A research and development space for future Gray Keep cyber intelligence capabilities.",
+          "Restricted research on emerging cyber risk, analytical methods, and future intelligence capabilities.",
       },
     ],
   }),
@@ -56,34 +56,17 @@ function LabsPage() {
                 Researching the next layer of <span className="text-gold">cyber intelligence.</span>
               </h1>
             </Reveal>
-            <Reveal className="lg:col-span-4">
+            <Reveal className="lg:col-span-4 space-y-5">
               <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                Gray Keep Labs is where future Gray Keep research, software concepts, and
-                experimental intelligence capabilities will live.
+                Gray Keep Labs is the restricted research and product development arm of Gray Keep.
               </p>
-            </Reveal>
-          </div>
-        </Container>
-      </section>
-
-      <Container size="wide">
-        <div className="rule-gold" />
-      </Container>
-
-      {/* Core positioning */}
-      <section className="py-24 md:py-32">
-        <Container size="wide">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-            <Reveal className="lg:col-span-4">
-              <p className="eyebrow">Positioning</p>
-            </Reveal>
-            <Reveal className="lg:col-span-8">
-              <p className="font-serif text-2xl md:text-3xl lg:text-4xl text-foreground leading-snug tracking-tight">
-                Gray Keep Labs is the company’s research and product development arm. It exists to
-                explore emerging risk, build internal prototypes, test analytical methods, and
-                prepare future software capabilities that extend Gray Keep’s intelligence work into
-                more operational forms. Public details will remain limited until the product layer
-                is ready for release.
+              <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+                It exists to explore emerging risk, build internal prototypes, test analytical
+                methods, and prepare future software capabilities that extend Gray Keep’s
+                intelligence work into more operational forms.
+              </p>
+              <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+                Public details will remain limited until the work is ready to stand on its own.
               </p>
             </Reveal>
           </div>
@@ -102,25 +85,30 @@ function LabsPage() {
             <h2 className="display text-3xl md:text-5xl lg:text-6xl text-foreground max-w-3xl">
               Where machine speed meets institutional risk.
             </h2>
+            <p className="mt-8 text-base md:text-lg text-muted-foreground leading-relaxed max-w-3xl">
+              Gray Keep Labs studies the places where cyber operations, AI-enabled systems,
+              organizational trust, and decision-making pressure begin to converge. The work is
+              exploratory by design: part method, part prototype, part warning system.
+            </p>
           </Reveal>
 
           <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-px bg-border">
             {[
               {
-                k: "Research methods",
-                b: "Exploring analytical approaches for fast-changing threat environments.",
+                k: "Research Methods",
+                b: "Exploring analytical approaches for fast-changing threat environments where evidence is partial, ambiguous, or deliberately distorted.",
               },
               {
-                k: "Scenario analysis",
-                b: "Testing structured ways of understanding uncertainty and escalation.",
+                k: "Scenario Analysis",
+                b: "Testing structured ways of understanding uncertainty, escalation, second-order effects, and decision failure.",
               },
               {
-                k: "Narrative systems",
-                b: "Studying how information, perception, and behavior interact across digital environments.",
+                k: "Narrative Systems",
+                b: "Studying how information, perception, behavior, and memory interact across digital environments.",
               },
               {
-                k: "Operational research",
-                b: "Building internal frameworks that support future intelligence capabilities.",
+                k: "Operational Research",
+                b: "Building internal frameworks that may support future intelligence capabilities, software tools, and trusted partner work.",
               },
             ].map((row) => (
               <div
@@ -141,44 +129,25 @@ function LabsPage() {
         <div className="rule-gold" />
       </Container>
 
-      {/* Coming Soon - restrained note */}
-      <section className="py-24 md:py-32">
-        <Container size="wide">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-            <Reveal className="lg:col-span-4">
-              <p className="eyebrow">02 · Coming Soon</p>
-            </Reveal>
-            <Reveal className="lg:col-span-8">
-              <p className="font-serif text-2xl md:text-3xl text-foreground leading-snug tracking-tight">
-                Select Gray Keep Labs initiatives will be shared with trusted partners and early
-                collaborators first.
-              </p>
-              <p className="mt-6 text-base text-muted-foreground leading-relaxed max-w-xl">
-                More will be revealed selectively, when the work is ready to stand on its own.
-              </p>
-            </Reveal>
-          </div>
-        </Container>
-      </section>
-
-      {/* Early Access CTA */}
+      {/* CTA */}
       <section className="pb-32 md:pb-40">
         <Container size="wide">
           <div className="card-flat rounded-2xl p-10 md:p-16 relative overflow-hidden">
             <div className="constellation opacity-40" aria-hidden="true" />
             <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
-              <div className="lg:col-span-8">
-                <p className="eyebrow eyebrow-gold mb-6">Early Access</p>
+              <div className="lg:col-span-8 space-y-6">
                 <h3 className="display text-3xl md:text-5xl lg:text-6xl text-foreground">
                   Quietly built. Selectively shared.
                 </h3>
+                <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl">
+                  Select Gray Keep Labs initiatives may be shared with trusted partners and early
+                  collaborators first. If your organization is working at the edge of cyber, AI,
+                  institutional risk, or decision support, you may request a conversation.
+                </p>
               </div>
               <div className="lg:col-span-4 flex flex-wrap gap-3 lg:justify-end">
                 <Link to="/contact" className="btn-pill btn-pill-gold">
-                  Request Early Access
-                </Link>
-                <Link to="/contact" className="btn-pill btn-pill-ghost">
-                  Contact Gray Keep
+                  Request availability
                 </Link>
               </div>
             </div>

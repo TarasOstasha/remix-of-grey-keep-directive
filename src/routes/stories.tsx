@@ -101,11 +101,17 @@ function StoriesPage() {
             <h1 className="display text-4xl md:text-6xl leading-[1.02] max-w-4xl">Stories</h1>
           </Reveal>
           <Reveal delay={120}>
-            <p className="mt-8 text-base md:text-lg text-muted-foreground leading-relaxed max-w-3xl">
-              Cyber thrillers and essays that make threats tangible. Our stories are built for
-              reading and for retention, so when reality echoes fiction, you are already one step
-              ahead.
-            </p>
+            <div className="mt-8 space-y-6 max-w-3xl">
+              <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+                Stories are not decoration at Gray Keep. They are a way to make risk memorable
+                before it becomes familiar.
+              </p>
+              <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+                The fiction here is built from the atmosphere of real threat environments: old
+                systems, human pressure, quiet compromise, institutional blind spots, and the
+                moment when a small signal becomes impossible to ignore.
+              </p>
+            </div>
           </Reveal>
 
           <Reveal delay={160}>
@@ -138,6 +144,7 @@ function StoriesPage() {
                       params={{ seriesSlug: entry.slug }}
                       className="card-flat p-5 block hover:border-gold/40 transition-colors"
                     >
+                      <p className="eyebrow eyebrow-gold">Series</p>
                       <p className="display text-2xl">{entry.title}</p>
                       {entry.premise ? (
                         <p className="mt-2 text-sm text-muted-foreground line-clamp-3">
@@ -148,6 +155,7 @@ function StoriesPage() {
                         {entry.episodeCount} {entry.episodeCount === 1 ? "episode" : "episodes"} ·{" "}
                         {entry.totalReadingMinutes} min total
                       </p>
+                      <p className="mt-4 text-sm text-foreground">Enter the series</p>
                     </Link>
                   ))}
                 </div>
@@ -248,10 +256,7 @@ function StoriesPage() {
                           <div className="h-44 w-full bg-muted/20" />
                         )}
                         <div className="p-6">
-                          <p className="eyebrow">
-                            {story.seriesTitle ?? "Standalone"}
-                            {story.tags?.[0] ? ` · ${story.tags[0]}` : ""}
-                          </p>
+                          <p className="eyebrow">Story</p>
                           <h3 className="display text-3xl mt-3 leading-tight">{story.title}</h3>
                           {story.summary ? (
                             <p className="mt-3 text-sm text-muted-foreground line-clamp-3">
@@ -262,6 +267,7 @@ function StoriesPage() {
                             {formatPublicationDate(story.publishedAt) || "Unpublished"} ·{" "}
                             {story.readingTimeMinutes} min read
                           </p>
+                          <p className="mt-4 text-sm text-foreground">Read the assessment</p>
                         </div>
                       </article>
                     </Reveal>

@@ -49,7 +49,22 @@ export const studioConfig = defineConfig({
   projectId: projectId ?? "",
   dataset: dataset ?? "",
   apiVersion,
-  plugins: [structureTool()],
+  plugins: [
+    structureTool({
+      structure: (S) =>
+        S.list()
+          .title("Content")
+          .items([
+            S.listItem()
+              .title("Home page")
+              .id("homePage")
+              .child(S.document().schemaType("homePage").documentId("homePage")),
+            ...S.documentTypeListItems().filter(
+              (listItem) => !["homePage"].includes(listItem.getId() ?? ""),
+            ),
+          ]),
+    }),
+  ],
   document: {
     actions: (previous) => elevateDestructiveActionsToDocumentMenu(previous),
   },

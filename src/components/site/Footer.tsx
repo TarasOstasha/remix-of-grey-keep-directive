@@ -27,14 +27,14 @@ export function Footer() {
             </span> */}
           </div>
 
-          <div className="flex items-center gap-8 text-sm text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-x-10 gap-y-3 text-sm text-muted-foreground">
             <a href="#" className="hover:text-foreground transition-colors">
               Privacy
             </a>
             <Link to="/contact" className="hover:text-foreground transition-colors">
               Contact
             </Link>
-            <span className="hidden md:inline">
+            <span className="hidden md:inline md:ml-2">
               © 2026 Gray Keep. All rights reserved.
             </span>
           </div>

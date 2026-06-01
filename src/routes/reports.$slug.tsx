@@ -87,7 +87,7 @@ function FlagshipReportPage() {
                   rel="noopener noreferrer"
                   className="btn-pill btn-pill-primary inline-flex"
                 >
-                  Open external link
+                  Read the report
                 </a>
               ) : null}
               <Link to="/intel" className="btn-pill btn-pill-ghost inline-flex">

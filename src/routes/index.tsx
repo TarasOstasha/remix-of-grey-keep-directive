@@ -15,6 +15,7 @@ import {
   getFlagshipReportFromSanity,
   resolveHomeFlagshipFromFeaturedReport,
 } from "@/lib/sanity/flagship";
+import { getHomeFromTheDeskFromSanity } from "@/lib/sanity/homePage";
 import heroImg from "@/assets/hero-mountains.jpg";
 import intelImg from "@/assets/intel-network.jpg";
 import watchtowerImg from "@/assets/split-watchtower.jpg";
@@ -25,10 +26,11 @@ import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   loader: async () => {
-    const [intelArticles, storiesResult, flagshipReport] = await Promise.all([
+    const [intelArticles, storiesResult, flagshipReport, fromTheDesk] = await Promise.all([
       getIntelFromSanity(),
       getStoriesFromSanity(),
       getFlagshipReportFromSanity(),
+      getHomeFromTheDeskFromSanity(),
     ]);
     const homeFlagship = resolveHomeFlagshipFromFeaturedReport(flagshipReport);
     return {
@@ -36,6 +38,7 @@ export const Route = createFileRoute("/")({
       stories: storiesResult.stories,
       series: storiesResult.series,
       homeFlagship,
+      fromTheDesk,
     };
   },
   // Re-run on every navigation so editorial changes in Sanity show up without a hard refresh.
@@ -90,25 +93,25 @@ const HELP = [
   {
     n: "01",
     verb: "Brief",
-    line: "Boards and executives.",
+    line: "Boards and executives",
     detail: "Focused intelligence briefs written for decision-makers.",
   },
   {
     n: "02",
     verb: "Translate",
-    line: "Narrative risk.",
-    detail: "Complex threat activity translated into clear executive context.",
+    line: "Narrative risk",
+    detail: "Complex threat activity turned into clear executive context.",
   },
   {
     n: "03",
     verb: "Frame",
-    line: "Geopolitical cyber.",
+    line: "Geopolitical cyber",
     detail: "Scenario framing for leaders operating under uncertainty.",
   },
   {
     n: "04",
     verb: "Stand",
-    line: "Stand Clarity under pressure.",
+    line: "Clarity under pressure",
     detail: "Clear judgment without noise, panic, or false certainty.",
   },
 ];
@@ -240,7 +243,7 @@ function buildDispatches(stories: StoryCard[], intel: IntelCard[]): Dispatch[] {
       kicker,
       title: story.title,
       body: truncateWithEllipsis(story.summary ?? "", 220),
-      cta: "Read the story",
+      cta: "Read the assessment",
       to: "/stories/$slug",
       params: { slug: story.slug },
     });
@@ -257,7 +260,7 @@ function buildDispatches(stories: StoryCard[], intel: IntelCard[]): Dispatch[] {
       kicker,
       title: intelArticle.title,
       body: truncateWithEllipsis(intelArticle.summary ?? "", 220),
-      cta: "Read the note",
+      cta: "Read the assessment",
       to: "/intel/$slug",
       params: { slug: intelArticle.slug },
     });
@@ -267,7 +270,7 @@ function buildDispatches(stories: StoryCard[], intel: IntelCard[]): Dispatch[] {
 }
 
 function Index() {
-  const { intelArticles, stories, series, homeFlagship } = Route.useLoaderData();
+  const { intelArticles, stories, series, homeFlagship, fromTheDesk } = Route.useLoaderData();
   const featuredIntelArticles = intelArticles.slice(0, 12);
   const dispatches = buildDispatches(stories, intelArticles);
   const splitCards = buildSplitCards(intelArticles, series);
@@ -306,19 +309,17 @@ function Index() {
                   context for leaders making decisions in fast-changing cyber and geopolitical
                   environments.
                 </p>
+                <p className="mt-4 text-base text-muted-foreground leading-relaxed max-w-sm">
+                  The work lives in three forms: cited intelligence reporting, stories that make
+                  risk memorable, and private advisory for moments when judgment matters.
+                </p>
                 <div className="mt-10 flex flex-wrap items-center gap-3">
                   <Link to="/intel" className="btn-pill btn-pill-primary">
-                    Open the Intel Library
+                    Read the assessment
                   </Link>
                   <Link to="/stories" className="btn-pill btn-pill-ghost">
-                    Read the Stories
+                    Enter the series
                   </Link>
-                  {/* <a href="#intel-library" className="btn-pill btn-pill-primary">
-                    Open the Intel Library
-                  </a>
-                  <a href="#from-the-keep" className="btn-pill btn-pill-ghost">
-                    Read the stories
-                  </a> */}
                 </div>
               </Reveal>
             </div>
@@ -330,17 +331,20 @@ function Index() {
           <Reveal delay={120}>
             <div className="relative aspect-[16/8] md:aspect-[16/7] overflow-hidden rounded-md border border-border">
               <img
-                src={heroImg}
-                alt="A long mountain ridgeline fading into mist at first light"
+                src={fromTheDesk.imageUrl ?? heroImg}
+                alt={fromTheDesk.imageAlt}
                 width={1920}
                 height={1080}
                 className="absolute inset-0 h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-8 md:p-14">
-                <p className="eyebrow eyebrow-gold mb-4">From the desk</p>
+                <p className="eyebrow eyebrow-gold mb-4">{fromTheDesk.eyebrow}</p>
                 <p className="display text-3xl md:text-5xl text-foreground max-w-2xl leading-[1.05]">
-                  We do not sell comfort. We offer a clear view.
+                  {fromTheDesk.headline}
+                </p>
+                <p className="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl">
+                  {fromTheDesk.body}
                 </p>
               </div>
             </div>
@@ -363,8 +367,8 @@ function Index() {
             <div className="lg:col-span-4 lg:pt-4">
               <Reveal delay={140}>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  A short, deliberate selection - updated as the picture changes, not on a
-                  publishing schedule.
+                  A short, deliberate selection — updated when the picture changes, not because a
+                  publishing calendar demands it.
                 </p>
               </Reveal>
             </div>
@@ -406,7 +410,7 @@ function Index() {
                               params={{ slug: article.slug }}
                               className="link-arrow mt-10 w-fit"
                             >
-                              Read <span aria-hidden>→</span>
+                              Read the assessment <span aria-hidden>→</span>
                             </Link>
                           </article>
                         </CarouselItem>
@@ -434,7 +438,7 @@ function Index() {
                       {item.body}
                     </p>
                     <a href="#" className="link-arrow mt-10 w-fit">
-                      Read <span aria-hidden>→</span>
+                      Read the assessment <span aria-hidden>→</span>
                     </a>
                   </article>
                 </Reveal>
@@ -460,8 +464,9 @@ function Index() {
             <div className="lg:col-span-4 lg:pt-4">
               <Reveal delay={140}>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  Flagship reports, recurring dispatches, and our own methods - organized so
-                  analysts and executives can find what they need and trust how it was made.
+                  Flagship reports, recurring dispatches, method notes, and narrative analysis —
+                  organized so analysts, executives, and serious readers can understand what
+                  changed, why it matters, and what is still uncertain.
                 </p>
               </Reveal>
             </div>
@@ -525,7 +530,7 @@ function Index() {
             <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
               <p className="eyebrow">Dispatches & Methods</p>
               <Link to="/intel" className="link-arrow w-fit">
-                Browse the library <span aria-hidden>→</span>
+                Intel library <span aria-hidden>→</span>
               </Link>
             </div>
             <ul className="divide-y divide-border border-y border-border">
@@ -619,8 +624,8 @@ function Index() {
             <div className="lg:col-span-4 lg:pt-4">
               <Reveal delay={140}>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  Engagements are deliberately small in number. The work is done quietly, in writing
-                  and in person, and is rarely attributable.
+                  Engagements are deliberately limited in number. The work is quiet, written, and
+                  designed for leaders who need judgment before they need volume.
                 </p>
               </Reveal>
             </div>
@@ -666,15 +671,9 @@ function Index() {
             <div className="lg:col-span-5 space-y-8">
               <Reveal delay={140}>
                 <p className="text-lg md:text-xl text-foreground leading-relaxed">
-                  Keynotes and briefings for leadership audiences - cyber risk, intel tradecraft,
-                  and decision-making under uncertainty, delivered with clarity and no theater.
-                </p>
-              </Reveal>
-              <Reveal delay={200}>
-                <p className="text-base text-muted-foreground leading-relaxed">
-                  {/* Ability to conduct research and to navigate complex threat landscapes in multiple
-                  languages, getting and analyzing the best data from the source itself, directly. */}
-                  Research informed by multilingual sources, regional context, and structured analytical methods.
+                  Keynotes, executive briefings, and private sessions on cyber risk, intelligence
+                  tradecraft, AI-shaped threat environments, and decision-making under uncertainty —
+                  delivered with clarity, restraint, and practitioner judgment.
                 </p>
               </Reveal>
             </div>
@@ -684,16 +683,16 @@ function Index() {
             <ul className="divide-y divide-border border-y border-border mt-16 mb-12">
               {[
                 {
-                  format: "Keynote",
-                  desc: "Conference and headline sessions on cyber, geopolitics, and decision-making under uncertainty.",
+                  format: "Keynotes",
+                  desc: "Conference and leadership sessions on cyber, geopolitics, intelligence, and uncertainty.",
                 },
                 {
                   format: "Boardroom",
-                  desc: "Executive and board briefings, delivered in plain language with no slide theater.",
+                  desc: "Executive and board briefings delivered in plain language, with clear assumptions and no theater.",
                 },
                 {
-                  format: "Private",
-                  desc: "Workshops, moderated panels, and off-the-record conversations for invited audiences.",
+                  format: "Private Sessions",
+                  desc: "Workshops, moderated conversations, and off-the-record briefings for invited audiences.",
                 },
               ].map((line, i) => (
                 <li
@@ -720,7 +719,7 @@ function Index() {
                 Request availability
               </Link>
               <Link to="/advisory" className="btn-pill btn-pill-ghost">
-                Advisory inquiries
+                Request availability
               </Link>
             </div>
           </Reveal>
