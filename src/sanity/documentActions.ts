@@ -10,7 +10,7 @@ const ELEVATE_TO_PANE_MENU: BuiltInActionId[] = ["delete", "discardChanges"];
  * This wraps them so they also appear in the document overflow menu (`paneActions`),
  * next to History, Inspect, Copy document, etc.
  *
- * @see https://www.sanity.io/docs/studio/document-actions-api — `group` on action descriptions
+ * @see https://www.sanity.io/docs/studio/document-actions-api - `group` on action descriptions
  */
 export function elevateDestructiveActionsToDocumentMenu(
   actions: DocumentActionComponent[],

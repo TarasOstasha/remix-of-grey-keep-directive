@@ -4,7 +4,7 @@
 // Required env vars:
 //   - SANITY_PROJECT_ID (or VITE_SANITY_PROJECT_ID)
 //   - SANITY_DATASET    (or VITE_SANITY_DATASET)
-//   - SANITY_API_TOKEN  — create at https://sanity.io/manage with at least Editor access.
+//   - SANITY_API_TOKEN  - create at https://sanity.io/manage with at least Editor access.
 //
 // Run with: node scripts/cleanup-intel-flagship-fields.mjs
 //   or:     npm run migrate:intel-cleanup

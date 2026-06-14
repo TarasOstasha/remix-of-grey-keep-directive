@@ -7,7 +7,7 @@ export const homePage = defineType({
   fields: [
     defineField({
       name: "fromTheDeskEyebrow",
-      title: "From the desk — eyebrow",
+      title: "From the desk - eyebrow",
       type: "string",
       description: "Small label above the headline.",
       initialValue: "From the desk",
@@ -15,7 +15,7 @@ export const homePage = defineType({
     }),
     defineField({
       name: "fromTheDeskHeadline",
-      title: "From the desk — headline",
+      title: "From the desk - headline",
       type: "string",
       description: "Large display line over the hero image.",
       initialValue: "We do not sell comfort. We offer a clear view.",
@@ -23,7 +23,7 @@ export const homePage = defineType({
     }),
     defineField({
       name: "fromTheDeskBody",
-      title: "From the desk — body",
+      title: "From the desk - body",
       type: "text",
       rows: 4,
       description: "Supporting copy below the headline.",
@@ -33,7 +33,7 @@ export const homePage = defineType({
     }),
     defineField({
       name: "fromTheDeskImage",
-      title: "From the desk — image",
+      title: "From the desk - image",
       type: "image",
       options: { hotspot: true },
       fields: [

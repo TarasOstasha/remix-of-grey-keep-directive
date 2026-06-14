@@ -61,7 +61,7 @@ export const intelArticle = defineType({
       title: "Feature on home page (From The Keep)",
       type: "boolean",
       description:
-        "When on, this article becomes the Intel card in the 'From The Keep' section on the home page. Only one Intel article should be featured at a time — if multiple are on, the most recently published wins.",
+        "When on, this article becomes the Intel card in the 'From The Keep' section on the home page. Only one Intel article should be featured at a time - if multiple are on, the most recently published wins.",
       initialValue: false,
     }),
     defineField({

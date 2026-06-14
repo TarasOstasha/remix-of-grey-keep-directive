@@ -367,7 +367,7 @@ function Index() {
             <div className="lg:col-span-4 lg:pt-4">
               <Reveal delay={140}>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  A short, deliberate selection — updated when the picture changes, not because a
+                  A short, deliberate selection - updated when the picture changes, not because a
                   publishing calendar demands it.
                 </p>
               </Reveal>
@@ -464,7 +464,7 @@ function Index() {
             <div className="lg:col-span-4 lg:pt-4">
               <Reveal delay={140}>
                 <p className="text-base text-muted-foreground leading-relaxed">
-                  Flagship reports, recurring dispatches, method notes, and narrative analysis —
+                  Flagship reports, recurring dispatches, method notes, and narrative analysis -
                   organized so analysts, executives, and serious readers can understand what
                   changed, why it matters, and what is still uncertain.
                 </p>
@@ -534,29 +534,54 @@ function Index() {
               </Link>
             </div>
             <ul className="divide-y divide-border border-y border-border">
-              {DISPATCHES.map((d) => (
-                <li
-                  key={d.title}
-                  className="py-7 grid grid-cols-12 gap-4 md:gap-8 items-baseline group"
-                >
-                  <span className="eyebrow eyebrow-gold col-span-2 md:col-span-1">{d.n}</span>
-                  <span className="col-span-10 md:col-span-2">
-                    <span className="tier-chip">{d.tier}</span>
-                  </span>
-                  <span className="col-span-12 md:col-span-5 text-xl md:text-2xl text-foreground group-hover:text-gold transition-colors">
-                    {d.title}
-                  </span>
-                  <span className="col-span-12 md:col-span-4 text-sm text-muted-foreground leading-relaxed">
-                    {d.body}
-                  </span>
-                </li>
-              ))}
+              {featuredIntelArticles.length > 0
+                ? featuredIntelArticles.slice(0, 3).map((article, i) => (
+                    <li key={article._id}>
+                      <Link
+                        to="/intel/$slug"
+                        params={{ slug: article.slug }}
+                        className="py-7 grid grid-cols-12 gap-4 md:gap-8 items-baseline group cursor-pointer"
+                      >
+                        <span className="eyebrow eyebrow-gold col-span-2 md:col-span-1">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="col-span-10 md:col-span-2">
+                          <span className="tier-chip">{article.tags?.[0] ?? "Intel"}</span>
+                        </span>
+                        <span className="col-span-12 md:col-span-5 text-xl md:text-2xl text-foreground group-hover:text-gold transition-colors">
+                          {article.title}
+                        </span>
+                        <span className="col-span-12 md:col-span-4 text-sm text-muted-foreground leading-relaxed">
+                          {truncateWithEllipsis(article.summary ?? "", 120)}
+                        </span>
+                      </Link>
+                    </li>
+                  ))
+                : DISPATCHES.map((d) => (
+                    <li key={d.title}>
+                      <Link
+                        to="/intel"
+                        className="py-7 grid grid-cols-12 gap-4 md:gap-8 items-baseline group cursor-pointer"
+                      >
+                        <span className="eyebrow eyebrow-gold col-span-2 md:col-span-1">{d.n}</span>
+                        <span className="col-span-10 md:col-span-2">
+                          <span className="tier-chip">{d.tier}</span>
+                        </span>
+                        <span className="col-span-12 md:col-span-5 text-xl md:text-2xl text-foreground group-hover:text-gold transition-colors">
+                          {d.title}
+                        </span>
+                        <span className="col-span-12 md:col-span-4 text-sm text-muted-foreground leading-relaxed">
+                          {d.body}
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
             </ul>
           </Reveal>
         </div>
       </section>
 
-      {/* SPLIT CARDS - one Intel, one Story series — both Sanity-driven via "Feature on home page" toggles */}
+      {/* SPLIT CARDS - one Intel, one Story series - both Sanity-driven via "Feature on home page" toggles */}
       {splitCards.length > 0 ? (
         <section className="py-24 md:py-32 border-t border-border">
           <div
@@ -672,7 +697,7 @@ function Index() {
               <Reveal delay={140}>
                 <p className="text-lg md:text-xl text-foreground leading-relaxed">
                   Keynotes, executive briefings, and private sessions on cyber risk, intelligence
-                  tradecraft, AI-shaped threat environments, and decision-making under uncertainty —
+                  tradecraft, AI-shaped threat environments, and decision-making under uncertainty -
                   delivered with clarity, restraint, and practitioner judgment.
                 </p>
               </Reveal>
