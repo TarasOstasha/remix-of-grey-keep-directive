@@ -3,7 +3,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
 import { Container } from "@/components/site/Container";
-import { getIntelBySlugFromSanity } from "@/lib/sanity/intel";
+import { formatIntelContentTypeLabel, getIntelBySlugFromSanity } from "@/lib/sanity/intel";
 
 export const Route = createFileRoute("/intel/$slug")({
   loader: async ({ params }) => {
@@ -34,7 +34,9 @@ function IntelArticlePage() {
       <section className="pt-40 pb-24 md:pt-52 md:pb-32 border-b border-border">
         <Container size="narrow">
           <Reveal>
-            <p className="eyebrow eyebrow-gold mb-6">{article.category}</p>
+            <p className="eyebrow eyebrow-gold mb-6">
+              {formatIntelContentTypeLabel(article.contentType)}
+            </p>
             <h1 className="display text-4xl md:text-6xl leading-[1.02]">{article.title}</h1>
           </Reveal>
           <Reveal delay={100}>

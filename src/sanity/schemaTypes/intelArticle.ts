@@ -24,6 +24,20 @@ export const intelArticle = defineType({
       type: "datetime",
     }),
     defineField({
+      name: "contentType",
+      title: "Content Type",
+      type: "string",
+      options: {
+        list: [
+          { title: "Dispatch", value: "Dispatch" },
+          { title: "Method", value: "Method" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "Dispatch",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: "mainImage",
       title: "Main image",
       type: "image",
@@ -86,10 +100,12 @@ export const intelArticle = defineType({
       title: "title",
       media: "mainImage",
       date: "publishedAt",
+      contentType: "contentType",
       featuredOnHome: "featuredOnHome",
     },
-    prepare({ title, media, date, featuredOnHome }) {
+    prepare({ title, media, date, contentType, featuredOnHome }) {
       const parts: string[] = [];
+      if (contentType) parts.push(contentType);
       if (featuredOnHome) parts.push("On home");
       if (date) {
         parts.push(

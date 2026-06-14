@@ -1,10 +1,13 @@
 import { getSanityClient } from "./client";
 
+export type IntelContentType = "Dispatch" | "Method";
+
 export type IntelCard = {
   _id: string;
   slug: string;
   title: string;
   summary: string | null;
+  contentType: IntelContentType;
   tags: string[];
   publishedAt: string | null;
   readingTimeMinutes: number;
@@ -18,9 +21,29 @@ export type IntelDetail = IntelCard & {
   bodyText?: string | null;
 };
 
-type IntelCardQueryRow = Omit<IntelCard, "readingTimeMinutes" | "category"> & {
+type IntelCardQueryRow = Omit<IntelCard, "readingTimeMinutes" | "category" | "contentType"> & {
+  contentType?: string | null;
   bodyText?: string | null;
 };
+
+export function resolveIntelContentType(
+  contentType: string | null | undefined,
+  tags: string[] = [],
+): IntelContentType {
+  if (contentType === "Method" || contentType === "Dispatch") {
+    return contentType;
+  }
+
+  if (tags.some((tag) => tag.toLowerCase() === "method")) {
+    return "Method";
+  }
+
+  return "Dispatch";
+}
+
+export function formatIntelContentTypeLabel(contentType: IntelContentType): string {
+  return contentType === "Method" ? "METHOD" : "DISPATCH";
+}
 
 export async function getIntelFromSanity() {
   const client = getSanityClient();
@@ -32,6 +55,7 @@ export async function getIntelFromSanity() {
       title,
       "slug": slug.current,
       summary,
+      contentType,
       tags,
       publishedAt,
       "featuredOnHome": coalesce(featuredOnHome, false),
@@ -52,6 +76,7 @@ export async function getIntelFromSanity() {
         slug: row.slug,
         title: row.title,
         summary: row.summary,
+        contentType: resolveIntelContentType(row.contentType, row.tags ?? []),
         tags: row.tags ?? [],
         publishedAt: row.publishedAt ?? null,
         readingTimeMinutes,
@@ -73,6 +98,7 @@ export async function getIntelBySlugFromSanity(slug: string) {
       title,
       "slug": slug.current,
       summary,
+      contentType,
       tags,
       publishedAt,
       "featuredOnHome": coalesce(featuredOnHome, false),
@@ -94,6 +120,7 @@ export async function getIntelBySlugFromSanity(slug: string) {
     slug: row.slug,
     title: row.title,
     summary: row.summary,
+    contentType: resolveIntelContentType(row.contentType, row.tags ?? []),
     tags: row.tags ?? [],
     publishedAt: row.publishedAt ?? null,
     readingTimeMinutes,

@@ -3,6 +3,7 @@ export type IntelArticle = {
   title: string;
   summary: string;
   category: "Intel";
+  contentType: "Dispatch" | "Method";
   tags: string[];
   publishedAt: string;
   readTime: string;
@@ -15,6 +16,7 @@ export const INTEL_ARTICLES: IntelArticle[] = [
     summary:
       "How we evaluate open and commercial reporting to separate strategic signal from narrative noise.",
     category: "Intel",
+    contentType: "Method",
     tags: ["Method"],
     publishedAt: "Apr 4, 2026",
     readTime: "1 min read",
@@ -25,6 +27,7 @@ export const INTEL_ARTICLES: IntelArticle[] = [
     summary:
       "How adversarial use of AI is reshaping reconnaissance, social engineering, and campaign pacing.",
     category: "Intel",
+    contentType: "Dispatch",
     tags: ["AI"],
     publishedAt: "Apr 4, 2026",
     readTime: "2 min read",
@@ -35,6 +38,7 @@ export const INTEL_ARTICLES: IntelArticle[] = [
     summary:
       "A practical framework for deciding what matters now versus what only appears urgent.",
     category: "Intel",
+    contentType: "Dispatch",
     tags: ["Signal"],
     publishedAt: "Apr 4, 2026",
     readTime: "1 min read",
@@ -45,6 +49,7 @@ export const INTEL_ARTICLES: IntelArticle[] = [
     summary:
       "A concise read on the operators, capabilities, and pressure points leadership teams should monitor.",
     category: "Intel",
+    contentType: "Dispatch",
     tags: ["Threat"],
     publishedAt: "Apr 4, 2026",
     readTime: "1 min read",

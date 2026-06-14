@@ -9,7 +9,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { getIntelFromSanity, type IntelCard } from "@/lib/sanity/intel";
+import {
+  formatIntelContentTypeLabel,
+  getIntelFromSanity,
+  type IntelCard,
+} from "@/lib/sanity/intel";
 import { getStoriesFromSanity, type StoryCard, type StorySeriesCard } from "@/lib/sanity/stories";
 import {
   getFlagshipReportFromSanity,
@@ -169,9 +173,7 @@ function pickFeaturedIntel(articles: IntelCard[]): IntelCard | null {
   if (articles.length === 0) return null;
   const explicit = articles.find((article) => article.featuredOnHome);
   if (explicit) return explicit;
-  const methodArticles = articles.filter((article) =>
-    (article.tags ?? []).some((tag) => tag.toLowerCase() === "method"),
-  );
+  const methodArticles = articles.filter((article) => article.contentType === "Method");
   return methodArticles[0] ?? articles[0];
 }
 
@@ -199,7 +201,7 @@ function buildSplitCards(intel: IntelCard[], series: StorySeriesCard[]): SplitCa
       fallbackImg: watchtowerImg,
       imageUrl: featuredIntel.mainImageUrl,
       imageAlt: featuredIntel.mainImageAlt ?? featuredIntel.title,
-      eyebrow: featuredIntel.tags?.[0] ?? "Intel",
+      eyebrow: formatIntelContentTypeLabel(featuredIntel.contentType),
       title: featuredIntel.title,
       sub: truncateWithEllipsis(featuredIntel.summary ?? "", 140),
       cta: "Read the assessment",
@@ -251,7 +253,7 @@ function buildDispatches(stories: StoryCard[], intel: IntelCard[]): Dispatch[] {
 
   const intelArticle = pickFeaturedIntel(intel);
   if (intelArticle) {
-    const kicker = intelArticle.tags?.[0] ?? "Intel";
+    const kicker = formatIntelContentTypeLabel(intelArticle.contentType);
     dispatches.push({
       key: intelArticle._id,
       fallbackImg: article2,
@@ -394,7 +396,9 @@ function Index() {
                               <p className="eyebrow eyebrow-gold">
                                 {String(i + 1).padStart(2, "0")}
                               </p>
-                              <span className="tier-chip">{article.tags?.[0] || "Intel"}</span>
+                              <span className="tier-chip">
+                                {formatIntelContentTypeLabel(article.contentType)}
+                              </span>
                             </div>
                             <h3 className="display text-2xl md:text-3xl leading-tight mb-5">
                               {article.title}
@@ -546,7 +550,9 @@ function Index() {
                           {String(i + 1).padStart(2, "0")}
                         </span>
                         <span className="col-span-10 md:col-span-2">
-                          <span className="tier-chip">{article.tags?.[0] ?? "Intel"}</span>
+                          <span className="tier-chip">
+                            {formatIntelContentTypeLabel(article.contentType)}
+                          </span>
                         </span>
                         <span className="col-span-12 md:col-span-5 text-xl md:text-2xl text-foreground group-hover:text-gold transition-colors">
                           {article.title}

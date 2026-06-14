@@ -4,7 +4,7 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
 import { Container } from "@/components/site/Container";
-import { getIntelFromSanity } from "@/lib/sanity/intel";
+import { formatIntelContentTypeLabel, getIntelFromSanity } from "@/lib/sanity/intel";
 
 export const Route = createFileRoute("/intel")({
   loader: async () => getIntelFromSanity(),
@@ -26,13 +26,6 @@ function truncateSummary(text: string | null, maxLength = 220) {
   if (!text) return "";
   if (text.length <= maxLength) return text;
   return `${text.slice(0, maxLength).trimEnd()}...`;
-}
-
-function resolveIntelLabel(tags: string[]) {
-  const normalized = tags.map((tag) => tag.toLowerCase());
-  if (normalized.some((tag) => tag.includes("method"))) return "Method Note";
-  if (normalized.some((tag) => tag.includes("report") || tag.includes("flagship"))) return "Report";
-  return "Dispatch";
 }
 
 function IntelPage() {
@@ -144,7 +137,9 @@ function IntelPage() {
                   >
                     <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 md:gap-6 items-start">
                       <div>
-                        <p className="eyebrow eyebrow-gold">{resolveIntelLabel(article.tags)}</p>
+                        <p className="eyebrow eyebrow-gold">
+                          {formatIntelContentTypeLabel(article.contentType)}
+                        </p>
                         <h2 className="display text-3xl leading-tight mt-2">{article.title}</h2>
                         <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
                           {truncateSummary(article.summary)}
