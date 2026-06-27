@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
@@ -94,12 +94,12 @@ function AdvisoryPage() {
                 integrity.
               </p>
               <p className="mt-8 text-xl text-muted-foreground">
-                <a
+                <Link
+                  to="/contact"
                   className="text-foreground underline underline-offset-4"
-                  href="mailto:advisory@graykeep.com"
                 >
-                  advisory@graykeep.com
-                </a>
+                  Send an advisory inquiry
+                </Link>
               </p>
             </div>
           </Reveal>
