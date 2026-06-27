@@ -1,7 +1,6 @@
-const DEFAULT_SITE_URL = "https://graykeep.ai";
+import { absoluteAssetUrl, siteOgImageSrc } from "./siteAssets";
 
-const DEFAULT_OG_IMAGE =
-  "https://storage.googleapis.com/gpt-engineer-file-uploads/J0hntSB55dN8cbdJ3xUcfA2iXEo1/social-images/social-1776735364298-replicate-prediction-knv05a1bk1rmr0cxnnha53snqm.webp";
+const DEFAULT_SITE_URL = "https://graykeep.ai";
 
 export function getSiteUrl() {
   const fromEnv = import.meta.env.VITE_SITE_URL?.trim();
@@ -17,7 +16,7 @@ type PageMetaOptions = {
 };
 
 export function buildPageMeta({ title, description, path, ogImage }: PageMetaOptions) {
-  const image = ogImage ?? DEFAULT_OG_IMAGE;
+  const image = ogImage ?? absoluteAssetUrl(siteOgImageSrc, getSiteUrl());
   const canonical = path ? `${getSiteUrl()}${path}` : undefined;
 
   const meta: Array<{ title?: string; name?: string; property?: string; content?: string }> = [

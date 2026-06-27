@@ -1,6 +1,8 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { getSiteUrl } from "@/lib/seo/pageMeta";
+import { absoluteAssetUrl, buildFaviconLinks, siteOgImageSrc } from "@/lib/seo/siteAssets";
 
 function NotFoundComponent() {
   return (
@@ -50,10 +52,17 @@ export const Route = createRootRoute({
         content:
           "Strategic intelligence for an uncertain world. Reporting, stories, and advisory built for clear judgment.",
       },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/J0hntSB55dN8cbdJ3xUcfA2iXEo1/social-images/social-1776735364298-replicate-prediction-knv05a1bk1rmr0cxnnha53snqm.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/J0hntSB55dN8cbdJ3xUcfA2iXEo1/social-images/social-1776735364298-replicate-prediction-knv05a1bk1rmr0cxnnha53snqm.webp" },
+      {
+        property: "og:image",
+        content: absoluteAssetUrl(siteOgImageSrc, getSiteUrl()),
+      },
+      {
+        name: "twitter:image",
+        content: absoluteAssetUrl(siteOgImageSrc, getSiteUrl()),
+      },
     ],
     links: [
+      ...buildFaviconLinks(),
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
