@@ -9,12 +9,20 @@ import {
   resolveHomeFlagshipFromFeaturedReport,
 } from "@/lib/sanity/flagship";
 import { getHomePageFromSanity } from "@/lib/sanity/homePage";
+import { buildPageMeta } from "@/lib/seo/pageMeta";
 import watchtowerImg from "@/assets/split-watchtower.jpg";
 import keepImg from "@/assets/split-keep.jpg";
 import article1 from "@/assets/article-1.jpg";
 import article2 from "@/assets/article-2.jpg";
 
 export const Route = createFileRoute("/")({
+  head: () =>
+    buildPageMeta({
+      title: "Gray Keep · Cyber Intelligence for an Uncertain World",
+      description:
+        "Strategic cyber intelligence, narrative analysis, and advisory for leaders navigating uncertainty.",
+      path: "/",
+    }),
   loader: async () => {
     const [intelArticles, storiesResult, flagshipReport, homePage] = await Promise.all([
       getIntelFromSanity(),

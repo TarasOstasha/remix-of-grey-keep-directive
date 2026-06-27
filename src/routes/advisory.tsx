@@ -3,8 +3,16 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
 import { Container } from "@/components/site/Container";
+import { buildPageMeta } from "@/lib/seo/pageMeta";
 
 export const Route = createFileRoute("/advisory")({
+  head: () =>
+    buildPageMeta({
+      title: "Advisory · Gray Keep",
+      description:
+        "Discrete advisory for boards and executives: situation briefs, source review, scenario stress-testing, and executive threat context.",
+      path: "/advisory",
+    }),
   component: AdvisoryPage,
 });
 

@@ -4,33 +4,16 @@ import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
 import { Container } from "@/components/site/Container";
 import { Link } from "@tanstack/react-router";
+import { buildPageMeta } from "@/lib/seo/pageMeta";
 
 export const Route = createFileRoute("/labs")({
-  head: () => ({
-    meta: [
-      { title: "Gray Keep Labs · Restricted Preview" },
-      {
-        name: "description",
-        content:
-          "The restricted research and product development arm of Gray Keep. Quietly built. Selectively shared.",
-      },
-      {
-        property: "og:title",
-        content: "Gray Keep Labs · Restricted Preview",
-      },
-      {
-        property: "og:description",
-        content:
-          "Restricted research on emerging cyber risk, analytical methods, and future intelligence capabilities.",
-      },
-      { name: "twitter:title", content: "Gray Keep Labs" },
-      {
-        name: "twitter:description",
-        content:
-          "Restricted research on emerging cyber risk, analytical methods, and future intelligence capabilities.",
-      },
-    ],
-  }),
+  head: () =>
+    buildPageMeta({
+      title: "Gray Keep Labs · Restricted Preview",
+      description:
+        "The restricted research and product development arm of Gray Keep. Quietly built. Selectively shared.",
+      path: "/labs",
+    }),
   component: LabsPage,
 });
 

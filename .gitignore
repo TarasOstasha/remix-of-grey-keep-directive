@@ -17,6 +17,7 @@ dist-ssr
 .vercel/output
 
 *.local
+sanity-export.tar.gz
 
 # Wrangler / Cloudflare
 .wrangler/

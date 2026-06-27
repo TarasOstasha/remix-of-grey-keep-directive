@@ -13,7 +13,8 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "migrate:intel-cleanup": "node scripts/cleanup-intel-flagship-fields.mjs"
+    "migrate:intel-cleanup": "node scripts/cleanup-intel-flagship-fields.mjs",
+    "migrate:sanity:import": "sanity dataset import ./sanity-export.tar.gz production --project-id vnbq28sv --replace"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.25.5",

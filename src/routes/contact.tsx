@@ -5,8 +5,16 @@ import { Reveal } from "@/components/site/Reveal";
 import { Container } from "@/components/site/Container";
 import { useState, type FormEvent } from "react";
 import { sendContactInquiry } from "@/lib/contact/sendContactInquiry";
+import { buildPageMeta } from "@/lib/seo/pageMeta";
 
 export const Route = createFileRoute("/contact")({
+  head: () =>
+    buildPageMeta({
+      title: "Contact · Gray Keep",
+      description:
+        "Reach Gray Keep for advisory inquiries, speaking, press, partnerships, and research correspondence.",
+      path: "/contact",
+    }),
   component: ContactPage,
 });
 

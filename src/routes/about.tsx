@@ -3,8 +3,16 @@ import { Header } from "@/components/site/Header";
 import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
 import { Container } from "@/components/site/Container";
+import { buildPageMeta } from "@/lib/seo/pageMeta";
 
 export const Route = createFileRoute("/about")({
+  head: () =>
+    buildPageMeta({
+      title: "About · Gray Keep",
+      description:
+        "Independent cyber intelligence at the intersection of geopolitical risk and narrative memory. Analysis you can act on. Stories you remember.",
+      path: "/about",
+    }),
   component: AboutPage,
 });
 

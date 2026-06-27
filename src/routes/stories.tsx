@@ -5,8 +5,16 @@ import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
 import { Container } from "@/components/site/Container";
 import { getStoriesFromSanity } from "@/lib/sanity/stories";
+import { buildPageMeta } from "@/lib/seo/pageMeta";
 
 export const Route = createFileRoute("/stories")({
+  head: () =>
+    buildPageMeta({
+      title: "Stories · Gray Keep",
+      description:
+        "Fiction built from real threat environments. Gray Keep Stories make cyber risk memorable before it becomes familiar.",
+      path: "/stories",
+    }),
   loader: async () => getStoriesFromSanity(),
   component: StoriesPage,
 });
