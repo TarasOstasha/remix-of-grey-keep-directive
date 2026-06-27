@@ -331,21 +331,23 @@ function HeroSection({ fromTheDesk }: { fromTheDesk: HomeFromTheDesk }) {
       </div>
       <div className="container-keep relative mt-20 md:mt-28">
         <Reveal delay={120}>
-          <div className="relative aspect-[16/8] md:aspect-[16/7] overflow-hidden rounded-md border border-border">
-            <img
-              src={fromTheDesk.imageUrl ?? heroImg}
-              alt={fromTheDesk.imageAlt}
-              width={1920}
-              height={1080}
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 p-8 md:p-14">
-              <p className="eyebrow eyebrow-gold mb-4">{fromTheDesk.eyebrow}</p>
-              <p className="display text-3xl md:text-5xl text-foreground max-w-2xl leading-[1.05]">
+          <div className="relative overflow-hidden rounded-md border border-border md:aspect-[16/7]">
+            <div className="relative aspect-[4/3] sm:aspect-[16/10] md:absolute md:inset-0 md:aspect-auto">
+              <img
+                src={fromTheDesk.imageUrl ?? heroImg}
+                alt={fromTheDesk.imageAlt}
+                width={1920}
+                height={1080}
+                className="absolute inset-0 h-full w-full object-cover object-[center_35%] md:object-center"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent md:from-background md:via-background/40 md:to-transparent" />
+            </div>
+            <div className="relative p-5 sm:p-6 md:absolute md:inset-x-0 md:bottom-0 md:p-14">
+              <p className="eyebrow eyebrow-gold mb-3 md:mb-4">{fromTheDesk.eyebrow}</p>
+              <p className="display text-2xl sm:text-3xl md:text-5xl text-foreground max-w-2xl leading-[1.08] md:leading-[1.05]">
                 {fromTheDesk.headline}
               </p>
-              <p className="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl">
+              <p className="mt-4 md:mt-6 text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl">
                 {fromTheDesk.body}
               </p>
             </div>

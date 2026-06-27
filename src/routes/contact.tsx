@@ -4,22 +4,32 @@ import { Footer } from "@/components/site/Footer";
 import { Reveal } from "@/components/site/Reveal";
 import { Container } from "@/components/site/Container";
 import { useState, type FormEvent } from "react";
+import { sendContactInquiry } from "@/lib/contact/sendContactInquiry";
 
 export const Route = createFileRoute("/contact")({
   component: ContactPage,
 });
 
 function ContactPage() {
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setStatus("idle");
+    setStatus("submitting");
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
     try {
-      // Keep submission handling local until a backend endpoint is wired.
-      await Promise.resolve();
+      await sendContactInquiry({
+        data: {
+          name: String(formData.get("name") ?? ""),
+          email: String(formData.get("email") ?? ""),
+          message: String(formData.get("message") ?? ""),
+        },
+      });
       setStatus("success");
-      event.currentTarget.reset();
+      form.reset();
     } catch {
       setStatus("error");
     }
@@ -103,9 +113,10 @@ function ContactPage() {
 
               <button
                 type="submit"
-                className="mt-8 inline-flex items-center justify-center rounded-md bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors hover:bg-foreground/85"
+                disabled={status === "submitting"}
+                className="mt-8 inline-flex items-center justify-center rounded-md bg-foreground px-6 py-3 text-sm font-medium text-background transition-colors hover:bg-foreground/85 disabled:pointer-events-none disabled:opacity-60"
               >
-                Send inquiry
+                {status === "submitting" ? "Sending…" : "Send inquiry"}
               </button>
               {status === "success" ? (
                 <p className="mt-6 text-sm md:text-base text-muted-foreground leading-relaxed">
@@ -117,10 +128,10 @@ function ContactPage() {
                 <p className="mt-6 text-sm md:text-base text-muted-foreground leading-relaxed">
                   Something went wrong. Please try again or email{" "}
                   <a
-                    href="mailto:advisory@graykeep.com"
+                    href="mailto:contact@graykeep.ai"
                     className="text-foreground underline underline-offset-4"
                   >
-                    advisory@graykeep.com
+                    contact@graykeep.ai
                   </a>{" "}
                   directly.
                 </p>
