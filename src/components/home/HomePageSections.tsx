@@ -14,6 +14,7 @@ import type {
   HomeFromTheDesk,
   HomeSection,
 } from "@/lib/sanity/homePage";
+import { optimizedImageSrc, sanityImageSrcSet } from "@/lib/sanity/imageUrl";
 import heroImg from "@/assets/hero-mountains.jpg";
 import intelImg from "@/assets/intel-network.jpg";
 
@@ -220,11 +221,14 @@ function HomeCustomSectionBlock({ section }: { section: HomeCustomSection }) {
               <Reveal delay={160}>
                 <div className="relative aspect-[4/5] lg:h-full overflow-hidden rounded-md border border-border">
                   <img
-                    src={section.imageUrl}
+                    src={optimizedImageSrc(section.imageUrl, section.imageUrl, 800)}
+                    srcSet={sanityImageSrcSet(section.imageUrl, [480, 800, 1280])}
+                    sizes="(max-width: 1024px) 100vw, 40vw"
                     alt={section.imageAlt ?? section.headline}
                     width={1280}
                     height={1600}
                     loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent" />
@@ -261,11 +265,14 @@ function HomeCustomSectionBlock({ section }: { section: HomeCustomSection }) {
           <Reveal delay={120}>
             <div className="relative aspect-[16/8] md:aspect-[16/7] overflow-hidden rounded-md border border-border mb-10">
               <img
-                src={section.imageUrl}
+                src={optimizedImageSrc(section.imageUrl, section.imageUrl, 1200)}
+                srcSet={sanityImageSrcSet(section.imageUrl, [640, 960, 1200, 1920])}
+                sizes="100vw"
                 alt={section.imageAlt ?? section.headline}
                 width={1920}
                 height={1080}
                 loading="lazy"
+                decoding="async"
                 className="absolute inset-0 h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />
@@ -290,16 +297,19 @@ function HomeCustomSectionBlock({ section }: { section: HomeCustomSection }) {
 }
 
 function HeroSection({ fromTheDesk }: { fromTheDesk: HomeFromTheDesk }) {
+  const heroImageSrc = optimizedImageSrc(fromTheDesk.imageUrl, heroImg, 1200);
+  const heroImageSrcSet = sanityImageSrcSet(fromTheDesk.imageUrl, [640, 960, 1200, 1920]);
+
   return (
     <section className="relative pt-40 pb-24 md:pt-52 md:pb-32 overflow-hidden">
       <div className="constellation" aria-hidden />
       <div className="container-keep relative">
-        <Reveal>
+        <Reveal immediate>
           <p className="eyebrow mb-12">Gray Keep · Est. 2026</p>
         </Reveal>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-end">
           <div className="lg:col-span-8">
-            <Reveal delay={80}>
+            <Reveal immediate delay={80}>
               <h1 className="display text-[18vw] sm:text-[14vw] lg:text-[10.5rem] xl:text-[12rem] leading-[0.92] text-foreground">
                 GRAY
                 <br />
@@ -308,7 +318,7 @@ function HeroSection({ fromTheDesk }: { fromTheDesk: HomeFromTheDesk }) {
             </Reveal>
           </div>
           <div className="lg:col-span-4 lg:pb-6">
-            <Reveal delay={220}>
+            <Reveal immediate delay={220}>
               <p className="text-lg md:text-xl text-foreground leading-snug max-w-sm">
                 Predictive Cyber Intelligence for an Uncertain World
               </p>
@@ -333,14 +343,18 @@ function HeroSection({ fromTheDesk }: { fromTheDesk: HomeFromTheDesk }) {
         </div>
       </div>
       <div className="container-keep relative mt-20 md:mt-28">
-        <Reveal delay={120}>
+        <Reveal immediate delay={120}>
           <div className="relative overflow-hidden rounded-md border border-border md:aspect-[16/7]">
             <div className="relative aspect-[4/3] sm:aspect-[16/10] md:absolute md:inset-0 md:aspect-auto">
               <img
-                src={fromTheDesk.imageUrl ?? heroImg}
+                src={heroImageSrc}
+                srcSet={heroImageSrcSet}
+                sizes="100vw"
                 alt={fromTheDesk.imageAlt}
                 width={1920}
                 height={1080}
+                fetchPriority="high"
+                decoding="async"
                 className="absolute inset-0 h-full w-full object-cover object-[center_35%] md:object-center"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent md:from-background md:via-background/40 md:to-transparent" />
@@ -516,11 +530,14 @@ function IntelLibrarySection({
               <Reveal delay={160}>
                 <div className="relative aspect-[4/5] lg:h-full overflow-hidden rounded-md border border-border">
                   <img
-                    src={homeFlagship.imageUrl ?? intelImg}
+                    src={optimizedImageSrc(homeFlagship.imageUrl, intelImg, 800)}
+                    srcSet={sanityImageSrcSet(homeFlagship.imageUrl, [480, 800, 1280])}
+                    sizes="(max-width: 1024px) 100vw, 40vw"
                     alt={homeFlagship.imageAlt}
                     width={1280}
                     height={1600}
                     loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/20 to-transparent" />
@@ -601,11 +618,14 @@ function SplitCardsSection({ splitCards }: { splitCards: SplitCard[] }) {
           <Reveal key={card.key} delay={i * 140}>
             <article className="group relative aspect-[4/5] overflow-hidden rounded-md border border-border">
               <img
-                src={card.imageUrl ?? card.fallbackImg}
+                src={optimizedImageSrc(card.imageUrl, card.fallbackImg, 800)}
+                srcSet={sanityImageSrcSet(card.imageUrl, [480, 640, 800, 1280])}
+                sizes="(max-width: 768px) 100vw, 50vw"
                 alt={card.imageAlt}
                 width={1280}
                 height={1600}
                 loading="lazy"
+                decoding="async"
                 className="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-transparent" />
@@ -775,11 +795,14 @@ function FromTheKeepSection({ dispatches }: { dispatches: Dispatch[] }) {
               <article className="group">
                 <div className="relative aspect-[16/10] overflow-hidden rounded-md border border-border mb-8">
                   <img
-                    src={dispatch.imageUrl ?? dispatch.fallbackImg}
+                    src={optimizedImageSrc(dispatch.imageUrl, dispatch.fallbackImg, 800)}
+                    srcSet={sanityImageSrcSet(dispatch.imageUrl, [480, 640, 800, 1280])}
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     alt={dispatch.imageAlt}
                     width={1280}
                     height={900}
                     loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-1000 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent" />

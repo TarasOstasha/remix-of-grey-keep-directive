@@ -31,9 +31,9 @@ export function getSanityClient() {
     "2026-04-25";
   const token = readEnv("SANITY_API_TOKEN") ?? readEnv("VITE_SANITY_API_TOKEN");
   const useCdnEnv = readEnv("VITE_SANITY_USE_CDN") ?? readEnv("SANITY_USE_CDN");
-  // Default to no CDN so editorial changes (e.g. "Feature on home page") show up immediately.
-  // Set VITE_SANITY_USE_CDN=true in production to opt back into the cached CDN.
-  const useCdn = useCdnEnv === "true";
+  // Default to CDN in production for faster reads; set VITE_SANITY_USE_CDN=false locally for instant CMS updates.
+  const useCdn =
+    useCdnEnv === "true" || (useCdnEnv !== "false" && import.meta.env.PROD);
 
   if (!projectId || !dataset) {
     return null;

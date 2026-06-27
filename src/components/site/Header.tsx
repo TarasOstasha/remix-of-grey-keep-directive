@@ -1,9 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
-import logoMark from "@/assets/logo200.png";
+import logoMark from "@/assets/logo200.webp";
 import { cn } from "@/lib/utils";
-// import logoMark from "@/assets/gray_keep_transparent106.webp";
 
 const NAV = [
   { label: "Intel Library", to: "/intel" },
@@ -116,6 +115,8 @@ export function Header() {
           <img
             src={logoMark}
             alt="Gray Keep"
+            width={200}
+            height={80}
             className="h-28 w-auto object-contain object-left sm:h-28 md:h-32 lg:h-36 origin-left"
           />
         </Link>
@@ -203,6 +204,8 @@ export function Header() {
                   <img
                     src={logoMark}
                     alt="Gray Keep"
+                    width={200}
+                    height={80}
                     className="h-26 w-auto max-w-[min(100%,14rem)] object-contain object-left sm:h-28"
                   />
                 </Link>

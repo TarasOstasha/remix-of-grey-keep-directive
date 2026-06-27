@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import logoMark from "@/assets/logo200.png";
+import logoMark from "@/assets/logo200.webp";
 
 export function Footer() {
   return (
@@ -19,6 +19,8 @@ export function Footer() {
               <img
                 src={logoMark}
                 alt="Gray Keep"
+                width={200}
+                height={80}
                 className="h-12 w-auto object-contain object-left md:h-14"
               />
             </Link>

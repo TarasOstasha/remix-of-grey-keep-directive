@@ -10,19 +10,30 @@ import {
 } from "@/lib/sanity/flagship";
 import { getHomePageFromSanity } from "@/lib/sanity/homePage";
 import { buildPageMeta } from "@/lib/seo/pageMeta";
+import { optimizedImageSrc } from "@/lib/sanity/imageUrl";
+import heroImg from "@/assets/hero-mountains.jpg";
 import watchtowerImg from "@/assets/split-watchtower.jpg";
 import keepImg from "@/assets/split-keep.jpg";
 import article1 from "@/assets/article-1.jpg";
 import article2 from "@/assets/article-2.jpg";
 
 export const Route = createFileRoute("/")({
-  head: () =>
-    buildPageMeta({
+  head: ({ loaderData }) => {
+    const base = buildPageMeta({
       title: "Gray Keep · Cyber Intelligence for an Uncertain World",
       description:
         "Strategic cyber intelligence, narrative analysis, and advisory for leaders navigating uncertainty.",
       path: "/",
-    }),
+    });
+
+    const heroPreload = optimizedImageSrc(loaderData?.fromTheDesk?.imageUrl, heroImg, 1200);
+    const links = [
+      ...(base.links ?? []),
+      { rel: "preload", as: "image", href: heroPreload, fetchPriority: "high" as const },
+    ];
+
+    return { meta: base.meta, links };
+  },
   loader: async () => {
     const [intelArticles, storiesResult, flagshipReport, homePage] = await Promise.all([
       getIntelFromSanity(),
@@ -40,8 +51,8 @@ export const Route = createFileRoute("/")({
       homeSections: homePage.sections,
     };
   },
-  staleTime: 0,
-  shouldReload: true,
+  staleTime: import.meta.env.PROD ? 60_000 : 0,
+  shouldReload: !import.meta.env.PROD,
   component: Index,
 });
 

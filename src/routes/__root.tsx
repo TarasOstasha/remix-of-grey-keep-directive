@@ -4,6 +4,9 @@ import appCss from "../styles.css?url";
 import { getSiteUrl } from "@/lib/seo/pageMeta";
 import { absoluteAssetUrl, buildFaviconLinks, siteOgImageSrc } from "@/lib/seo/siteAssets";
 
+const GOOGLE_FONTS_URL =
+  "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter+Tight:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap";
+
 function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -65,10 +68,7 @@ export const Route = createRootRoute({
       ...buildFaviconLinks(),
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter+Tight:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap",
-      },
+      { rel: "preload", href: GOOGLE_FONTS_URL, as: "style" },
       {
         rel: "stylesheet",
         href: appCss,
@@ -85,6 +85,17 @@ function RootShell({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <link
+          rel="stylesheet"
+          href={GOOGLE_FONTS_URL}
+          media="print"
+          onLoad={(event) => {
+            (event.currentTarget as HTMLLinkElement).media = "all";
+          }}
+        />
+        <noscript>
+          <link rel="stylesheet" href={GOOGLE_FONTS_URL} />
+        </noscript>
       </head>
       <body>
         {children}

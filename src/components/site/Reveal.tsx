@@ -4,15 +4,19 @@ export function Reveal({
   children,
   delay = 0,
   className = "",
+  immediate = false,
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
+  /** Above-the-fold content: visible on first paint without waiting for JS. */
+  immediate?: boolean;
 }) {
   const ref = useRef<HTMLDivElement | null>(null);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(immediate);
 
   useEffect(() => {
+    if (immediate) return;
     const el = ref.current;
     if (!el) return;
     const obs = new IntersectionObserver(
@@ -29,7 +33,7 @@ export function Reveal({
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, []);
+  }, [immediate]);
 
   return (
     <div
