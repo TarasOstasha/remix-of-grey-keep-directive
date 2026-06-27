@@ -1,4 +1,4 @@
-import { createClient } from "@sanity/client";
+import { createClient, type SanityClient } from "@sanity/client";
 
 function readEnv(name: string): string | undefined {
   const viteValue = import.meta.env[name as keyof ImportMetaEnv];
@@ -47,4 +47,19 @@ export function getSanityClient() {
     token,
     perspective: "published",
   });
+}
+
+export async function withSanityClient<T>(
+  fn: (client: SanityClient) => Promise<T>,
+  fallback: T,
+): Promise<T> {
+  const client = getSanityClient();
+  if (!client) return fallback;
+
+  try {
+    return await fn(client);
+  } catch (error) {
+    console.error("[sanity] fetch failed:", error);
+    return fallback;
+  }
 }

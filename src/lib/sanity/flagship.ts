@@ -1,4 +1,4 @@
-import { getSanityClient } from "./client";
+import { withSanityClient } from "./client";
 
 export type FlagshipReport = {
   _id: string;
@@ -52,12 +52,9 @@ export function resolveHomeFlagshipFromFeaturedReport(
 }
 
 export async function getFlagshipReportFromSanity(): Promise<FlagshipReport | null> {
-  const client = getSanityClient();
-  if (!client) return null;
-
-  // Home page only shows a flagship report when "Feature on home page" is on in Studio.
-  const row = await client.fetch<FlagshipReportRow | null>(
-    `*[_type == "flagshipReport" && coalesce(featuredOnHome, false) == true]
+  return withSanityClient(async (client) => {
+    const row = await client.fetch<FlagshipReportRow | null>(
+      `*[_type == "flagshipReport" && coalesce(featuredOnHome, false) == true]
       | order(coalesce(releaseDate, _createdAt) desc)[0] {
       _id,
       title,
@@ -74,26 +71,27 @@ export async function getFlagshipReportFromSanity(): Promise<FlagshipReport | nu
       seoTitle,
       seoDescription
     }`,
-  );
+    );
 
-  if (!row?.slug) return null;
+    if (!row?.slug) return null;
 
-  return {
-    _id: row._id,
-    title: row.title,
-    slug: row.slug,
-    tier: row.tier?.trim() ? row.tier : "Flagship Report",
-    summary: row.summary ?? null,
-    pageCount: row.pageCount ?? null,
-    releaseLabel: row.releaseLabel ?? null,
-    releaseDate: row.releaseDate ?? null,
-    ctaUrl: row.ctaUrl ?? null,
-    featuredOnHome: row.featuredOnHome ?? false,
-    mainImageUrl: row.mainImageUrl ?? null,
-    mainImageAlt: row.mainImageAlt ?? null,
-    seoTitle: row.seoTitle ?? null,
-    seoDescription: row.seoDescription ?? null,
-  };
+    return {
+      _id: row._id,
+      title: row.title,
+      slug: row.slug,
+      tier: row.tier?.trim() ? row.tier : "Flagship Report",
+      summary: row.summary ?? null,
+      pageCount: row.pageCount ?? null,
+      releaseLabel: row.releaseLabel ?? null,
+      releaseDate: row.releaseDate ?? null,
+      ctaUrl: row.ctaUrl ?? null,
+      featuredOnHome: row.featuredOnHome ?? false,
+      mainImageUrl: row.mainImageUrl ?? null,
+      mainImageAlt: row.mainImageAlt ?? null,
+      seoTitle: row.seoTitle ?? null,
+      seoDescription: row.seoDescription ?? null,
+    };
+  }, null);
 }
 
 export function buildFlagshipMeta(report: Pick<FlagshipReport, "pageCount" | "releaseLabel" | "releaseDate">): string {
@@ -120,13 +118,11 @@ export function buildFlagshipMeta(report: Pick<FlagshipReport, "pageCount" | "re
 export async function getFlagshipReportBySlugFromSanity(
   slug: string,
 ): Promise<FlagshipReportDetail | null> {
-  const client = getSanityClient();
-  if (!client) return null;
+  return withSanityClient(async (client) => {
+    type Row = FlagshipReportRow & { bodyText: string | null };
 
-  type Row = FlagshipReportRow & { bodyText: string | null };
-
-  const row = await client.fetch<Row | null>(
-    `*[_type == "flagshipReport" && slug.current == $slug][0] {
+    const row = await client.fetch<Row | null>(
+      `*[_type == "flagshipReport" && slug.current == $slug][0] {
       _id,
       title,
       "slug": slug.current,
@@ -143,26 +139,27 @@ export async function getFlagshipReportBySlugFromSanity(
       seoDescription,
       "bodyText": pt::text(body)
     }`,
-    { slug },
-  );
+      { slug },
+    );
 
-  if (!row?.slug) return null;
+    if (!row?.slug) return null;
 
-  return {
-    _id: row._id,
-    title: row.title,
-    slug: row.slug,
-    tier: row.tier?.trim() ? row.tier : "Flagship Report",
-    summary: row.summary ?? null,
-    pageCount: row.pageCount ?? null,
-    releaseLabel: row.releaseLabel ?? null,
-    releaseDate: row.releaseDate ?? null,
-    ctaUrl: row.ctaUrl ?? null,
-    featuredOnHome: row.featuredOnHome ?? false,
-    mainImageUrl: row.mainImageUrl ?? null,
-    mainImageAlt: row.mainImageAlt ?? null,
-    seoTitle: row.seoTitle ?? null,
-    seoDescription: row.seoDescription ?? null,
-    bodyText: row.bodyText ?? null,
-  };
+    return {
+      _id: row._id,
+      title: row.title,
+      slug: row.slug,
+      tier: row.tier?.trim() ? row.tier : "Flagship Report",
+      summary: row.summary ?? null,
+      pageCount: row.pageCount ?? null,
+      releaseLabel: row.releaseLabel ?? null,
+      releaseDate: row.releaseDate ?? null,
+      ctaUrl: row.ctaUrl ?? null,
+      featuredOnHome: row.featuredOnHome ?? false,
+      mainImageUrl: row.mainImageUrl ?? null,
+      mainImageAlt: row.mainImageAlt ?? null,
+      seoTitle: row.seoTitle ?? null,
+      seoDescription: row.seoDescription ?? null,
+      bodyText: row.bodyText ?? null,
+    };
+  }, null);
 }

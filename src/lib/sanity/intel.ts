@@ -1,4 +1,4 @@
-import { getSanityClient } from "./client";
+import { withSanityClient } from "./client";
 
 export type IntelContentType = "Dispatch" | "Method";
 
@@ -46,11 +46,9 @@ export function formatIntelContentTypeLabel(contentType: IntelContentType): stri
 }
 
 export async function getIntelFromSanity() {
-  const client = getSanityClient();
-  if (!client) return [] as IntelCard[];
-
-  const rows = await client.fetch<IntelCardQueryRow[]>(
-    `*[_type == "intelArticle"] | order(coalesce(publishedAt, _createdAt) desc) {
+  return withSanityClient(async (client) => {
+    const rows = await client.fetch<IntelCardQueryRow[]>(
+      `*[_type == "intelArticle"] | order(coalesce(publishedAt, _createdAt) desc) {
       _id,
       title,
       "slug": slug.current,
@@ -63,37 +61,36 @@ export async function getIntelFromSanity() {
       "mainImageAlt": mainImage.alt,
       "bodyText": pt::text(body)
     }`,
-  );
+    );
 
-  return (rows ?? [])
-    .filter((row) => row.slug)
-    .map((row) => {
-      const textSource = [row.summary, row.bodyText].filter(Boolean).join(" ");
-      const words = textSource.trim() ? textSource.trim().split(/\s+/).length : 0;
-      const readingTimeMinutes = Math.max(1, Math.ceil(words / 200));
-      return {
-        _id: row._id,
-        slug: row.slug,
-        title: row.title,
-        summary: row.summary,
-        contentType: resolveIntelContentType(row.contentType, row.tags ?? []),
-        tags: row.tags ?? [],
-        publishedAt: row.publishedAt ?? null,
-        readingTimeMinutes,
-        category: "Intel",
-        featuredOnHome: row.featuredOnHome ?? false,
-        mainImageUrl: row.mainImageUrl ?? null,
-        mainImageAlt: row.mainImageAlt ?? null,
-      } satisfies IntelCard;
-    });
+    return (rows ?? [])
+      .filter((row) => row.slug)
+      .map((row) => {
+        const textSource = [row.summary, row.bodyText].filter(Boolean).join(" ");
+        const words = textSource.trim() ? textSource.trim().split(/\s+/).length : 0;
+        const readingTimeMinutes = Math.max(1, Math.ceil(words / 200));
+        return {
+          _id: row._id,
+          slug: row.slug,
+          title: row.title,
+          summary: row.summary,
+          contentType: resolveIntelContentType(row.contentType, row.tags ?? []),
+          tags: row.tags ?? [],
+          publishedAt: row.publishedAt ?? null,
+          readingTimeMinutes,
+          category: "Intel",
+          featuredOnHome: row.featuredOnHome ?? false,
+          mainImageUrl: row.mainImageUrl ?? null,
+          mainImageAlt: row.mainImageAlt ?? null,
+        } satisfies IntelCard;
+      });
+  }, [] as IntelCard[]);
 }
 
 export async function getIntelBySlugFromSanity(slug: string) {
-  const client = getSanityClient();
-  if (!client) return null;
-
-  const row = await client.fetch<IntelCardQueryRow | null>(
-    `*[_type == "intelArticle" && slug.current == $slug][0] {
+  return withSanityClient(async (client) => {
+    const row = await client.fetch<IntelCardQueryRow | null>(
+      `*[_type == "intelArticle" && slug.current == $slug][0] {
       _id,
       title,
       "slug": slug.current,
@@ -106,28 +103,29 @@ export async function getIntelBySlugFromSanity(slug: string) {
       "mainImageAlt": mainImage.alt,
       "bodyText": pt::text(body)
     }`,
-    { slug },
-  );
+      { slug },
+    );
 
-  if (!row?.slug) return null;
+    if (!row?.slug) return null;
 
-  const textSource = [row.summary, row.bodyText].filter(Boolean).join(" ");
-  const words = textSource.trim() ? textSource.trim().split(/\s+/).length : 0;
-  const readingTimeMinutes = Math.max(1, Math.ceil(words / 200));
+    const textSource = [row.summary, row.bodyText].filter(Boolean).join(" ");
+    const words = textSource.trim() ? textSource.trim().split(/\s+/).length : 0;
+    const readingTimeMinutes = Math.max(1, Math.ceil(words / 200));
 
-  return {
-    _id: row._id,
-    slug: row.slug,
-    title: row.title,
-    summary: row.summary,
-    contentType: resolveIntelContentType(row.contentType, row.tags ?? []),
-    tags: row.tags ?? [],
-    publishedAt: row.publishedAt ?? null,
-    readingTimeMinutes,
-    category: "Intel",
-    featuredOnHome: row.featuredOnHome ?? false,
-    mainImageUrl: row.mainImageUrl ?? null,
-    mainImageAlt: row.mainImageAlt ?? null,
-    bodyText: row.bodyText ?? null,
-  } satisfies IntelDetail;
+    return {
+      _id: row._id,
+      slug: row.slug,
+      title: row.title,
+      summary: row.summary,
+      contentType: resolveIntelContentType(row.contentType, row.tags ?? []),
+      tags: row.tags ?? [],
+      publishedAt: row.publishedAt ?? null,
+      readingTimeMinutes,
+      category: "Intel",
+      featuredOnHome: row.featuredOnHome ?? false,
+      mainImageUrl: row.mainImageUrl ?? null,
+      mainImageAlt: row.mainImageAlt ?? null,
+      bodyText: row.bodyText ?? null,
+    } satisfies IntelDetail;
+  }, null);
 }

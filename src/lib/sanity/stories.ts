@@ -1,4 +1,4 @@
-import { getSanityClient } from "./client";
+import { withSanityClient } from "./client";
 
 export type StoryCard = {
   _id: string;
@@ -65,14 +65,10 @@ export type StorySeriesEpisode = {
 };
 
 export async function getStoriesFromSanity() {
-  const client = getSanityClient();
-  if (!client) {
-    return { stories: [] as StoryCard[], series: [] as StorySeriesCard[] };
-  }
-
-  const [stories, series] = await Promise.all([
-    client.fetch<StoryCardQueryRow[]>(
-      `*[_type == "storyPost"] | order(coalesce(publishedAt, _createdAt) desc) {
+  return withSanityClient(async (client) => {
+    const [stories, series] = await Promise.all([
+      client.fetch<StoryCardQueryRow[]>(
+        `*[_type == "storyPost"] | order(coalesce(publishedAt, _createdAt) desc) {
         _id,
         title,
         "slug": slug.current,
@@ -87,9 +83,9 @@ export async function getStoriesFromSanity() {
         "mainImageAlt": mainImage.alt,
         "bodyText": pt::text(body)
       }`,
-    ),
-    client.fetch<StorySeriesCard[]>(
-      `*[_type == "storySeries"] | order(title asc) {
+      ),
+      client.fetch<StorySeriesCard[]>(
+        `*[_type == "storySeries"] | order(title asc) {
         _id,
         title,
         "slug": slug.current,
@@ -98,38 +94,38 @@ export async function getStoriesFromSanity() {
         "mainImageUrl": mainImage.asset->url,
         "mainImageAlt": mainImage.alt
       }`,
-    ),
-  ]);
+      ),
+    ]);
 
-  const mappedStories = (stories ?? [])
-    .filter((story) => story.slug)
-    .map((story) => {
-      const textSource = [story.summary, story.bodyText].filter(Boolean).join(" ");
-      const words = textSource.trim() ? textSource.trim().split(/\s+/).length : 0;
-      const readingTimeMinutes = Math.max(1, Math.ceil(words / 200));
-      const { bodyText: _, ...storyWithoutBodyText } = story;
-      return {
-        ...storyWithoutBodyText,
-        episodeNumber: storyWithoutBodyText.episodeNumber ?? null,
-        featuredOnHome: storyWithoutBodyText.featuredOnHome ?? false,
-        readingTimeMinutes,
-      } satisfies StoryCard;
-    });
+    const mappedStories = (stories ?? [])
+      .filter((story) => story.slug)
+      .map((story) => {
+        const textSource = [story.summary, story.bodyText].filter(Boolean).join(" ");
+        const words = textSource.trim() ? textSource.trim().split(/\s+/).length : 0;
+        const readingTimeMinutes = Math.max(1, Math.ceil(words / 200));
+        const { bodyText: _, ...storyWithoutBodyText } = story;
+        return {
+          ...storyWithoutBodyText,
+          episodeNumber: storyWithoutBodyText.episodeNumber ?? null,
+          featuredOnHome: storyWithoutBodyText.featuredOnHome ?? false,
+          readingTimeMinutes,
+        } satisfies StoryCard;
+      });
 
-  return {
-    stories: mappedStories,
-    series: (series ?? [])
-      .filter((entry) => entry.slug)
-      .map((entry) => ({ ...entry, featuredOnHome: entry.featuredOnHome ?? false })),
-  };
+    return {
+      stories: mappedStories,
+      series: (series ?? [])
+        .filter((entry) => entry.slug)
+        .map((entry) => ({ ...entry, featuredOnHome: entry.featuredOnHome ?? false })),
+    };
+  }, { stories: [] as StoryCard[], series: [] as StorySeriesCard[] });
 }
 
 export async function getStoryBySlugFromSanity(slug: string) {
-  const client = getSanityClient();
-  if (!client) return null;
-
-  return client.fetch<StoryDetail | null>(
-    `*[_type == "storyPost" && slug.current == $slug][0] {
+  return withSanityClient(
+    (client) =>
+      client.fetch<StoryDetail | null>(
+        `*[_type == "storyPost" && slug.current == $slug][0] {
       _id,
       title,
       "slug": slug.current,
@@ -149,16 +145,16 @@ export async function getStoryBySlugFromSanity(slug: string) {
       "mainImageUrl": mainImage.asset->url,
       "mainImageAlt": mainImage.alt
     }`,
-    { slug },
+        { slug },
+      ),
+    null,
   );
 }
 
 export async function getStoriesBySeriesSlugFromSanity(seriesSlug: string) {
-  const client = getSanityClient();
-  if (!client) return [] as StorySeriesEpisode[];
-
-  const stories = await client.fetch<StorySeriesEpisode[]>(
-    `*[_type == "storyPost" && defined(series->slug.current) && series->slug.current == $seriesSlug]
+  return withSanityClient(async (client) => {
+    const stories = await client.fetch<StorySeriesEpisode[]>(
+      `*[_type == "storyPost" && defined(series->slug.current) && series->slug.current == $seriesSlug]
       | order(coalesce(episodeNumber, 9999) asc, coalesce(publishedAt, _createdAt) asc) {
       _id,
       title,
@@ -171,24 +167,29 @@ export async function getStoriesBySeriesSlugFromSanity(seriesSlug: string) {
         "slug": series->slug.current
       }
     }`,
-    { seriesSlug },
-  );
+      { seriesSlug },
+    );
 
-  return (stories ?? []).filter((story) => story.slug);
+    return (stories ?? []).filter((story) => story.slug);
+  }, [] as StorySeriesEpisode[]);
 }
 
 export async function getSanityStorySlugs() {
-  const client = getSanityClient();
-  if (!client) return [] as string[];
-  const slugs = await client.fetch<string[]>(`*[_type == "storyPost" && defined(slug.current)].slug.current`);
-  return (slugs ?? []).filter(Boolean);
+  return withSanityClient(async (client) => {
+    const slugs = await client.fetch<string[]>(
+      `*[_type == "storyPost" && defined(slug.current)].slug.current`,
+    );
+    return (slugs ?? []).filter(Boolean);
+  }, [] as string[]);
 }
 
 export async function getSanitySeriesSlugs() {
-  const client = getSanityClient();
-  if (!client) return [] as string[];
-  const slugs = await client.fetch<string[]>(`*[_type == "storySeries" && defined(slug.current)].slug.current`);
-  return (slugs ?? []).filter(Boolean);
+  return withSanityClient(async (client) => {
+    const slugs = await client.fetch<string[]>(
+      `*[_type == "storySeries" && defined(slug.current)].slug.current`,
+    );
+    return (slugs ?? []).filter(Boolean);
+  }, [] as string[]);
 }
 
 export const getSanityStoryBySlug = getStoryBySlugFromSanity;

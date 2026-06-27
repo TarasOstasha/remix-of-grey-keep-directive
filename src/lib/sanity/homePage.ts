@@ -1,4 +1,4 @@
-import { getSanityClient } from "./client";
+import { withSanityClient } from "./client";
 
 export const HOME_BUILT_IN_SECTION_OPTIONS = [
   { title: "Hero", value: "hero" },
@@ -158,17 +158,15 @@ function resolveFromTheDesk(row: HomePageRow | null): HomeFromTheDesk {
   };
 }
 
-export async function getHomePageFromSanity(): Promise<HomePageConfig> {
-  const client = getSanityClient();
-  if (!client) {
-    return {
-      fromTheDesk: DEFAULT_FROM_THE_DESK,
-      sections: DEFAULT_HOME_SECTIONS,
-    };
-  }
+const EMPTY_HOME_PAGE: HomePageConfig = {
+  fromTheDesk: DEFAULT_FROM_THE_DESK,
+  sections: DEFAULT_HOME_SECTIONS,
+};
 
-  const row = await client.fetch<HomePageRow | null>(
-    `*[_type == "homePage"][0] {
+export async function getHomePageFromSanity(): Promise<HomePageConfig> {
+  return withSanityClient(async (client) => {
+    const row = await client.fetch<HomePageRow | null>(
+      `*[_type == "homePage"][0] {
       fromTheDeskEyebrow,
       fromTheDeskHeadline,
       fromTheDeskBody,
@@ -191,12 +189,13 @@ export async function getHomePageFromSanity(): Promise<HomePageConfig> {
         layout
       }
     }`,
-  );
+    );
 
-  return {
-    fromTheDesk: resolveFromTheDesk(row),
-    sections: resolveSections(row?.sections),
-  };
+    return {
+      fromTheDesk: resolveFromTheDesk(row),
+      sections: resolveSections(row?.sections),
+    };
+  }, EMPTY_HOME_PAGE);
 }
 
 /** @deprecated Use getHomePageFromSanity instead. */

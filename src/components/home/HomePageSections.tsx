@@ -143,18 +143,21 @@ type HomePageSectionsProps = {
 };
 
 function SectionCta({ label, url }: { label: string; url: string }) {
+  const className = "btn-pill btn-pill-primary mt-10 inline-flex";
+
   if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("mailto:")) {
     return (
-      <a href={url} className="btn-pill btn-pill-primary mt-10 inline-flex">
+      <a href={url} className={className}>
         {label}
       </a>
     );
   }
 
+  const href = url.startsWith("/") ? url : `/${url}`;
   return (
-    <Link to={url} className="btn-pill btn-pill-primary mt-10 inline-flex">
+    <a href={href} className={className}>
       {label}
-    </Link>
+    </a>
   );
 }
 

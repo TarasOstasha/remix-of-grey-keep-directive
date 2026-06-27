@@ -16,8 +16,19 @@ function readEnv(
     | "SANITY_API_VERSION"
     | "NEXT_PUBLIC_SANITY_API_VERSION",
 ) {
-  const value = import.meta.env[name];
-  return typeof value === "string" && value.length > 0 ? value : undefined;
+  const viteValue = import.meta.env[name];
+  if (typeof viteValue === "string" && viteValue.length > 0) {
+    return viteValue;
+  }
+
+  if (typeof process !== "undefined" && process.env) {
+    const processValue = process.env[name];
+    if (typeof processValue === "string" && processValue.length > 0) {
+      return processValue;
+    }
+  }
+
+  return undefined;
 }
 
 const projectId =
