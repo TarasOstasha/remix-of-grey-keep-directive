@@ -357,8 +357,8 @@ function FeaturedInsightsSection({
           <div className="lg:col-span-4 lg:pt-4">
             <Reveal delay={140}>
               <p className="text-base text-muted-foreground leading-relaxed">
-                A short, deliberate selection - updated when the picture changes, not because a
-                publishing calendar demands it.
+                A short, deliberate selection - the currents we believe are worth your attention
+                right now. Updated when the picture changes, not because a calendar demands it.
               </p>
             </Reveal>
           </div>
