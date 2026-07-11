@@ -42,7 +42,7 @@ export function Footer() {
           </div>
         </div>
         <div className="container-keep pb-8 md:hidden">
-          <p className="text-xs text-muted-foreground">Gray Keep · Est. 2026 · The Keep Stands.</p>
+          <p className="text-xs text-muted-foreground">Gray Keep · Est. 2026 · The Keep Stands. </p> 
         </div>
       </div>
     </footer>
