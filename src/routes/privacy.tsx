@@ -5,8 +5,6 @@ import { Reveal } from "@/components/site/Reveal";
 import { Container } from "@/components/site/Container";
 import { buildPageMeta } from "@/lib/seo/pageMeta";
 
-const LAST_UPDATED = "July 11, 2026";
-
 export const Route = createFileRoute("/privacy")({
   head: () =>
     buildPageMeta({
@@ -111,20 +109,9 @@ function PrivacyPage() {
               <PrivacyParagraph>
                 A few trusted providers help us operate - for hosting, analytics, and email
                 delivery. They process data only on our behalf, under their own privacy terms, and
-                never for their own purposes.
+                never for their own purposes. [List the named providers here: hosting, analytics,
+                email.]
               </PrivacyParagraph>
-              <ul className="space-y-3 text-base md:text-xl text-muted-foreground leading-relaxed list-none">
-                <li>
-                  <span className="text-foreground font-medium">Hosting:</span> Vercel
-                </li>
-                <li>
-                  <span className="text-foreground font-medium">Analytics:</span> Vercel Web
-                  Analytics
-                </li>
-                <li>
-                  <span className="text-foreground font-medium">Email:</span> Resend
-                </li>
-              </ul>
             </PrivacySection>
 
             <PrivacySection title="How long we keep it" delay={320}>
@@ -137,7 +124,7 @@ function PrivacyPage() {
             <PrivacySection title="Changes" delay={360}>
               <PrivacyParagraph>
                 If this policy changes, we will post the revised version here with a new date. Last
-                updated: {LAST_UPDATED}.
+                updated: [date].
               </PrivacyParagraph>
             </PrivacySection>
 
