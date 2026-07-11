@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as StoriesRouteImport } from './routes/stories'
 import { Route as SpeakingRouteImport } from './routes/speaking'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as LabsRouteImport } from './routes/labs'
 import { Route as IntelRouteImport } from './routes/intel'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -40,6 +41,11 @@ const StoriesRoute = StoriesRouteImport.update({
 const SpeakingRoute = SpeakingRouteImport.update({
   id: '/speaking',
   path: '/speaking',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LabsRoute = LabsRouteImport.update({
@@ -120,6 +126,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/intel': typeof IntelRouteWithChildren
   '/labs': typeof LabsRoute
+  '/privacy': typeof PrivacyRoute
   '/speaking': typeof SpeakingRouteWithChildren
   '/stories': typeof StoriesRouteWithChildren
   '/studio': typeof StudioRouteWithChildren
@@ -138,6 +145,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/intel': typeof IntelRouteWithChildren
   '/labs': typeof LabsRoute
+  '/privacy': typeof PrivacyRoute
   '/speaking': typeof SpeakingRouteWithChildren
   '/stories': typeof StoriesRouteWithChildren
   '/studio': typeof StudioRouteWithChildren
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/intel': typeof IntelRouteWithChildren
   '/labs': typeof LabsRoute
+  '/privacy': typeof PrivacyRoute
   '/speaking': typeof SpeakingRouteWithChildren
   '/stories': typeof StoriesRouteWithChildren
   '/studio': typeof StudioRouteWithChildren
@@ -179,6 +188,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/intel'
     | '/labs'
+    | '/privacy'
     | '/speaking'
     | '/stories'
     | '/studio'
@@ -197,6 +207,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/intel'
     | '/labs'
+    | '/privacy'
     | '/speaking'
     | '/stories'
     | '/studio'
@@ -216,6 +227,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/intel'
     | '/labs'
+    | '/privacy'
     | '/speaking'
     | '/stories'
     | '/studio'
@@ -236,6 +248,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   IntelRoute: typeof IntelRouteWithChildren
   LabsRoute: typeof LabsRoute
+  PrivacyRoute: typeof PrivacyRoute
   SpeakingRoute: typeof SpeakingRouteWithChildren
   StoriesRoute: typeof StoriesRouteWithChildren
   StudioRoute: typeof StudioRouteWithChildren
@@ -263,6 +276,13 @@ declare module '@tanstack/react-router' {
       path: '/speaking'
       fullPath: '/speaking'
       preLoaderRoute: typeof SpeakingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/labs': {
@@ -433,6 +453,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   IntelRoute: IntelRouteWithChildren,
   LabsRoute: LabsRoute,
+  PrivacyRoute: PrivacyRoute,
   SpeakingRoute: SpeakingRouteWithChildren,
   StoriesRoute: StoriesRouteWithChildren,
   StudioRoute: StudioRouteWithChildren,

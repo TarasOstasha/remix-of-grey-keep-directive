@@ -30,9 +30,9 @@ export function Footer() {
           </div>
 
           <div className="flex flex-wrap items-center gap-x-10 gap-y-3 text-sm text-muted-foreground">
-            <a href="#" className="hover:text-foreground transition-colors">
+            <Link to="/privacy" className="hover:text-foreground transition-colors">
               Privacy
-            </a>
+            </Link>
             <Link to="/contact" className="hover:text-foreground transition-colors">
               Contact
             </Link>
