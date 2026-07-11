@@ -46,9 +46,14 @@ function AdvisoryDetailPage() {
             <p className="mt-10 display text-2xl md:text-3xl text-foreground leading-snug">
               {item.closingLine}
             </p>
-            <Link to="/advisory" className="btn-pill btn-pill-ghost mt-12 inline-flex">
-              Back to Advisory
-            </Link>
+            <div className="mt-12 flex flex-wrap gap-4">
+              <Link to="/advisory" className="btn-pill btn-pill-ghost inline-flex">
+                Back to Advisory
+              </Link>
+              <Link to="/" hash="how-we-help" className="btn-pill btn-pill-ghost inline-flex">
+                Go to Home Page
+              </Link>
+            </div>
           </Reveal>
         </Container>
       </section>
