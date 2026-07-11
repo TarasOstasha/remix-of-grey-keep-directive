@@ -33,6 +33,7 @@ sanity-export.tar.gz
 *.njsproj
 *.sln
 *.sw?
+docs/*
 
 
 

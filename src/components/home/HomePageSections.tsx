@@ -708,7 +708,7 @@ function SpeakingSection({ speaking }: { speaking: SpeakingSectionData }) {
             </Reveal>
             {speaking.motto ? (
               <Reveal delay={180}>
-                <p className="display text-xl md:text-2xl text-foreground leading-snug italic">
+                <p className="display text-lg md:text-xl text-muted-foreground leading-relaxed italic">
                   {speaking.motto}
                 </p>
               </Reveal>
