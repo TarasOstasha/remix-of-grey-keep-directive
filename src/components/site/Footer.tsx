@@ -37,14 +37,12 @@ export function Footer() {
               Contact
             </Link>
             <span className="hidden md:inline md:ml-2">
-              © 2026 Gray Keep. All rights reserved.
+              Gray Keep · Est. 2026 · The Keep Stands.
             </span>
           </div>
         </div>
         <div className="container-keep pb-8 md:hidden">
-          <p className="text-xs text-muted-foreground">
-            © 2026 Gray Keep. All rights reserved.
-          </p>
+          <p className="text-xs text-muted-foreground">Gray Keep · Est. 2026 · The Keep Stands.</p>
         </div>
       </div>
     </footer>
