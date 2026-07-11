@@ -70,14 +70,17 @@ function IntelPage() {
           <Reveal>
             <p className="eyebrow mb-6">Intel Library</p>
             <h1 className="display text-4xl md:text-6xl leading-[1.02] max-w-4xl">
-              Reporting that separates signal from noise.
+              Not a blog.
+              <br />
+              A working library.
             </h1>
           </Reveal>
           <Reveal delay={120}>
             <p className="mt-8 text-base md:text-lg text-muted-foreground leading-relaxed max-w-3xl">
-              The Intel Library holds Gray Keep flagship reports, dispatches, and method notes
-              focused on state-aligned operations, infrastructure risk, AI-enabled tradecraft, and
-              the trust pathways that connect cyber events to institutional consequence.
+              Flagship reports, recurring dispatches, method notes, and narrative analysis -
+              organized so analysts, executives, and serious readers can see what changed, why it
+              matters, and what is still uncertain. Cited, dated, and honest about the edges of what
+              is known.
             </p>
           </Reveal>
         </Container>

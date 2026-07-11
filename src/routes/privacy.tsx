@@ -56,7 +56,7 @@ function PrivacyPage() {
           <Reveal delay={80}>
             <div className="mt-8 space-y-6 max-w-3xl">
               <PrivacyParagraph>
-                Trust is not decoration here. It is the operating principle — and it begins with how
+                Trust is not decoration here. It is the operating principle - and it begins with how
                 we treat yours.
               </PrivacyParagraph>
               <PrivacyParagraph>
@@ -71,7 +71,7 @@ function PrivacyPage() {
           </Reveal>
 
           <div className="mt-12 space-y-14">
-            <PrivacySection title="What we collect — kept to a minimum" delay={120}>
+            <PrivacySection title="What we collect - kept to a minimum" delay={120}>
               <PrivacyParagraph>
                 <span className="text-foreground font-medium">How the work is read.</span> We use
                 privacy-respecting analytics to understand which writing is read and how people
@@ -80,7 +80,7 @@ function PrivacyPage() {
               </PrivacyParagraph>
               <PrivacyParagraph>
                 <span className="text-foreground font-medium">What you choose to send us.</span> When
-                you contact us, request availability, or subscribe, we receive what you provide —
+                you contact us, request availability, or subscribe, we receive what you provide -
                 typically your name, email address, and your message, so that we can respond.
               </PrivacyParagraph>
             </PrivacySection>
@@ -109,7 +109,7 @@ function PrivacyPage() {
 
             <PrivacySection title="Service providers" delay={280}>
               <PrivacyParagraph>
-                A few trusted providers help us operate — for hosting, analytics, and email
+                A few trusted providers help us operate - for hosting, analytics, and email
                 delivery. They process data only on our behalf, under their own privacy terms, and
                 never for their own purposes.
               </PrivacyParagraph>

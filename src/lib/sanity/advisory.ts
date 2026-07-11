@@ -44,7 +44,7 @@ const DEFAULT_ADVISORY_ITEMS: AdvisoryCard[] = [
     tileFace: "Narrative risk",
     oneLineEssence: "Complex threat activity turned into clear executive context.",
     fullContent:
-      "Complex threat activity turned into clear executive context. We translate what operators are doing, what it means for your organization, and what decision it should inform—without vendor framing or inflated certainty.",
+      "Complex threat activity turned into clear executive context. We translate what operators are doing, what it means for your organization, and what decision it should inform-without vendor framing or inflated certainty.",
     closingLine: "Clarity is the product.",
     sortOrder: 2,
   },
@@ -55,7 +55,7 @@ const DEFAULT_ADVISORY_ITEMS: AdvisoryCard[] = [
     tileFace: "Geopolitical cyber",
     oneLineEssence: "Scenario framing for leaders operating under uncertainty.",
     fullContent:
-      "Scenario framing for leaders operating under uncertainty. We map the geopolitical and cyber landscape into decision-ready frames—what could change, what would matter, and what to watch before it becomes obvious.",
+      "Scenario framing for leaders operating under uncertainty. We map the geopolitical and cyber landscape into decision-ready frames-what could change, what would matter, and what to watch before it becomes obvious.",
     closingLine: "Judgment before volume.",
     sortOrder: 3,
   },
@@ -66,7 +66,7 @@ const DEFAULT_ADVISORY_ITEMS: AdvisoryCard[] = [
     tileFace: "Clarity under pressure",
     oneLineEssence: "Clear judgment without noise, panic, or false certainty.",
     fullContent:
-      "Clear judgment without noise, panic, or false certainty. When the room needs a steady read—not more data, not more alarm—we provide the written assessment that holds under scrutiny.",
+      "Clear judgment without noise, panic, or false certainty. When the room needs a steady read-not more data, not more alarm-we provide the written assessment that holds under scrutiny.",
     closingLine: "Quiet work for serious decisions.",
     sortOrder: 4,
   },

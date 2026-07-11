@@ -32,7 +32,7 @@ const DEFAULT_SPEAKING_ITEMS: SpeakingPost[] = [
     format: "Keynotes",
     oneLineEssence: "The room, held, and sent home thinking.",
     fullContent:
-      "A Gray Keep keynote is a story with a spine: the state of the gray, where cyber and geopolitics are actually heading, and what it asks of the people in the seats. Built for the specific audience, grounded in real intelligence, and written to last long after the lights come up. People leave not frightened, but clear — and carrying a line or two they will repeat.",
+      "A Gray Keep keynote is a story with a spine: the state of the gray, where cyber and geopolitics are actually heading, and what it asks of the people in the seats. Built for the specific audience, grounded in real intelligence, and written to last long after the lights come up. People leave not frightened, but clear - and carrying a line or two they will repeat.",
     closingLine: "They came for a talk. They leave with a lens.",
     sortOrder: 1,
   },

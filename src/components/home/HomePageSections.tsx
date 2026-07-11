@@ -457,8 +457,9 @@ function IntelLibrarySection({
             <Reveal delay={140}>
               <p className="text-base text-muted-foreground leading-relaxed">
                 Flagship reports, recurring dispatches, method notes, and narrative analysis -
-                organized so analysts, executives, and serious readers can understand what changed,
-                why it matters, and what is still uncertain.
+                organized so analysts, executives, and serious readers can see what changed, why it
+                matters, and what is still uncertain. Cited, dated, and honest about the edges of
+                what is known.
               </p>
             </Reveal>
           </div>

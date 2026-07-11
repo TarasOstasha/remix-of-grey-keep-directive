@@ -12,7 +12,7 @@ export const Route = createFileRoute("/stories")({
     buildPageMeta({
       title: "Stories · Gray Keep",
       description:
-        "Fiction built from real threat environments. Gray Keep Stories make cyber risk memorable before it becomes familiar.",
+        "Some truths arrive faster as fiction. Gray Keep Stories are narrative drawn from real cyber mechanics - read for the pleasure of it, remember when it counts.",
       path: "/stories",
     }),
   loader: async () => getStoriesFromSanity(),
@@ -105,21 +105,17 @@ function StoriesPage() {
       <section className="pt-40 pb-24 md:pt-52 md:pb-32 border-b border-border">
         <Container>
           <Reveal>
-            <p className="eyebrow mb-4">If you remember it, you can defend against it</p>
-            <h1 className="display text-4xl md:text-6xl leading-[1.02] max-w-4xl">Stories</h1>
+            <p className="eyebrow mb-6">Stories</p>
+            <h1 className="display text-4xl md:text-6xl leading-[1.02] max-w-4xl">
+              Some truths arrive faster as fiction.
+            </h1>
           </Reveal>
           <Reveal delay={120}>
-            <div className="mt-8 space-y-6 max-w-3xl">
-              <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                Stories are not decoration at Gray Keep. They are a way to make risk memorable
-                before it becomes familiar.
-              </p>
-              <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-                The fiction here is built from the atmosphere of real threat environments: old
-                systems, human pressure, quiet compromise, institutional blind spots, and the
-                moment when a small signal becomes impossible to ignore.
-              </p>
-            </div>
+            <p className="mt-8 text-base md:text-lg text-muted-foreground leading-relaxed max-w-3xl">
+              The Stories are narrative - drawn from the real mechanics of cyber and the people
+              caught inside them - written to stay with you until reality begins to rhyme with them.
+              Read them for the pleasure of it. Remember them when it counts.
+            </p>
           </Reveal>
 
           <Reveal delay={160}>
