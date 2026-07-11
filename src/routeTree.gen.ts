@@ -17,10 +17,12 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AdvisoryRouteImport } from './routes/advisory'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdvisoryIndexRouteImport } from './routes/advisory.index'
 import { Route as StudioSplatRouteImport } from './routes/studio.$'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
 import { Route as ReportsSlugRouteImport } from './routes/reports.$slug'
 import { Route as IntelSlugRouteImport } from './routes/intel.$slug'
+import { Route as AdvisorySlugRouteImport } from './routes/advisory.$slug'
 import { Route as StoriesSeriesSeriesSlugRouteImport } from './routes/stories.series.$seriesSlug'
 
 const StudioRoute = StudioRouteImport.update({
@@ -63,6 +65,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdvisoryIndexRoute = AdvisoryIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdvisoryRoute,
+} as any)
 const StudioSplatRoute = StudioSplatRouteImport.update({
   id: '/$',
   path: '/$',
@@ -83,6 +90,11 @@ const IntelSlugRoute = IntelSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => IntelRoute,
 } as any)
+const AdvisorySlugRoute = AdvisorySlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => AdvisoryRoute,
+} as any)
 const StoriesSeriesSeriesSlugRoute = StoriesSeriesSeriesSlugRouteImport.update({
   id: '/series/$seriesSlug',
   path: '/series/$seriesSlug',
@@ -92,47 +104,52 @@ const StoriesSeriesSeriesSlugRoute = StoriesSeriesSeriesSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/advisory': typeof AdvisoryRoute
+  '/advisory': typeof AdvisoryRouteWithChildren
   '/contact': typeof ContactRoute
   '/intel': typeof IntelRouteWithChildren
   '/labs': typeof LabsRoute
   '/stories': typeof StoriesRouteWithChildren
   '/studio': typeof StudioRouteWithChildren
+  '/advisory/$slug': typeof AdvisorySlugRoute
   '/intel/$slug': typeof IntelSlugRoute
   '/reports/$slug': typeof ReportsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/studio/$': typeof StudioSplatRoute
+  '/advisory/': typeof AdvisoryIndexRoute
   '/stories/series/$seriesSlug': typeof StoriesSeriesSeriesSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/advisory': typeof AdvisoryRoute
   '/contact': typeof ContactRoute
   '/intel': typeof IntelRouteWithChildren
   '/labs': typeof LabsRoute
   '/stories': typeof StoriesRouteWithChildren
   '/studio': typeof StudioRouteWithChildren
+  '/advisory/$slug': typeof AdvisorySlugRoute
   '/intel/$slug': typeof IntelSlugRoute
   '/reports/$slug': typeof ReportsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/studio/$': typeof StudioSplatRoute
+  '/advisory': typeof AdvisoryIndexRoute
   '/stories/series/$seriesSlug': typeof StoriesSeriesSeriesSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/advisory': typeof AdvisoryRoute
+  '/advisory': typeof AdvisoryRouteWithChildren
   '/contact': typeof ContactRoute
   '/intel': typeof IntelRouteWithChildren
   '/labs': typeof LabsRoute
   '/stories': typeof StoriesRouteWithChildren
   '/studio': typeof StudioRouteWithChildren
+  '/advisory/$slug': typeof AdvisorySlugRoute
   '/intel/$slug': typeof IntelSlugRoute
   '/reports/$slug': typeof ReportsSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/studio/$': typeof StudioSplatRoute
+  '/advisory/': typeof AdvisoryIndexRoute
   '/stories/series/$seriesSlug': typeof StoriesSeriesSeriesSlugRoute
 }
 export interface FileRouteTypes {
@@ -146,25 +163,28 @@ export interface FileRouteTypes {
     | '/labs'
     | '/stories'
     | '/studio'
+    | '/advisory/$slug'
     | '/intel/$slug'
     | '/reports/$slug'
     | '/stories/$slug'
     | '/studio/$'
+    | '/advisory/'
     | '/stories/series/$seriesSlug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
-    | '/advisory'
     | '/contact'
     | '/intel'
     | '/labs'
     | '/stories'
     | '/studio'
+    | '/advisory/$slug'
     | '/intel/$slug'
     | '/reports/$slug'
     | '/stories/$slug'
     | '/studio/$'
+    | '/advisory'
     | '/stories/series/$seriesSlug'
   id:
     | '__root__'
@@ -176,17 +196,19 @@ export interface FileRouteTypes {
     | '/labs'
     | '/stories'
     | '/studio'
+    | '/advisory/$slug'
     | '/intel/$slug'
     | '/reports/$slug'
     | '/stories/$slug'
     | '/studio/$'
+    | '/advisory/'
     | '/stories/series/$seriesSlug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  AdvisoryRoute: typeof AdvisoryRoute
+  AdvisoryRoute: typeof AdvisoryRouteWithChildren
   ContactRoute: typeof ContactRoute
   IntelRoute: typeof IntelRouteWithChildren
   LabsRoute: typeof LabsRoute
@@ -253,6 +275,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/advisory/': {
+      id: '/advisory/'
+      path: '/'
+      fullPath: '/advisory/'
+      preLoaderRoute: typeof AdvisoryIndexRouteImport
+      parentRoute: typeof AdvisoryRoute
+    }
     '/studio/$': {
       id: '/studio/$'
       path: '/$'
@@ -281,6 +310,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IntelSlugRouteImport
       parentRoute: typeof IntelRoute
     }
+    '/advisory/$slug': {
+      id: '/advisory/$slug'
+      path: '/$slug'
+      fullPath: '/advisory/$slug'
+      preLoaderRoute: typeof AdvisorySlugRouteImport
+      parentRoute: typeof AdvisoryRoute
+    }
     '/stories/series/$seriesSlug': {
       id: '/stories/series/$seriesSlug'
       path: '/series/$seriesSlug'
@@ -290,6 +326,20 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AdvisoryRouteChildren {
+  AdvisorySlugRoute: typeof AdvisorySlugRoute
+  AdvisoryIndexRoute: typeof AdvisoryIndexRoute
+}
+
+const AdvisoryRouteChildren: AdvisoryRouteChildren = {
+  AdvisorySlugRoute: AdvisorySlugRoute,
+  AdvisoryIndexRoute: AdvisoryIndexRoute,
+}
+
+const AdvisoryRouteWithChildren = AdvisoryRoute._addFileChildren(
+  AdvisoryRouteChildren,
+)
 
 interface IntelRouteChildren {
   IntelSlugRoute: typeof IntelSlugRoute
@@ -328,7 +378,7 @@ const StudioRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  AdvisoryRoute: AdvisoryRoute,
+  AdvisoryRoute: AdvisoryRouteWithChildren,
   ContactRoute: ContactRoute,
   IntelRoute: IntelRouteWithChildren,
   LabsRoute: LabsRoute,

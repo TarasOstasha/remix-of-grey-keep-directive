@@ -1,3 +1,4 @@
+import { advisoryPost } from "./advisoryPost";
 import { flagshipReport } from "./flagshipReport";
 import { homeBuiltInSection } from "./homeBuiltInSection";
 import { homeCustomSection } from "./homeCustomSection";
@@ -10,6 +11,7 @@ export const schemaTypes = [
   homePage,
   homeBuiltInSection,
   homeCustomSection,
+  advisoryPost,
   storySeries,
   intelArticle,
   storyPost,

@@ -7,6 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import type { AdvisorySection } from "@/lib/sanity/advisory";
 import { formatIntelContentTypeLabel, type IntelCard } from "@/lib/sanity/intel";
 import type { HomeFlagshipSlot } from "@/lib/sanity/flagship";
 import type {
@@ -57,33 +58,6 @@ const DISPATCHES = [
     tier: "Method",
     title: "AI-Enabled Tradecraft",
     body: "How we assess model-assisted intrusions without inflating the threat or dismissing it.",
-  },
-];
-
-const HELP = [
-  {
-    n: "01",
-    verb: "Brief",
-    line: "Boards and executives",
-    detail: "Focused intelligence briefs written for decision-makers.",
-  },
-  {
-    n: "02",
-    verb: "Translate",
-    line: "Narrative risk",
-    detail: "Complex threat activity turned into clear executive context.",
-  },
-  {
-    n: "03",
-    verb: "Frame",
-    line: "Geopolitical cyber",
-    detail: "Scenario framing for leaders operating under uncertainty.",
-  },
-  {
-    n: "04",
-    verb: "Stand",
-    line: "Clarity under pressure",
-    detail: "Clear judgment without noise, panic, or false certainty.",
   },
 ];
 
@@ -141,6 +115,7 @@ type HomePageSectionsProps = {
   homeFlagship: HomeFlagshipSlot | null;
   splitCards: SplitCard[];
   dispatches: Dispatch[];
+  advisory: AdvisorySection;
 };
 
 function SectionCta({ label, url }: { label: string; url: string }) {
@@ -661,41 +636,53 @@ function SplitCardsSection({ splitCards }: { splitCards: SplitCard[] }) {
   );
 }
 
-function HowWeHelpSection() {
+function HowWeHelpSection({ advisory }: { advisory: AdvisorySection }) {
+  const headlineLines = advisory.headline.split("\n");
+
   return (
     <section id="how-we-help" className="py-24 md:py-32 border-t border-border">
       <div className="container-keep">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 mb-16">
           <div className="lg:col-span-7">
             <Reveal>
-              <p className="eyebrow mb-6">Advisory</p>
+              <p className="eyebrow mb-6">{advisory.eyebrow}</p>
               <h2 className="display text-4xl md:text-6xl text-foreground leading-[1.02]">
-                What we actually do
-                <br />
-                for the people we work with.
+                {headlineLines.map((line, index) => (
+                  <span key={index}>
+                    {line}
+                    {index < headlineLines.length - 1 ? <br /> : null}
+                  </span>
+                ))}
               </h2>
             </Reveal>
           </div>
           <div className="lg:col-span-4 lg:pt-4">
             <Reveal delay={140}>
-              <p className="text-base text-muted-foreground leading-relaxed">
-                Engagements are deliberately limited in number. The work is quiet, written, and
-                designed for leaders who need judgment before they need volume.
-              </p>
+              <p className="text-base text-muted-foreground leading-relaxed">{advisory.intro}</p>
             </Reveal>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-md overflow-hidden">
-          {HELP.map((h, i) => (
-            <Reveal key={h.verb} delay={i * 90}>
-              <div className="card-flat p-10 h-full min-h-[300px] rounded-none border-0 flex flex-col">
-                <p className="eyebrow eyebrow-gold mb-10">{h.n}</p>
-                <h3 className="display text-3xl md:text-4xl text-gold mb-2">{h.verb}</h3>
-                <p className="display text-xl md:text-2xl text-foreground leading-snug mb-6">
-                  {h.line}
+          {advisory.items.map((item, index) => (
+            <Reveal key={item._id} delay={index * 90}>
+              <Link
+                to="/advisory/$slug"
+                params={{ slug: item.slug }}
+                className="card-flat p-10 h-full min-h-[300px] rounded-none border-0 flex flex-col cursor-pointer transition-colors hover:bg-muted/30 group"
+              >
+                <p className="eyebrow eyebrow-gold mb-10">
+                  {String(index + 1).padStart(2, "0")}
                 </p>
-                <p className="text-sm text-muted-foreground leading-relaxed mt-auto">{h.detail}</p>
-              </div>
+                <h3 className="display text-2xl md:text-3xl text-gold mb-2 whitespace-nowrap">
+                  {item.verb}
+                </h3>
+                <p className="display text-xl md:text-2xl text-foreground leading-snug mb-6">
+                  {item.tileFace}
+                </p>
+                <p className="text-sm text-muted-foreground leading-relaxed mt-auto italic">
+                  {item.oneLineEssence}
+                </p>
+              </Link>
             </Reveal>
           ))}
         </div>
@@ -835,6 +822,7 @@ export function HomePageSections({
   homeFlagship,
   splitCards,
   dispatches,
+  advisory,
 }: HomePageSectionsProps) {
   return (
     <>
@@ -866,7 +854,7 @@ export function HomePageSections({
           case "splitCards":
             return <SplitCardsSection key={section._key} splitCards={splitCards} />;
           case "howWeHelp":
-            return <HowWeHelpSection key={section._key} />;
+            return <HowWeHelpSection key={section._key} advisory={advisory} />;
           case "speaking":
             return <SpeakingSection key={section._key} />;
           case "fromTheKeep":

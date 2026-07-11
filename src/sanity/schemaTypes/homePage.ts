@@ -63,6 +63,30 @@ export const homePage = defineType({
         }),
       ],
     }),
+    defineField({
+      name: "advisoryEyebrow",
+      title: "Advisory - eyebrow",
+      type: "string",
+      description: "Small label above the headline.",
+      initialValue: "Advisory",
+    }),
+    defineField({
+      name: "advisoryHeadline",
+      title: "Advisory - headline",
+      type: "text",
+      rows: 2,
+      description: "Large display headline. Use a new line for a line break.",
+      initialValue: "What we actually do\nfor the people we work with.",
+    }),
+    defineField({
+      name: "advisoryIntro",
+      title: "Advisory - intro",
+      type: "text",
+      rows: 3,
+      description: "Supporting copy beside the headline on larger screens.",
+      initialValue:
+        "Advisory is where the work becomes personal. A small number of engagements - quiet, written, and deliberately few - for leaders who need judgment before they need volume. Four ways to be of use: to brief, to translate, to frame, and to stand. Each is a different answer to the same question - what do you actually need to see, to decide, and to do?",
+    }),
   ],
   preview: {
     prepare() {
