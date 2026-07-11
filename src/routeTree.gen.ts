@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as StoriesRouteImport } from './routes/stories'
+import { Route as SpeakingRouteImport } from './routes/speaking'
 import { Route as LabsRouteImport } from './routes/labs'
 import { Route as IntelRouteImport } from './routes/intel'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -20,6 +21,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdvisoryIndexRouteImport } from './routes/advisory.index'
 import { Route as StudioSplatRouteImport } from './routes/studio.$'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
+import { Route as SpeakingSlugRouteImport } from './routes/speaking.$slug'
 import { Route as ReportsSlugRouteImport } from './routes/reports.$slug'
 import { Route as IntelSlugRouteImport } from './routes/intel.$slug'
 import { Route as AdvisorySlugRouteImport } from './routes/advisory.$slug'
@@ -33,6 +35,11 @@ const StudioRoute = StudioRouteImport.update({
 const StoriesRoute = StoriesRouteImport.update({
   id: '/stories',
   path: '/stories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SpeakingRoute = SpeakingRouteImport.update({
+  id: '/speaking',
+  path: '/speaking',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LabsRoute = LabsRouteImport.update({
@@ -80,6 +87,11 @@ const StoriesSlugRoute = StoriesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => StoriesRoute,
 } as any)
+const SpeakingSlugRoute = SpeakingSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => SpeakingRoute,
+} as any)
 const ReportsSlugRoute = ReportsSlugRouteImport.update({
   id: '/reports/$slug',
   path: '/reports/$slug',
@@ -108,11 +120,13 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/intel': typeof IntelRouteWithChildren
   '/labs': typeof LabsRoute
+  '/speaking': typeof SpeakingRouteWithChildren
   '/stories': typeof StoriesRouteWithChildren
   '/studio': typeof StudioRouteWithChildren
   '/advisory/$slug': typeof AdvisorySlugRoute
   '/intel/$slug': typeof IntelSlugRoute
   '/reports/$slug': typeof ReportsSlugRoute
+  '/speaking/$slug': typeof SpeakingSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/studio/$': typeof StudioSplatRoute
   '/advisory/': typeof AdvisoryIndexRoute
@@ -124,11 +138,13 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/intel': typeof IntelRouteWithChildren
   '/labs': typeof LabsRoute
+  '/speaking': typeof SpeakingRouteWithChildren
   '/stories': typeof StoriesRouteWithChildren
   '/studio': typeof StudioRouteWithChildren
   '/advisory/$slug': typeof AdvisorySlugRoute
   '/intel/$slug': typeof IntelSlugRoute
   '/reports/$slug': typeof ReportsSlugRoute
+  '/speaking/$slug': typeof SpeakingSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/studio/$': typeof StudioSplatRoute
   '/advisory': typeof AdvisoryIndexRoute
@@ -142,11 +158,13 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/intel': typeof IntelRouteWithChildren
   '/labs': typeof LabsRoute
+  '/speaking': typeof SpeakingRouteWithChildren
   '/stories': typeof StoriesRouteWithChildren
   '/studio': typeof StudioRouteWithChildren
   '/advisory/$slug': typeof AdvisorySlugRoute
   '/intel/$slug': typeof IntelSlugRoute
   '/reports/$slug': typeof ReportsSlugRoute
+  '/speaking/$slug': typeof SpeakingSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/studio/$': typeof StudioSplatRoute
   '/advisory/': typeof AdvisoryIndexRoute
@@ -161,11 +179,13 @@ export interface FileRouteTypes {
     | '/contact'
     | '/intel'
     | '/labs'
+    | '/speaking'
     | '/stories'
     | '/studio'
     | '/advisory/$slug'
     | '/intel/$slug'
     | '/reports/$slug'
+    | '/speaking/$slug'
     | '/stories/$slug'
     | '/studio/$'
     | '/advisory/'
@@ -177,11 +197,13 @@ export interface FileRouteTypes {
     | '/contact'
     | '/intel'
     | '/labs'
+    | '/speaking'
     | '/stories'
     | '/studio'
     | '/advisory/$slug'
     | '/intel/$slug'
     | '/reports/$slug'
+    | '/speaking/$slug'
     | '/stories/$slug'
     | '/studio/$'
     | '/advisory'
@@ -194,11 +216,13 @@ export interface FileRouteTypes {
     | '/contact'
     | '/intel'
     | '/labs'
+    | '/speaking'
     | '/stories'
     | '/studio'
     | '/advisory/$slug'
     | '/intel/$slug'
     | '/reports/$slug'
+    | '/speaking/$slug'
     | '/stories/$slug'
     | '/studio/$'
     | '/advisory/'
@@ -212,6 +236,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   IntelRoute: typeof IntelRouteWithChildren
   LabsRoute: typeof LabsRoute
+  SpeakingRoute: typeof SpeakingRouteWithChildren
   StoriesRoute: typeof StoriesRouteWithChildren
   StudioRoute: typeof StudioRouteWithChildren
   ReportsSlugRoute: typeof ReportsSlugRoute
@@ -231,6 +256,13 @@ declare module '@tanstack/react-router' {
       path: '/stories'
       fullPath: '/stories'
       preLoaderRoute: typeof StoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/speaking': {
+      id: '/speaking'
+      path: '/speaking'
+      fullPath: '/speaking'
+      preLoaderRoute: typeof SpeakingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/labs': {
@@ -296,6 +328,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoriesSlugRouteImport
       parentRoute: typeof StoriesRoute
     }
+    '/speaking/$slug': {
+      id: '/speaking/$slug'
+      path: '/$slug'
+      fullPath: '/speaking/$slug'
+      preLoaderRoute: typeof SpeakingSlugRouteImport
+      parentRoute: typeof SpeakingRoute
+    }
     '/reports/$slug': {
       id: '/reports/$slug'
       path: '/reports/$slug'
@@ -351,6 +390,18 @@ const IntelRouteChildren: IntelRouteChildren = {
 
 const IntelRouteWithChildren = IntelRoute._addFileChildren(IntelRouteChildren)
 
+interface SpeakingRouteChildren {
+  SpeakingSlugRoute: typeof SpeakingSlugRoute
+}
+
+const SpeakingRouteChildren: SpeakingRouteChildren = {
+  SpeakingSlugRoute: SpeakingSlugRoute,
+}
+
+const SpeakingRouteWithChildren = SpeakingRoute._addFileChildren(
+  SpeakingRouteChildren,
+)
+
 interface StoriesRouteChildren {
   StoriesSlugRoute: typeof StoriesSlugRoute
   StoriesSeriesSeriesSlugRoute: typeof StoriesSeriesSeriesSlugRoute
@@ -382,6 +433,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   IntelRoute: IntelRouteWithChildren,
   LabsRoute: LabsRoute,
+  SpeakingRoute: SpeakingRouteWithChildren,
   StoriesRoute: StoriesRouteWithChildren,
   StudioRoute: StudioRouteWithChildren,
   ReportsSlugRoute: ReportsSlugRoute,

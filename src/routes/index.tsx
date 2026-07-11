@@ -10,6 +10,7 @@ import {
 } from "@/lib/sanity/flagship";
 import { getHomePageFromSanity } from "@/lib/sanity/homePage";
 import { getAdvisoryFromSanity } from "@/lib/sanity/advisory";
+import { getSpeakingFromSanity } from "@/lib/sanity/speaking";
 import { buildPageMeta } from "@/lib/seo/pageMeta";
 import { optimizedImageSrc } from "@/lib/sanity/imageUrl";
 import heroImg from "@/assets/hero-mountains.jpg";
@@ -36,12 +37,14 @@ export const Route = createFileRoute("/")({
     return { meta: base.meta, links };
   },
   loader: async () => {
-    const [intelArticles, storiesResult, flagshipReport, homePage, advisory] = await Promise.all([
+    const [intelArticles, storiesResult, flagshipReport, homePage, advisory, speaking] =
+      await Promise.all([
       getIntelFromSanity(),
       getStoriesFromSanity(),
       getFlagshipReportFromSanity(),
       getHomePageFromSanity(),
       getAdvisoryFromSanity(),
+      getSpeakingFromSanity(),
     ]);
     const homeFlagship = resolveHomeFlagshipFromFeaturedReport(flagshipReport);
     return {
@@ -52,6 +55,7 @@ export const Route = createFileRoute("/")({
       fromTheDesk: homePage.fromTheDesk,
       homeSections: homePage.sections,
       advisory,
+      speaking,
     };
   },
   staleTime: import.meta.env.PROD ? 60_000 : 0,
@@ -211,7 +215,7 @@ function buildDispatches(stories: StoryCard[], intel: IntelCard[]): Dispatch[] {
 }
 
 function Index() {
-  const { intelArticles, stories, series, homeFlagship, fromTheDesk, homeSections, advisory } =
+  const { intelArticles, stories, series, homeFlagship, fromTheDesk, homeSections, advisory, speaking } =
     Route.useLoaderData();
   const featuredIntelArticles = intelArticles.slice(0, 12);
   const dispatches = buildDispatches(stories, intelArticles);
@@ -228,6 +232,7 @@ function Index() {
         splitCards={splitCards}
         dispatches={dispatches}
         advisory={advisory}
+        speaking={speaking}
       />
       <Footer />
     </div>

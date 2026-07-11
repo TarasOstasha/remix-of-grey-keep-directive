@@ -8,13 +8,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import type { AdvisorySection } from "@/lib/sanity/advisory";
+import type { SpeakingSection as SpeakingSectionData } from "@/lib/sanity/speaking";
 import { formatIntelContentTypeLabel, type IntelCard } from "@/lib/sanity/intel";
 import type { HomeFlagshipSlot } from "@/lib/sanity/flagship";
-import type {
-  HomeCustomSection,
-  HomeFromTheDesk,
-  HomeSection,
-} from "@/lib/sanity/homePage";
+import type { HomeCustomSection, HomeFromTheDesk, HomeSection } from "@/lib/sanity/homePage";
 import { optimizedImageSrc, sanityImageSrcSet } from "@/lib/sanity/imageUrl";
 import heroImg from "@/assets/hero-mountains.jpg";
 import intelImg from "@/assets/intel-network.jpg";
@@ -61,21 +58,6 @@ const DISPATCHES = [
   },
 ];
 
-const SPEAKING_LINES = [
-  {
-    format: "Keynotes",
-    desc: "Conference and leadership sessions on cyber, geopolitics, intelligence, and uncertainty.",
-  },
-  {
-    format: "Boardroom",
-    desc: "Executive and board briefings delivered in plain language, with clear assumptions and no theater.",
-  },
-  {
-    format: "Private Sessions",
-    desc: "Workshops, moderated conversations, and off-the-record briefings for invited audiences.",
-  },
-];
-
 function truncateWithEllipsis(text: string, maxLength: number) {
   if (text.length <= maxLength) return text;
   return `${text.slice(0, maxLength)}...`;
@@ -116,6 +98,7 @@ type HomePageSectionsProps = {
   splitCards: SplitCard[];
   dispatches: Dispatch[];
   advisory: AdvisorySection;
+  speaking: SpeakingSectionData;
 };
 
 function SectionCta({ label, url }: { label: string; url: string }) {
@@ -146,7 +129,9 @@ function HomeCustomSectionBlock({ section }: { section: HomeCustomSection }) {
       <section id={sectionId} className="py-24 md:py-32 border-t border-border">
         <div className="container-keep max-w-3xl mx-auto text-center">
           <Reveal>
-            {section.eyebrow ? <p className="eyebrow eyebrow-gold mb-6">{section.eyebrow}</p> : null}
+            {section.eyebrow ? (
+              <p className="eyebrow eyebrow-gold mb-6">{section.eyebrow}</p>
+            ) : null}
             <h2 className="display text-4xl md:text-6xl text-foreground leading-[1.02]">
               {section.headline}
             </h2>
@@ -175,7 +160,9 @@ function HomeCustomSectionBlock({ section }: { section: HomeCustomSection }) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-stretch">
             <div className="lg:col-span-7">
               <Reveal>
-                {section.eyebrow ? <p className="eyebrow eyebrow-gold mb-6">{section.eyebrow}</p> : null}
+                {section.eyebrow ? (
+                  <p className="eyebrow eyebrow-gold mb-6">{section.eyebrow}</p>
+                ) : null}
                 <h2 className="display text-4xl md:text-6xl text-foreground leading-[1.02] mb-6">
                   {section.headline}
                 </h2>
@@ -350,7 +337,11 @@ function HeroSection({ fromTheDesk }: { fromTheDesk: HomeFromTheDesk }) {
   );
 }
 
-function FeaturedInsightsSection({ featuredIntelArticles }: { featuredIntelArticles: IntelCard[] }) {
+function FeaturedInsightsSection({
+  featuredIntelArticles,
+}: {
+  featuredIntelArticles: IntelCard[];
+}) {
   return (
     <section id="insights" className="py-24 md:py-32 border-t border-border">
       <div className="container-keep">
@@ -426,7 +417,9 @@ function FeaturedInsightsSection({ featuredIntelArticles }: { featuredIntelArtic
                     <span className="tier-chip">{item.kicker}</span>
                   </div>
                   <h3 className="display text-2xl md:text-3xl leading-tight mb-5">{item.title}</h3>
-                  <p className="text-base text-muted-foreground leading-relaxed flex-1">{item.body}</p>
+                  <p className="text-base text-muted-foreground leading-relaxed flex-1">
+                    {item.body}
+                  </p>
                   <a href="#" className="link-arrow mt-10 w-fit">
                     Read the assessment <span aria-hidden>→</span>
                   </a>
@@ -475,7 +468,9 @@ function IntelLibrarySection({
             <div className="lg:col-span-7">
               <Reveal>
                 <article className="card-flat p-10 md:p-14 h-full flex flex-col">
-                  <span className="tier-chip tier-chip-flagship w-fit mb-10">{homeFlagship.tier}</span>
+                  <span className="tier-chip tier-chip-flagship w-fit mb-10">
+                    {homeFlagship.tier}
+                  </span>
                   <h3 className="display text-4xl md:text-6xl text-foreground leading-[1.02] mb-6">
                     {homeFlagship.title}
                   </h3>
@@ -611,11 +606,7 @@ function SplitCardsSection({ splitCards }: { splitCards: SplitCard[] }) {
                   <p className="text-lg text-muted-foreground mb-8 max-w-md">{card.sub}</p>
                 ) : null}
                 {card.to === "/intel/$slug" ? (
-                  <Link
-                    to="/intel/$slug"
-                    params={card.params}
-                    className="btn-pill btn-pill-ghost"
-                  >
+                  <Link to="/intel/$slug" params={card.params} className="btn-pill btn-pill-ghost">
                     {card.cta}
                   </Link>
                 ) : (
@@ -670,9 +661,7 @@ function HowWeHelpSection({ advisory }: { advisory: AdvisorySection }) {
                 params={{ slug: item.slug }}
                 className="card-flat p-10 h-full min-h-[300px] rounded-none border-0 flex flex-col cursor-pointer transition-colors hover:bg-muted/30 group"
               >
-                <p className="eyebrow eyebrow-gold mb-10">
-                  {String(index + 1).padStart(2, "0")}
-                </p>
+                <p className="eyebrow eyebrow-gold mb-10">{String(index + 1).padStart(2, "0")}</p>
                 <h3 className="display text-2xl md:text-3xl text-gold mb-2 whitespace-nowrap">
                   {item.verb}
                 </h3>
@@ -691,49 +680,60 @@ function HowWeHelpSection({ advisory }: { advisory: AdvisorySection }) {
   );
 }
 
-function SpeakingSection() {
+function SpeakingSection({ speaking }: { speaking: SpeakingSectionData }) {
+  const headlineLines = speaking.headline.split("\n");
+
   return (
     <section id="speaking" className="py-24 md:py-32 border-t border-border">
       <div className="container-keep">
         <Reveal>
-          <p className="eyebrow mb-12">Speaking</p>
+          <p className="eyebrow mb-12">{speaking.eyebrow}</p>
         </Reveal>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           <div className="lg:col-span-7">
             <Reveal delay={80}>
               <h2 className="display text-5xl md:text-7xl text-foreground leading-[1.02] mb-12">
-                A voice in the room,
-                <br />
-                not a slide on a screen.
+                {headlineLines.map((line, i) => (
+                  <span key={i}>
+                    {i > 0 && <br />}
+                    {line}
+                  </span>
+                ))}
               </h2>
             </Reveal>
           </div>
           <div className="lg:col-span-5 space-y-8">
             <Reveal delay={140}>
-              <p className="text-lg md:text-xl text-foreground leading-relaxed">
-                Keynotes, executive briefings, and private sessions on cyber risk, intelligence
-                tradecraft, AI-shaped threat environments, and decision-making under uncertainty -
-                delivered with clarity, restraint, and practitioner judgment.
-              </p>
+              <p className="text-lg md:text-xl text-foreground leading-relaxed">{speaking.intro}</p>
             </Reveal>
+            {speaking.motto ? (
+              <Reveal delay={180}>
+                <p className="display text-xl md:text-2xl text-foreground leading-snug italic">
+                  {speaking.motto}
+                </p>
+              </Reveal>
+            ) : null}
           </div>
         </div>
         <Reveal delay={260}>
           <ul className="divide-y divide-border border-y border-border mt-16 mb-12">
-            {SPEAKING_LINES.map((line, i) => (
-              <li
-                key={line.format}
-                className="py-7 grid grid-cols-12 gap-4 md:gap-8 items-baseline"
-              >
-                <span className="eyebrow eyebrow-gold col-span-2 md:col-span-1">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className="col-span-10 md:col-span-3 text-xl md:text-2xl text-foreground">
-                  {line.format}
-                </span>
-                <span className="col-span-12 md:col-span-8 text-base text-muted-foreground leading-relaxed">
-                  {line.desc}
-                </span>
+            {speaking.items.map((item, i) => (
+              <li key={item._id}>
+                <Link
+                  to="/speaking/$slug"
+                  params={{ slug: item.slug }}
+                  className="py-7 grid grid-cols-12 gap-4 md:gap-8 items-baseline transition-colors hover:bg-muted/20"
+                >
+                  <span className="eyebrow eyebrow-gold col-span-2 md:col-span-1">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="col-span-10 md:col-span-3 text-xl md:text-2xl text-foreground">
+                    {item.format}
+                  </span>
+                  <span className="col-span-12 md:col-span-8 text-base text-muted-foreground leading-relaxed italic">
+                    {item.oneLineEssence}
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>
@@ -741,9 +741,6 @@ function SpeakingSection() {
         <Reveal delay={340}>
           <div id="enter" className="flex flex-wrap items-center gap-3">
             <Link to="/contact" className="btn-pill btn-pill-primary">
-              Request availability
-            </Link>
-            <Link to="/advisory" className="btn-pill btn-pill-ghost">
               Request availability
             </Link>
           </div>
@@ -823,6 +820,7 @@ export function HomePageSections({
   splitCards,
   dispatches,
   advisory,
+  speaking,
 }: HomePageSectionsProps) {
   return (
     <>
@@ -856,7 +854,7 @@ export function HomePageSections({
           case "howWeHelp":
             return <HowWeHelpSection key={section._key} advisory={advisory} />;
           case "speaking":
-            return <SpeakingSection key={section._key} />;
+            return <SpeakingSection key={section._key} speaking={speaking} />;
           case "fromTheKeep":
             return <FromTheKeepSection key={section._key} dispatches={dispatches} />;
           default:

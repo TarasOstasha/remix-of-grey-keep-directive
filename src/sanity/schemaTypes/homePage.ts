@@ -87,6 +87,38 @@ export const homePage = defineType({
       initialValue:
         "Advisory is where the work becomes personal. A small number of engagements - quiet, written, and deliberately few - for leaders who need judgment before they need volume. Four ways to be of use: to brief, to translate, to frame, and to stand. Each is a different answer to the same question - what do you actually need to see, to decide, and to do?",
     }),
+    defineField({
+      name: "speakingEyebrow",
+      title: "Speaking - eyebrow",
+      type: "string",
+      description: "Small label above the headline.",
+      initialValue: "Speaking",
+    }),
+    defineField({
+      name: "speakingHeadline",
+      title: "Speaking - headline",
+      type: "text",
+      rows: 2,
+      description: "Large display headline. Use a new line for a line break.",
+      initialValue: "A voice in the room,\nnot a slide on a screen.",
+    }),
+    defineField({
+      name: "speakingIntro",
+      title: "Speaking - intro",
+      type: "text",
+      rows: 4,
+      description: "Supporting copy beside the headline on larger screens.",
+      initialValue:
+        "Gray Keep speaks rarely, and only when there is something worth saying. Each engagement is built for the specific room, grounded in real intelligence, written to be remembered, and never a briefing dressed up for a stage.",
+    }),
+    defineField({
+      name: "speakingMotto",
+      title: "Speaking - motto",
+      type: "text",
+      rows: 2,
+      description: "Short closing line below the intro.",
+      initialValue: "When the Keep speaks, it is because there is something worth saying.",
+    }),
   ],
   preview: {
     prepare() {
