@@ -43,7 +43,7 @@ function AdvisoryDetailPage() {
             <p className="mt-8 text-base md:text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
               {item.fullContent}
             </p>
-            <p className="mt-10 display text-2xl md:text-3xl text-foreground leading-snug">
+            <p className="mt-10 display text-2xl md:text-3xl text-foreground !leading-relaxed md:!leading-[0.98]">
               {item.closingLine}
             </p>
             <div className="mt-12 flex flex-wrap gap-4">

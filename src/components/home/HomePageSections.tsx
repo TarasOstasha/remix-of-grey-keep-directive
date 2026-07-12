@@ -669,7 +669,7 @@ function HowWeHelpSection({ advisory }: { advisory: AdvisorySection }) {
                 <p className="display text-xl md:text-2xl text-foreground leading-snug mb-6">
                   {item.tileFace}
                 </p>
-                <p className="text-sm text-muted-foreground leading-relaxed mt-auto italic">
+                <p className="text-sm text-muted-foreground leading-loose mt-auto italic">
                   {item.oneLineEssence}
                 </p>
               </Link>
